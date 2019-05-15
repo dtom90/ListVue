@@ -18,8 +18,8 @@ const newTaskInput = Selector('input').withAttribute('placeholder', 'enter new t
 
 const todoSection = Selector('.section').withText('To Do List')
 const settingsButton = Selector('button').child('svg.fa-cog')
-const orderLabel = Selector('.dropdown-menu label').withText('First').withAttribute('for', 'orderGroupSelect')
-const orderGroupSelect = Selector('#orderGroupSelect')
+const orderLabel = Selector('.dropdown-menu label').withText('First').withAttribute('for', 'toDoOrderGroupSelect')
+const orderGroupSelect = Selector('#toDoOrderGroupSelect')
 const orderOption = orderGroupSelect.child('option')
 const todoList = todoSection.find('.task-list')
 const todoTasks = todoList.find('.task')
@@ -60,7 +60,7 @@ const deleteHandler = ClientFunction((type, text) => {
     case 'confirm':
       switch (text) { /* eslint-disable no-undef */
         case (typeof taskName !== 'undefined') &&
-          `Are you sure you want to delete task ${taskName}? the task is not yet complete!`:
+        `Are you sure you want to delete task ${taskName}? the task is not yet complete!`:
           return deleteTask
         case `Are you sure that you want to delete all ${numCompletedTasks} completed tasks?`:
           return deleteTask
@@ -78,7 +78,7 @@ const deleteHandler = ClientFunction((type, text) => {
 test('My first test', async t => {
   await t
 
-    // Expect an empty To Do List
+  // Expect an empty To Do List
     .expect(todoSection.find('h1').withText('To Do List').exists).ok()
     .expect(settingsButton.exists).ok()
     .expect(todoTasks.count).eql(0)
