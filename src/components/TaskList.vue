@@ -1,9 +1,16 @@
 <template>
+  
   <div class="section">
+
+    <!-- TaskList Title Section -->
     <div class="title-section">
+
+      <!-- TaskList Title -->
       <component :is="titleTag" class="title">
         {{this.title}}
       </component>
+
+      <!-- TaskList Settings Button -->
       <div class="dropright">
         <button :id="btnId" class="btn btn-light" data-toggle="dropdown">
           <font-awesome-icon icon="cog"/>
@@ -27,14 +34,20 @@
           </button>
         </div>
       </div>
+      
     </div>
+    
+    <!-- New Task Input Field -->
     <input id="new-task" type="text"
            v-if="!completedList"
            class="form-control" placeholder="enter new task"
            v-model="newTask" @keyup.enter="addTask"/>
+
+    <!-- TaskList -->
     <ul class="task-list list-group">
       <Task v-for="task in tasks" :key="task.id" :task="task"/>
     </ul>
+    
   </div>
 </template>
 
