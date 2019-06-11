@@ -1,11 +1,18 @@
 <template>
   <li class="task list-group-item form-check">
+    
     <div class="d-flex">
+
+      <!--  Main Section (Flex Grow)  -->
       <div class="flex-grow-1 d-flex align-items-center">
+        
+        <!--  Checkbox Container  -->
         <div class="checkbox-container">
           <input class="task-checkbox" type="checkbox" v-model="task.completed" @change="$root.completeTask(task.id)"/>
           <span class="check-custom"></span>
         </div>
+        
+        <!--  Task Name & Field (when editing)  -->
         <span v-if="!editing" v-on:click="editing = true">{{task.name}}</span>
         <div v-if="editing" class="d-flex align-items-center">
           <input class="edit-task" v-model="task.name" @keyup.enter="editing = false"/>
@@ -13,7 +20,10 @@
             <font-awesome-icon icon="save"/>
           </button>
         </div>
+        
       </div>
+
+      <!--  Task Settings Button  -->
       <div class="dropright">
         <button type="button" class="btn btn-light" data-toggle="dropdown">
           <font-awesome-icon icon="ellipsis-h"/>
@@ -39,6 +49,7 @@
           </div>
         </div>
       </div>
+      
     </div>
   </li>
 </template>
