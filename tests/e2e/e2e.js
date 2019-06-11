@@ -75,10 +75,10 @@ const deleteHandler = ClientFunction((type, text) => {
 })
 
 //then create a test and place your code there
-test('My first test', async t => {
+test('Create, Complete and Delete Tasks to Test Functionality', async t => {
   await t
 
-  // Expect an empty To Do List
+    // Expect an empty To Do List
     .expect(todoSection.find('h1').withText('To Do List').exists).ok()
     .expect(settingsButton.exists).ok()
     .expect(todoTasks.count).eql(0)
