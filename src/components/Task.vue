@@ -82,24 +82,26 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
   .task {
     text-align: left;
   }
 
   /* Adapted from https://hackernoon.com/hacking-custom-checkboxes-and-radios-5d48230440d */
 
+  $checkbox-size: 2rem;
+
   .checkbox-container {
     margin-right: 20px;
     position: relative;
-    width: 2rem;
-    height: 2rem;
+    width: $checkbox-size;
+    height: $checkbox-size;
   }
 
   .checkbox-container > * {
     position: absolute;
-    width: 2rem;
-    height: 2rem;
+    width: $checkbox-size;
+    height: $checkbox-size;
   }
 
   /* Styles for hiding the native checkbox */

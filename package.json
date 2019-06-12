@@ -20,6 +20,8 @@
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
+    "sass": "^1.21.0",
+    "sass-loader": "^7.1.0",
     "serve": "^11.0.1",
     "vue": "^2.6.10"
   },
@@ -33,7 +35,7 @@
     "babel-jest": "^23.6.0",
     "eslint-plugin-testcafe": "^0.2.1",
     "testcafe": "^1.1.4",
-    "vue-template-compiler": "^2.6.7"
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,
