@@ -1,9 +1,12 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import Vuex from 'vuex'
 
 const localVue = createLocalVue();
+localVue.use(Vuex)
 localVue.component('font-awesome-icon', FontAwesomeIcon)
 
+import store from '@/store'
 import TaskList from '@/components/TaskList.vue'
 import moment from "./Task.spec";
 
@@ -19,7 +22,8 @@ describe('TaskList.vue', () => {
     
     const wrapper = shallowMount(TaskList, {
       propsData: { tasks: tasks },
-      localVue
+      localVue,
+      store
     })
     
     const renderedTasks = wrapper.findAll('li')

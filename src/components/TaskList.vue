@@ -13,7 +13,7 @@
       <!-- TaskList Settings Button -->
       <div class="dropright">
         <button :id="btnId" class="btn btn-light" data-toggle="dropdown">
-          <font-awesome-icon icon="cog"/>
+          <font-awesome-icon :icon="btnIcon"/>
         </button>
         <div class="dropdown-menu">
           <div class="input-group">
@@ -72,6 +72,7 @@
       completedList: function() { return this.title === 'Completed Tasks' },
       titleTag: function() { return this.completedList ? 'h3' : 'h1' },
       btnId: function() { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
+      btnIcon: function() { return this.completedList ? 'bars' : 'sort' },
       selectId: function() { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
     },
     components: {
@@ -97,6 +98,7 @@
 
   .title-section {
     display: flex;
+    align-items: flex-end;
   }
 
   .title {
@@ -104,8 +106,9 @@
     margin-left: 40px;
   }
 
-  .title-section > button {
-    margin-bottom: 0.5rem;
+  .title-section > .dropright {
+    height: 42px;
+    margin-bottom: 4px;
   }
 
 </style>
