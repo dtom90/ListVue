@@ -8,7 +8,7 @@
         
         <!--  Checkbox Container  -->
         <div class="checkbox-container">
-          <input class="task-checkbox" type="checkbox" v-model="task.completed" @change="$root.completeTask(task.id)"/>
+          <input class="task-checkbox" type="checkbox" v-model="task.completed" @change="completeTask(task.id)"/>
           <span class="check-custom"></span>
         </div>
         
@@ -43,7 +43,7 @@
             <button type="button" class="btn btn-warning btn-sm" v-on:click="editing = true">
               <font-awesome-icon icon="pencil-alt"/>
             </button>
-            <button type="button" class="btn btn-danger btn-sm" v-on:click="$root.deleteTask(task.id)">
+            <button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTask(task.id)">
               <font-awesome-icon icon="trash-alt"/>
             </button>
           </div>
@@ -56,6 +56,7 @@
 
 <script>
   import moment from 'moment'
+  import { mapMutations } from 'vuex'
 
   export default {
     name: "Task",
@@ -78,6 +79,12 @@
       displayTime: function() {
         return moment(this.date).format('h:mm a')
       }
+    },
+    methods: {
+      ...mapMutations([
+        'completeTask',
+        'deleteTask'
+      ])
     }
   }
 </script>

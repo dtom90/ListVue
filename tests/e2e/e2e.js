@@ -27,7 +27,7 @@ const todoTasks = todoList.find('.task')
 const doneSection = Selector('.section').withText('Completed Tasks')
 const doneList = doneSection.find('.task-list')
 const doneTasks = doneList.find('.task')
-const clearButton = Selector('button').withText('Clear')
+const clearAllButton = Selector('button').withText('Clear All')
 
 const tasksPresent = ClientFunction((taskList, expectedTasks, checked = false) => {
   const tasks = taskList().childNodes
@@ -160,15 +160,16 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .expect(tasksPresent(todoList, [task4])).ok()
     .expect(tasksPresent(doneList, [task2mod], true)).ok()
 
-    // Add task 5 and complete it, the click the Clear button to clear all completed
-    .expect(clearButton.exists).ok()
+    // Add task 5 and complete it
     .typeText(newTaskInput, task5).pressKey('enter')
     .click(todoTasks.withText(task5).find('input').withAttribute('type', 'checkbox'))
     .expect(tasksPresent(todoList, [task4])).ok()
     .expect(tasksPresent(doneList, [task5, task2mod], true)).ok()
+    
+    // Click the Clear button to clear all completed tasks
     .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 2, deleteTask: true}})
     .click('#completedSettingsButton')
-    .click(clearButton)
+    .click(clearAllButton)
     .expect(tasksPresent(todoList, [task4])).ok()
     .expect(doneSection.exists).notOk()
 
@@ -178,7 +179,7 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .expect(tasksPresent(doneList, [task4], true)).ok()
     .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 9, deleteTask: false}})
     .click('#completedSettingsButton')
-    .click(clearButton)
+    .click(clearAllButton)
     .expect(tasksPresent(todoList, [])).ok()
     .expect(doneSection.exists).notOk()
 

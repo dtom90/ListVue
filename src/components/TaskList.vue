@@ -17,7 +17,7 @@
         </button>
         <div class="dropdown-menu">
           <div class="input-group">
-            <select class="custom-select" :id="selectId" v-model="$root.order">
+            <select class="custom-select" :id="selectId" v-model="$store.state.order">
               <option selected value="Oldest">Oldest</option>
               <option value="Newest">Newest</option>
             </select>
@@ -29,7 +29,7 @@
           <button id="clear-btn"
                   class="btn btn-danger"
                   v-if="completedList"
-                  v-on:click="$root.clearTasks()">
+                  v-on:click="$store.commit('clearTasks')">
             Clear All
           </button>
         </div>
@@ -54,11 +54,11 @@
 <script>
   import Task from './Task.vue'
   import $ from 'jquery'
-
+  
   $(document).on('click', '.title-section .dropdown-menu', function (e) {
     e.stopPropagation();
   });
-
+  
   export default {
     name: 'TaskList',
     props: {
@@ -72,7 +72,7 @@
       completedList: function() { return this.title === 'Completed Tasks' },
       titleTag: function() { return this.completedList ? 'h3' : 'h1' },
       btnId: function() { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
-      selectId: function() { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' }
+      selectId: function() { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
     },
     components: {
       Task
@@ -82,7 +82,7 @@
     }),
     methods: {
       addTask() {
-        this.$root.addTask(this.newTask)
+        this.$store.commit('addTask', this.newTask)
         this.newTask = ''
       }
     }

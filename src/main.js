@@ -20,5 +20,5 @@ import store from './store'
 
 new Vue({
   render: h => h(App),
-  data: store
+  store
 }).$mount('#app')
