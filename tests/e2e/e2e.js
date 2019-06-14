@@ -17,7 +17,7 @@ const task5 = 'This is my fifth task'
 const newTaskInput = Selector('input').withAttribute('placeholder', 'enter new task')
 
 const todoSection = Selector('.section').withText('To Do List')
-const settingsButton = Selector('button').child('svg.fa-cog')
+const todoSortButton = Selector('button').child('svg.fa-sort')
 const orderLabel = Selector('.dropdown-menu label').withText('First').withAttribute('for', 'toDoOrderGroupSelect')
 const orderGroupSelect = Selector('#toDoOrderGroupSelect')
 const orderOption = orderGroupSelect.child('option')
@@ -27,7 +27,8 @@ const todoTasks = todoList.find('.task')
 const doneSection = Selector('.section').withText('Completed Tasks')
 const doneList = doneSection.find('.task-list')
 const doneTasks = doneList.find('.task')
-const clearButton = Selector('button').withText('Clear')
+const doneMenuButton = doneSection.find('button').child('svg.fa-bars')
+const clearAllButton = Selector('button').withText('Clear All')
 
 const tasksPresent = ClientFunction((taskList, expectedTasks, checked = false) => {
   const tasks = taskList().childNodes
@@ -80,7 +81,7 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
 
     // Expect an empty To Do List
     .expect(todoSection.find('h1').withText('To Do List').exists).ok()
-    .expect(settingsButton.exists).ok()
+    .expect(todoSortButton.exists).ok()
     .expect(todoTasks.count).eql(0)
     .expect(doneTasks.count).eql(0)
 
@@ -99,7 +100,7 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     // Switch list order from Oldest First to Newest First
     .expect(orderLabel.visible).notOk()
     .expect(orderGroupSelect.visible).notOk()
-    .click(settingsButton)
+    .click(todoSortButton)
     .expect(orderLabel.visible).ok()
     .expect(orderGroupSelect.visible).ok()
     .expect(orderGroupSelect.value).eql('Oldest')
@@ -160,15 +161,16 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .expect(tasksPresent(todoList, [task4])).ok()
     .expect(tasksPresent(doneList, [task2mod], true)).ok()
 
-    // Add task 5 and complete it, the click the Clear button to clear all completed
-    .expect(clearButton.exists).ok()
+    // Add task 5 and complete it
     .typeText(newTaskInput, task5).pressKey('enter')
     .click(todoTasks.withText(task5).find('input').withAttribute('type', 'checkbox'))
     .expect(tasksPresent(todoList, [task4])).ok()
     .expect(tasksPresent(doneList, [task5, task2mod], true)).ok()
+    
+    // Click the Clear button to clear all completed tasks
     .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 2, deleteTask: true}})
-    .click('#completedSettingsButton')
-    .click(clearButton)
+    .click(doneMenuButton)
+    .click(clearAllButton)
     .expect(tasksPresent(todoList, [task4])).ok()
     .expect(doneSection.exists).notOk()
 
@@ -177,8 +179,8 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .expect(tasksPresent(todoList, [])).ok()
     .expect(tasksPresent(doneList, [task4], true)).ok()
     .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 9, deleteTask: false}})
-    .click('#completedSettingsButton')
-    .click(clearButton)
+    .click(doneMenuButton)
+    .click(clearAllButton)
     .expect(tasksPresent(todoList, [])).ok()
     .expect(doneSection.exists).notOk()
 

@@ -2,23 +2,30 @@
   <div id="app" class="container">
 
     <TaskList title="To Do List"
-              :tasks="$root.incompleteTasks()"/>
+              :tasks="incompleteTasks"/>
     <br/>
     <br/>
 
     <TaskList title="Completed Tasks"
-              :tasks="$root.completedTasks()"
-              v-if="$root.completedTasks().length > 0"/>
+              :tasks="completedTasks"
+              v-if="completedTasks.length > 0"/>
   </div>
 </template>
 
 <script>
   import TaskList from './components/TaskList.vue'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'app',
     components: {
       TaskList
+    },
+    computed: {
+      ...mapGetters([
+        'incompleteTasks',
+        'completedTasks',
+      ])
     }
   }
 </script>
