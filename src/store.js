@@ -7,14 +7,12 @@ export default new Vuex.Store({
   
   state: {
     tasks: [],
-    order: 'Oldest',
-    completedOrder: 'Recent',
   },
 
   getters: {
     incompleteTasks(state) {
       const incompleteTasks = state.tasks.filter(t => !t.completed)
-      return state.order === 'Newest' ? incompleteTasks.reverse() : incompleteTasks
+      return state.incompleteOrder === 'Newest' ? incompleteTasks.reverse() : incompleteTasks
     },
 
     completedTasks(state) {

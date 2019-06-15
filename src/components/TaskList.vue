@@ -17,9 +17,8 @@
         </button>
         <div class="dropdown-menu">
           <div class="input-group">
-            <select class="custom-select" :id="selectId" v-model="$store.state.order">
-              <option selected value="Oldest">Oldest</option>
-              <option value="Newest">Newest</option>
+            <select class="custom-select" :id="selectId" v-model="sortingOrder">
+              <option v-for="option in sortingOptions" :key="option" :value="option">{{ option }}</option>
             </select>
             <div class="input-group-append">
               <label class="input-group-text" :for="selectId">First</label>
@@ -42,10 +41,10 @@
            v-if="!completedList"
            class="form-control" placeholder="enter new task"
            v-model="newTask" @keyup.enter="addNewTask"/>
-
+    
     <!-- TaskList -->
     <ul class="task-list list-group">
-      <Task v-for="task in tasks" :key="task.id" :task="task"/>
+      <Task v-for="task in sortedTasks" :key="task.id" :task="task"/>
     </ul>
     
   </div>
@@ -74,14 +73,20 @@
       titleTag: function() { return this.completedList ? 'h3' : 'h1' },
       btnId: function() { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
       btnIcon: function() { return this.completedList ? 'bars' : 'sort' },
+      sortingOptions: function() { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
+      sortedTasks: function() { return this.sortingOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks },
       selectId: function() { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
     },
     components: {
       Task
     },
     data: () => ({
-      newTask: ''
+      newTask: '',
+      sortingOrder: 'Oldest'
     }),
+    mounted: function() {
+      this.sortingOrder = this.sortingOptions[0]
+    },
     methods: {
       ...mapMutations([
         'addTask',
