@@ -25,16 +25,9 @@ describe('Task.vue', () => {
     })
     
     expect(wrapper.text()).toMatch(task.name)
-    
     expect(wrapper.text()).toMatch('Created on')
     expect(wrapper.text()).toMatch(moment(task.createdDate).format('ddd MMM DD YYYY,'))
     expect(wrapper.text()).toMatch(moment(task.createdDate).format('h:mm a'))
-    
-    // expect(wrapper.vm.task.completed).toBe(false)
-    // const rootWrapper = createWrapper(wrapper.vm.$root)
-    // const checkbox = wrapper.find('.task-checkbox')
-    // checkbox.trigger('click')
-    // expect(wrapper.vm.task.completed).toBe(true)
     
   })
   

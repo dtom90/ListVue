@@ -6,6 +6,7 @@ const port = process.env.PORT || '8080'
 fixture`To Do List`
   .page`http://${hostname}:${port}`;
 
+// Tasks
 const task1 = 'This is my first task'
 const task2 = 'This is my second task'
 const task2mod = 'This is my second completed task'
@@ -14,16 +15,17 @@ const task3mod = 'This is my modified third task'
 const task4 = 'This is my fourth task'
 const task5 = 'This is my fifth task'
 
-const newTaskInput = Selector('input').withAttribute('placeholder', 'enter new task')
-
+// To Do List selectors
 const todoSection = Selector('.section').withText('To Do List')
 const todoSortButton = Selector('button').child('svg.fa-sort')
 const orderLabel = Selector('.dropdown-menu label').withText('First').withAttribute('for', 'toDoOrderGroupSelect')
 const orderGroupSelect = Selector('#toDoOrderGroupSelect')
 const orderOption = orderGroupSelect.child('option')
+const newTaskInput = Selector('input').withAttribute('placeholder', 'enter new task')
 const todoList = todoSection.find('.task-list')
 const todoTasks = todoList.find('.task')
 
+// Completed List selectors
 const doneSection = Selector('.section').withText('Completed Tasks')
 const doneList = doneSection.find('.task-list')
 const doneTasks = doneList.find('.task')
@@ -40,6 +42,10 @@ const tasksPresent = ClientFunction((taskList, expectedTasks, checked = false) =
         input.checked === checked
     })
 })
+
+function checkbox(taskName) {
+  return todoTasks.withText(taskName).find('input').withAttribute('type', 'checkbox')
+}
 
 function saveButton() {
   return Selector('input.edit-task').parent('.task').find('button')
@@ -107,77 +113,77 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .click(orderGroupSelect)
     .click(orderOption.withText('Newest'))
     .expect(orderGroupSelect.value).eql('Newest')
+    .expect(tasksPresent(todoList, [task1, task2, task3])).notOk()
     .expect(tasksPresent(todoList, [task3, task2, task1])).ok()
 
     // Add task 4
     .typeText(newTaskInput, task4).pressKey('enter')
     .expect(tasksPresent(todoList, [task4, task3, task2, task1])).ok()
-
-    // Mark task 2 as complete
+    
+    // Add task 5
+    .typeText(newTaskInput, task5).pressKey('enter')
+    .expect(tasksPresent(todoList, [task5, task4, task3, task2, task1])).ok()
+    
+    // Complete tasks 4 and 2
     .expect(doneSection.exists).notOk()
-    .click(todoTasks.withText(task2).find('input').withAttribute('type', 'checkbox'))
-    .expect(tasksPresent(todoList, [task4, task3, task1])).ok()
+    .click(checkbox(task4))
+    .click(checkbox(task2))
+    .expect(tasksPresent(todoList, [task5, task3, task1])).ok()
     .expect(doneSection.exists).ok()
-    .expect(tasksPresent(doneList, [task2], true)).ok()
+    .expect(tasksPresent(doneList, [task2, task4], true)).ok()
 
     // Modify task 3 in the To Do list
     .click(todoTasks.find('span').withText(task3))
     .expect(Selector('input.edit-task').value).eql(task3)
     .typeText(Selector('input.edit-task'), ' modified', {caretPos: 10})
     .pressKey('enter')
-    .expect(tasksPresent(todoList, [task4, task3mod, task1])).ok()
-    .expect(tasksPresent(doneList, [task2], true)).ok()
+    .expect(tasksPresent(todoList, [task5, task3mod, task1])).ok()
+    .expect(tasksPresent(doneList, [task2, task4], true)).ok()
 
     // Mark task 3 as complete
     .click(todoTasks.withText(task3mod).find('input').withAttribute('type', 'checkbox'))
-    .expect(tasksPresent(todoList, [task4, task1])).ok()
-    .expect(tasksPresent(doneList, [task3mod, task2], true)).ok()
+    .expect(tasksPresent(todoList, [task5, task1])).ok()
+    .expect(tasksPresent(doneList, [task3mod, task2, task4], true)).ok()
 
-    // Click task 4 delete button, expect confirmation popup, do not confirm
-    .setNativeDialogHandler(deleteHandler, {dependencies: {taskName: task4, deleteTask: false}})
-    .click(menuButton(task4))
-    .click(deleteButton(task4))
-    .expect(tasksPresent(todoList, [task4, task1])).ok()
-    .expect(tasksPresent(doneList, [task3mod, task2], true)).ok()
+    // Click task 5 delete button, expect confirmation popup, do not confirm
+    .setNativeDialogHandler(deleteHandler, {dependencies: {taskName: task5, deleteTask: false}})
+    .click(menuButton(task5))
+    .click(deleteButton(task5))
+    .expect(tasksPresent(todoList, [task5, task1])).ok()
+    .expect(tasksPresent(doneList, [task3mod, task2, task4], true)).ok()
 
     // Click task 3 delete button, expect no confirmation popup
     .click(menuButton(task3mod))
     .click(deleteButton(task3mod))
-    .expect(tasksPresent(todoList, [task4, task1])).ok()
-    .expect(tasksPresent(doneList, [task2], true)).ok()
+    .expect(tasksPresent(todoList, [task5, task1])).ok()
+    .expect(tasksPresent(doneList, [task2, task4], true)).ok()
 
     // Click task 1 delete button, expect confirmation popup, confirm delete
     .setNativeDialogHandler(deleteHandler, {dependencies: {taskName: task1, deleteTask: true}})
     .click(menuButton(task1))
     .click(deleteButton(task1))
-    .expect(tasksPresent(todoList, [task4])).ok()
-    .expect(tasksPresent(doneList, [task2], true)).ok()
+    .expect(tasksPresent(todoList, [task5])).ok()
+    .expect(tasksPresent(doneList, [task2, task4], true)).ok()
 
     // Modify task 2 in the completed list
     .click(doneTasks.find('span').withText(task2))
     .expect(Selector('input.edit-task').value).eql(task2)
     .typeText(Selector('input.edit-task'), 'completed ', {caretPos: 18})
     .click(saveButton())
-    .expect(tasksPresent(todoList, [task4])).ok()
-    .expect(tasksPresent(doneList, [task2mod], true)).ok()
-
-    // Add task 5 and complete it
-    .typeText(newTaskInput, task5).pressKey('enter')
-    .click(todoTasks.withText(task5).find('input').withAttribute('type', 'checkbox'))
-    .expect(tasksPresent(todoList, [task4])).ok()
-    .expect(tasksPresent(doneList, [task5, task2mod], true)).ok()
+    .expect(tasksPresent(todoList, [task5])).ok()
+    .expect(tasksPresent(doneList, [task2mod, task4], true)).ok()
     
     // Click the Clear button to clear all completed tasks
     .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 2, deleteTask: true}})
     .click(doneMenuButton)
     .click(clearAllButton)
-    .expect(tasksPresent(todoList, [task4])).ok()
+    .expect(tasksPresent(todoList, [task5])).ok()
     .expect(doneSection.exists).notOk()
 
-    // Complete task 4, click the Clear button, expect no popup
-    .click(todoTasks.withText(task4).find('input').withAttribute('type', 'checkbox'))
+    // Complete task 5, click the Clear button, expect no popup
+    .click(todoTasks.withText(task5).find('input').withAttribute('type', 'checkbox'))
     .expect(tasksPresent(todoList, [])).ok()
-    .expect(tasksPresent(doneList, [task4], true)).ok()
+    .expect(tasksPresent(doneList, [task5], true)).ok()
     .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 9, deleteTask: false}})
     .click(doneMenuButton)
     .click(clearAllButton)

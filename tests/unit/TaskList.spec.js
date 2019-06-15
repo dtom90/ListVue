@@ -1,14 +1,14 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import Vuex from 'vuex'
+import moment from 'moment'
 
 const localVue = createLocalVue();
-localVue.use(Vuex)
+localVue.use(Vuex)                        
 localVue.component('font-awesome-icon', FontAwesomeIcon)
 
 import store from '@/store'
 import TaskList from '@/components/TaskList.vue'
-import moment from "./Task.spec";
 
 describe('TaskList.vue', () => {
   

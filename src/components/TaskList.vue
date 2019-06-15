@@ -29,7 +29,7 @@
           <button id="clear-btn"
                   class="btn btn-danger"
                   v-if="completedList"
-                  v-on:click="$store.commit('clearTasks')">
+                  v-on:click="clearTasks">
             Clear All
           </button>
         </div>
@@ -41,7 +41,7 @@
     <input id="new-task" type="text"
            v-if="!completedList"
            class="form-control" placeholder="enter new task"
-           v-model="newTask" @keyup.enter="addTask"/>
+           v-model="newTask" @keyup.enter="addNewTask"/>
 
     <!-- TaskList -->
     <ul class="task-list list-group">
@@ -52,6 +52,7 @@
 </template>
 
 <script>
+  import { mapMutations } from 'vuex'
   import Task from './Task.vue'
   import $ from 'jquery'
   
@@ -82,8 +83,12 @@
       newTask: ''
     }),
     methods: {
-      addTask() {
-        this.$store.commit('addTask', this.newTask)
+      ...mapMutations([
+        'addTask',
+        'clearTasks'
+      ]),
+      addNewTask() {
+        this.addTask(this.newTask)
         this.newTask = ''
       }
     }
