@@ -17,7 +17,7 @@
         </button>
         <div class="dropdown-menu">
           <div class="input-group">
-            <select class="custom-select" :id="selectId" v-model="sortingOrder">
+            <select class="custom-select" :id="selectId" v-model="sortOrder">
               <option v-for="option in sortingOptions" :key="option" :value="option">{{ option }}</option>
             </select>
             <div class="input-group-append">
@@ -73,19 +73,19 @@
       titleTag: function() { return this.completedList ? 'h3' : 'h1' },
       btnId: function() { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
       btnIcon: function() { return this.completedList ? 'bars' : 'sort' },
-      sortingOptions: function() { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
-      sortedTasks: function() { return this.sortingOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks },
       selectId: function() { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
+      sortingOptions: function() { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
+      sortedTasks: function() { return this.sortOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks },
     },
     components: {
       Task
     },
     data: () => ({
       newTask: '',
-      sortingOrder: 'Oldest'
+      sortOrder: 'Oldest'
     }),
     mounted: function() {
-      this.sortingOrder = this.sortingOptions[0]
+      this.sortOrder = this.sortingOptions[0]
     },
     methods: {
       ...mapMutations([
