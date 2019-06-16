@@ -17,13 +17,13 @@ const tasks = [
 ]
 
 const titles = [
-  ['To Do List', 'h1'],
-  ['Completed Tasks', 'h3']
+  ['To Do List', 'h1', ['Oldest', 'Newest']],
+  ['Completed Tasks', 'h3', ['Recent', 'Oldest']]
 ]
 
 describe('TaskList', () => {
 
-  describe.each(titles)('%s', (title, titleTag) => {
+  describe.each(titles)('%s', (title, titleTag, expectedSortingOptions) => {
     
     // Expect title to default to 'To Do List'
     const titleProps = title === 'To Do List' ? {} : { title }
@@ -45,33 +45,46 @@ describe('TaskList', () => {
       expect(wrapper.props().tasks).toBe(tasks)
 
     })
+    
+    it('should have the correct soring options', () => {
 
-    it('renders tasks in oldest-first order', () => {
-
-      wrapper.setData({
-        sortOrder: 'Oldest'
+      const sortingOptions = wrapper.findAll('option')
+      expect(sortingOptions.length).toBe(expectedSortingOptions.length)
+      sortingOptions.wrappers.forEach((sortingOption, i) => {
+        expect(sortingOption.text()).toBe(expectedSortingOptions[i])
       })
-      expect(wrapper.vm.sortOrder).toBe('Oldest')
-
+      
+    })
+    
+    it(`should default sorting to ${expectedSortingOptions[0]}-first order`, () => {
+      
+      const sortOrder = expectedSortingOptions[0]
+      
+      expect(wrapper.vm.sortOrder).toBe(sortOrder)
+      
       const renderedTasks = wrapper.findAll(Task)
       expect(renderedTasks.length).toBe(tasks.length)
       renderedTasks.wrappers.forEach((renderedTask, i) => {
-        expect(renderedTask.props().task.name).toMatch(tasks[i].name)
+        const index = sortOrder === 'Oldest' ? i : tasks.length-1-i
+        expect(renderedTask.props().task.name).toMatch(tasks[index].name)
       })
 
     })
 
-    it('renders tasks in newest-first order', () => {
+    it(`should sort in ${expectedSortingOptions[1]}-first order`, () => {
+
+      const sortOrder = expectedSortingOptions[1]
 
       wrapper.setData({
-        sortOrder: 'Newest'
+        sortOrder: sortOrder
       })
-      expect(wrapper.vm.sortOrder).toBe('Newest')
+      expect(wrapper.vm.sortOrder).toBe(sortOrder)
 
       const renderedTasks = wrapper.findAll(Task)
       expect(renderedTasks.length).toBe(tasks.length)
       renderedTasks.wrappers.forEach((renderedTask, i) => {
-        expect(renderedTask.props().task.name).toMatch(tasks[tasks.length-1-i].name)
+        const index = sortOrder === 'Oldest' ? i : tasks.length-1-i
+        expect(renderedTask.props().task.name).toMatch(tasks[index].name)
       })
 
     })
