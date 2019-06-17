@@ -1,11 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { shallowMount } from '@vue/test-utils'
 import moment from 'moment'
 
 import Task from '@/components/Task.vue'
-
-const localVue = createLocalVue()
-localVue.component('font-awesome-icon', FontAwesomeIcon)
 
 describe('Task', () => {
   
@@ -20,8 +16,7 @@ describe('Task', () => {
     }
     
     const wrapper = shallowMount(Task, {
-      propsData: { task: task },
-      localVue
+      propsData: { task: task }
     })
 
     it('renders the task name', () => {
@@ -57,8 +52,7 @@ describe('Task', () => {
     }
     
     const wrapper = shallowMount(Task, {
-      propsData: { task: task },
-      localVue
+      propsData: { task: task }
     })
     
     it('renders the task name', () => {

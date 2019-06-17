@@ -1,14 +1,6 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import TaskList from '@/components/TaskList.vue'
 import Task from '@/components/Task.vue'
-
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrashAlt, faSave, faSort, faBars, faCog, faEllipsisH, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-library.add(faTrashAlt, faSave, faSort, faBars, faCog, faEllipsisH, faPencilAlt)
-
-const localVue = createLocalVue()
-localVue.component('font-awesome-icon', FontAwesomeIcon)
 
 const tasks = [
   { id: 1, name: 'new task 1' },
@@ -29,8 +21,7 @@ describe('TaskList', () => {
     const titleProps = title === 'To Do List' ? {} : { title }
     
     const wrapper = shallowMount(TaskList, {
-      propsData: Object.assign(titleProps, { tasks: tasks }),
-      localVue
+      propsData: Object.assign(titleProps, { tasks: tasks })
     })
 
     it(`should have the title "${title}"`, () => {
