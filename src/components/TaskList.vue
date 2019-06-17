@@ -51,53 +51,53 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
-  import Task from './Task.vue'
-  import $ from 'jquery'
+import { mapMutations } from 'vuex'
+import Task from './Task.vue'
+import $ from 'jquery'
   
-  $(document).on('click', '.title-section .dropdown-menu', function (e) {
-    e.stopPropagation();
-  });
+$(document).on('click', '.title-section .dropdown-menu', function (e) {
+  e.stopPropagation()
+})
   
-  export default {
-    name: 'TaskList',
-    props: {
-      title: {
-        type: String,
-        default: 'To Do List'
-      },
-      tasks: Array
+export default {
+  name: 'TaskList',
+  props: {
+    title: {
+      type: String,
+      default: 'To Do List'
     },
-    computed: {
-      completedList: function() { return this.title === 'Completed Tasks' },
-      titleTag: function() { return this.completedList ? 'h3' : 'h1' },
-      btnId: function() { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
-      btnIcon: function() { return this.completedList ? 'bars' : 'sort' },
-      selectId: function() { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
-      sortingOptions: function() { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
-      sortedTasks: function() { return this.sortOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks },
-    },
-    components: {
-      Task
-    },
-    data: () => ({
-      newTask: '',
-      sortOrder: 'Oldest'
-    }),
-    mounted: function() {
-      this.sortOrder = this.sortingOptions[0]
-    },
-    methods: {
-      ...mapMutations([
-        'addTask',
-        'clearTasks'
-      ]),
-      addNewTask() {
-        this.addTask(this.newTask)
-        this.newTask = ''
-      }
+    tasks: Array
+  },
+  computed: {
+    completedList: function () { return this.title === 'Completed Tasks' },
+    titleTag: function () { return this.completedList ? 'h3' : 'h1' },
+    btnId: function () { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
+    btnIcon: function () { return this.completedList ? 'bars' : 'sort' },
+    selectId: function () { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
+    sortingOptions: function () { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
+    sortedTasks: function () { return this.sortOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks }
+  },
+  components: {
+    Task
+  },
+  data: () => ({
+    newTask: '',
+    sortOrder: 'Oldest'
+  }),
+  mounted: function () {
+    this.sortOrder = this.sortingOptions[0]
+  },
+  methods: {
+    ...mapMutations([
+      'addTask',
+      'clearTasks'
+    ]),
+    addNewTask () {
+      this.addTask(this.newTask)
+      this.newTask = ''
     }
   }
+}
 </script>
 
 <style scoped>

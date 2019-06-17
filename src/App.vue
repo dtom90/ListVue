@@ -13,21 +13,21 @@
 </template>
 
 <script>
-  import TaskList from './components/TaskList.vue'
-  import { mapGetters } from 'vuex'
+import TaskList from './components/TaskList.vue'
+import { mapGetters } from 'vuex'
 
-  export default {
-    name: 'app',
-    components: {
-      TaskList
-    },
-    computed: {
-      ...mapGetters([
-        'incompleteTasks',
-        'completedTasks',
-      ])
-    }
+export default {
+  name: 'app',
+  components: {
+    TaskList
+  },
+  computed: {
+    ...mapGetters([
+      'incompleteTasks',
+      'completedTasks'
+    ])
   }
+}
 </script>
 
 <style>

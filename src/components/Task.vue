@@ -55,38 +55,38 @@
 </template>
 
 <script>
-  import moment from 'moment'
-  import { mapMutations } from 'vuex'
+import moment from 'moment'
+import { mapMutations } from 'vuex'
 
-  export default {
-    name: "Task",
-    props: {
-      task: Object
+export default {
+  name: 'Task',
+  props: {
+    task: Object
+  },
+  data: () => ({
+    editing: false
+  }),
+  computed: {
+    dateType: function () {
+      return this.task.completed ? 'Completed' : 'Created'
     },
-    data: () => ({
-      editing: false
-    }),
-    computed: {
-      dateType: function() {
-        return this.task.completed ? 'Completed' : 'Created'
-      },
-      date: function() {
-        return this.task.completed ? this.task.completedDate : this.task.createdDate
-      },
-      displayDate: function() {
-        return moment(this.date).format('ddd MMM DD YYYY,')
-      },
-      displayTime: function() {
-        return moment(this.date).format('h:mm a')
-      }
+    date: function () {
+      return this.task.completed ? this.task.completedDate : this.task.createdDate
     },
-    methods: {
-      ...mapMutations([
-        'completeTask',
-        'deleteTask'
-      ])
+    displayDate: function () {
+      return moment(this.date).format('ddd MMM DD YYYY,')
+    },
+    displayTime: function () {
+      return moment(this.date).format('h:mm a')
     }
+  },
+  methods: {
+    ...mapMutations([
+      'completeTask',
+      'deleteTask'
+    ])
   }
+}
 </script>
 
 <style scoped lang="scss">

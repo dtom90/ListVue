@@ -1,10 +1,10 @@
-import {Selector, ClientFunction} from 'testcafe'; // first import testcafe selectors
+import { Selector, ClientFunction } from 'testcafe' // first import testcafe selectors
 
 const hostname = 'localhost'
 const port = process.env.PORT || '8080'
 
 fixture`To Do List`
-  .page`http://${hostname}:${port}`;
+  .page`http://${hostname}:${port}`
 
 // Tasks
 const task1 = 'The first task'
@@ -40,52 +40,53 @@ const tasksPresent = ClientFunction((taskList, expectedTasks, checked = false) =
   const tasks = taskList().childNodes
   return tasks.length === expectedTasks.length &&
     [].every.call(tasks, (task, i) => {
-      const input = task.getElementsByTagName("input")[0]
+      const input = task.getElementsByTagName('input')[0]
       return task.textContent.includes(expectedTasks[i]) &&
         input.type === 'checkbox' &&
         input.checked === checked
     })
 })
 
-function checkbox(taskName) {
+function checkbox (taskName) {
   return todoTasks.withText(taskName).find('input').withAttribute('type', 'checkbox')
 }
 
-function saveButton() {
+function saveButton () {
   return Selector('input.edit-task').parent('.task').find('button')
     .filter(node => node.getElementsByTagName('svg')[0].classList.contains('fa-save'))
 }
 
-function menuButton(taskName) {
+function menuButton (taskName) {
   return Selector('.task').withText(taskName).find('button')
     .filter(node => node.getElementsByTagName('svg')[0].classList.contains('fa-ellipsis-h'))
 }
 
-function deleteButton(taskName) {
+function deleteButton (taskName) {
   return Selector('.task').withText(taskName).find('button')
     .filter(node => node.getElementsByTagName('svg')[0].classList.contains('fa-trash-alt'))
 }
 
 const deleteHandler = ClientFunction((type, text) => {
-  switch (type) {
+  switch (type) { /* eslint-disable no-throw-literal */
     case 'confirm':
       switch (text) { /* eslint-disable no-undef */
         case (typeof taskName !== 'undefined') &&
         `Are you sure you want to delete task ${taskName}? the task is not yet complete!`:
           return deleteTask
-        case `Are you sure that you want to delete all ${numCompletedTasks} completed tasks?`:
+        case (typeof numCompletedTasks !== 'undefined') &&
+        `Are you sure that you want to delete all ${numCompletedTasks} completed tasks?`:
           return deleteTask
         default:
-          throw 'Unexpected confirm dialog!';
+          throw 'Unexpected confirm dialog!'
       }
     case 'prompt':
-      throw 'A prompt was invoked!';
+      throw 'A prompt was invoked!'
     case 'alert':
-      throw 'An alert was invoked!';
+      throw 'An alert was invoked!'
   }
 })
 
-//then create a test and place your code there
+// then create a test and place your code there
 test('Create, Complete and Delete Tasks to Test Functionality', async t => {
   await t
 
@@ -156,7 +157,7 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     // Modify task 3 in the To Do list
     .click(todoTasks.find('span').withText(task3))
     .expect(Selector('input.edit-task').value).eql(task3)
-    .typeText(Selector('input.edit-task'), ' modified', {caretPos: 3})
+    .typeText(Selector('input.edit-task'), ' modified', { caretPos: 3 })
     .pressKey('enter')
     .expect(tasksPresent(todoList, [task5, task3mod, task1])).ok()
     .expect(tasksPresent(doneList, [task2, task4], true)).ok()
@@ -167,7 +168,7 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .expect(tasksPresent(doneList, [task3mod, task2, task4], true)).ok()
 
     // Click task 5 delete button, expect confirmation popup, do not confirm
-    .setNativeDialogHandler(deleteHandler, {dependencies: {taskName: task5, deleteTask: false}})
+    .setNativeDialogHandler(deleteHandler, { dependencies: { taskName: task5, deleteTask: false } })
     .click(menuButton(task5))
     .click(deleteButton(task5))
     .expect(tasksPresent(todoList, [task5, task1])).ok()
@@ -180,7 +181,7 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .expect(tasksPresent(doneList, [task2, task4], true)).ok()
 
     // Click task 1 delete button, expect confirmation popup, confirm delete
-    .setNativeDialogHandler(deleteHandler, {dependencies: {taskName: task1, deleteTask: true}})
+    .setNativeDialogHandler(deleteHandler, { dependencies: { taskName: task1, deleteTask: true } })
     .click(menuButton(task1))
     .click(deleteButton(task1))
     .expect(tasksPresent(todoList, [task5])).ok()
@@ -189,13 +190,13 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     // Modify task 2 in the completed list
     .click(doneTasks.find('span').withText(task2))
     .expect(Selector('input.edit-task').value).eql(task2)
-    .typeText(Selector('input.edit-task'), 'completed ', {caretPos: 11})
+    .typeText(Selector('input.edit-task'), 'completed ', { caretPos: 11 })
     .click(saveButton())
     .expect(tasksPresent(todoList, [task5])).ok()
     .expect(tasksPresent(doneList, [task2mod, task4], true)).ok()
     
     // Click the Clear button to clear all completed tasks
-    .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 2, deleteTask: true}})
+    .setNativeDialogHandler(deleteHandler, { dependencies: { numCompletedTasks: 2, deleteTask: true } })
     .click(doneMenuButton)
     .click(clearAllButton)
     .expect(tasksPresent(todoList, [task5])).ok()
@@ -205,10 +206,9 @@ test('Create, Complete and Delete Tasks to Test Functionality', async t => {
     .click(todoTasks.withText(task5).find('input').withAttribute('type', 'checkbox'))
     .expect(tasksPresent(todoList, [])).ok()
     .expect(tasksPresent(doneList, [task5], true)).ok()
-    .setNativeDialogHandler(deleteHandler, {dependencies: {numCompletedTasks: 9, deleteTask: false}})
+    .setNativeDialogHandler(deleteHandler, { dependencies: { numCompletedTasks: 9, deleteTask: false } })
     .click(doneMenuButton)
     .click(clearAllButton)
     .expect(tasksPresent(todoList, [])).ok()
     .expect(doneSection.exists).notOk()
-
-});
+})
