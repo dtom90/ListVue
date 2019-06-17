@@ -1,14 +1,20 @@
 <template>
-  <div id="app" class="container">
+  <div
+    id="app"
+    class="container"
+  >
+    <TaskList
+      title="To Do List"
+      :tasks="incompleteTasks"
+    />
+    <br>
+    <br>
 
-    <TaskList title="To Do List"
-              :tasks="incompleteTasks"/>
-    <br/>
-    <br/>
-
-    <TaskList title="Completed Tasks"
-              :tasks="completedTasks"
-              v-if="completedTasks.length > 0"/>
+    <TaskList
+      v-if="completedTasks.length > 0"
+      title="Completed Tasks"
+      :tasks="completedTasks"
+    />
   </div>
 </template>
 
@@ -17,7 +23,7 @@ import TaskList from './components/TaskList.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
     TaskList
   },

@@ -1,52 +1,81 @@
 <template>
-  
   <div class="section">
-
     <!-- TaskList Title Section -->
     <div class="title-section">
-
       <!-- TaskList Title -->
-      <component :is="titleTag" class="title">
-        {{this.title}}
+      <component
+        :is="titleTag"
+        class="title"
+      >
+        {{ title }}
       </component>
 
       <!-- TaskList Settings Button -->
       <div class="dropright">
-        <button :id="btnId" class="btn btn-light" data-toggle="dropdown">
-          <font-awesome-icon :icon="btnIcon"/>
+        <button
+          :id="btnId"
+          class="btn btn-light"
+          data-toggle="dropdown"
+        >
+          <font-awesome-icon :icon="btnIcon" />
         </button>
         <div class="dropdown-menu">
           <div class="input-group">
-            <select class="custom-select" :id="selectId" v-model="sortOrder">
-              <option v-for="option in sortingOptions" :key="option" :value="option">{{ option }}</option>
+            <select
+              :id="selectId"
+              v-model="sortOrder"
+              class="custom-select"
+            >
+              <option
+                v-for="option in sortingOptions"
+                :key="option"
+                :value="option"
+              >
+                {{ option }}
+              </option>
             </select>
             <div class="input-group-append">
-              <label class="input-group-text" :for="selectId">First</label>
+              <label
+                class="input-group-text"
+                :for="selectId"
+              >First</label>
             </div>
           </div>
-          <div class="dropdown-divider" v-if="completedList"/>
-          <button id="clear-btn"
-                  class="btn btn-danger"
-                  v-if="completedList"
-                  v-on:click="clearTasks">
+          <div
+            v-if="completedList"
+            class="dropdown-divider"
+          />
+          <button
+            v-if="completedList"
+            id="clear-btn"
+            class="btn btn-danger"
+            @click="clearTasks"
+          >
             Clear All
           </button>
         </div>
       </div>
-      
     </div>
-    
+
     <!-- New Task Input Field -->
-    <input id="new-task" type="text"
-           v-if="!completedList"
-           class="form-control" placeholder="enter new task"
-           v-model="newTask" @keyup.enter="addNewTask"/>
-    
+    <input
+      v-if="!completedList"
+      id="new-task"
+      v-model="newTask"
+      type="text"
+      class="form-control"
+      placeholder="enter new task"
+      @keyup.enter="addNewTask"
+    >
+
     <!-- TaskList -->
     <ul class="task-list list-group">
-      <Task v-for="task in sortedTasks" :key="task.id" :task="task"/>
+      <Task
+        v-for="task in sortedTasks"
+        :key="task.id"
+        :task="task"
+      />
     </ul>
-    
   </div>
 </template>
 
@@ -54,20 +83,36 @@
 import { mapMutations } from 'vuex'
 import Task from './Task.vue'
 import $ from 'jquery'
-  
+
 $(document).on('click', '.title-section .dropdown-menu', function (e) {
   e.stopPropagation()
 })
-  
+
 export default {
   name: 'TaskList',
+  components: {
+    Task
+  },
   props: {
     title: {
       type: String,
       default: 'To Do List'
     },
-    tasks: Array
+    tasks: {
+      type: Array,
+      default: function () {
+        return [
+          { id: 1, name: 'new task 1' },
+          { id: 2, name: 'new task 2' },
+          { id: 3, name: 'new task 3' }
+        ]
+      }
+    }
   },
+  data: () => ({
+    newTask: '',
+    sortOrder: 'Oldest'
+  }),
   computed: {
     completedList: function () { return this.title === 'Completed Tasks' },
     titleTag: function () { return this.completedList ? 'h3' : 'h1' },
@@ -77,13 +122,6 @@ export default {
     sortingOptions: function () { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
     sortedTasks: function () { return this.sortOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks }
   },
-  components: {
-    Task
-  },
-  data: () => ({
-    newTask: '',
-    sortOrder: 'Oldest'
-  }),
   mounted: function () {
     this.sortOrder = this.sortingOptions[0]
   },
