@@ -1,92 +1,129 @@
 <template>
   <li class="task list-group-item form-check">
-    
     <div class="d-flex">
-
       <!--  Main Section (Flex Grow)  -->
       <div class="flex-grow-1 d-flex align-items-center">
-        
         <!--  Checkbox Container  -->
         <div class="checkbox-container">
-          <input class="task-checkbox" type="checkbox" v-model="task.completed" @change="completeTask(task.id)"/>
-          <span class="check-custom"></span>
+          <input
+            v-model="task.completed"
+            class="task-checkbox"
+            type="checkbox"
+            @change="completeTask(task.id)"
+          >
+          <span class="check-custom" />
         </div>
-        
+
         <!--  Task Name & Field (when editing)  -->
-        <span v-if="!editing" v-on:click="editing = true">{{task.name}}</span>
-        <div v-if="editing" class="d-flex align-items-center">
-          <input class="edit-task" v-model="task.name" @keyup.enter="editing = false"/>
-          <button type="button" class="btn btn-primary" v-on:click="editing = false">
-            <font-awesome-icon icon="save"/>
+        <span
+          v-if="!editing"
+          @click="editing = true"
+        >{{ task.name }}</span>
+        <div
+          v-if="editing"
+          class="d-flex align-items-center"
+        >
+          <input
+            v-model="task.name"
+            class="edit-task"
+            @keyup.enter="editing = false"
+          >
+          <button
+            type="button"
+            class="btn btn-primary"
+            @click="editing = false"
+          >
+            <font-awesome-icon icon="save" />
           </button>
         </div>
-        
       </div>
 
       <!--  Task Settings Button  -->
       <div class="dropright">
-        <button type="button" class="btn btn-light" data-toggle="dropdown">
-          <font-awesome-icon icon="ellipsis-h"/>
+        <button
+          type="button"
+          class="btn btn-light"
+          data-toggle="dropdown"
+        >
+          <font-awesome-icon icon="ellipsis-h" />
         </button>
         <div class="dropdown-menu">
           <h6>
-            {{dateType}} on
+            {{ dateType }} on
           </h6>
           <div>
-            {{displayDate}}
+            {{ displayDate }}
           </div>
           <div>
-            {{displayTime}}
+            {{ displayTime }}
           </div>
-          <div class="dropdown-divider"></div>
+          <div class="dropdown-divider" />
           <div class="flex-column">
-            <button type="button" class="btn btn-warning btn-sm" v-on:click="editing = true">
-              <font-awesome-icon icon="pencil-alt"/>
+            <button
+              type="button"
+              class="btn btn-warning btn-sm"
+              @click="editing = true"
+            >
+              <font-awesome-icon icon="pencil-alt" />
             </button>
-            <button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTask(task.id)">
-              <font-awesome-icon icon="trash-alt"/>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              @click="deleteTask(task.id)"
+            >
+              <font-awesome-icon icon="trash-alt" />
             </button>
           </div>
         </div>
       </div>
-      
     </div>
   </li>
 </template>
 
 <script>
-  import moment from 'moment'
-  import { mapMutations } from 'vuex'
+import moment from 'moment'
+import { mapMutations } from 'vuex'
 
-  export default {
-    name: "Task",
-    props: {
-      task: Object
-    },
-    data: () => ({
-      editing: false
-    }),
-    computed: {
-      dateType: function() {
-        return this.task.completed ? 'Completed' : 'Created'
-      },
-      date: function() {
-        return this.task.completed ? this.task.completedDate : this.task.createdDate
-      },
-      displayDate: function() {
-        return moment(this.date).format('ddd MMM DD YYYY,')
-      },
-      displayTime: function() {
-        return moment(this.date).format('h:mm a')
+export default {
+  name: 'Task',
+  props: {
+    task: {
+      type: Object,
+      default: function () {
+        return {
+          id: 1,
+          name: 'new task 1',
+          createdDate: new Date(),
+          completedDate: null,
+          completed: false
+        }
       }
-    },
-    methods: {
-      ...mapMutations([
-        'completeTask',
-        'deleteTask'
-      ])
     }
+  },
+  data: () => ({
+    editing: false
+  }),
+  computed: {
+    dateType: function () {
+      return this.task.completed ? 'Completed' : 'Created'
+    },
+    date: function () {
+      return this.task.completed ? this.task.completedDate : this.task.createdDate
+    },
+    displayDate: function () {
+      return moment(this.date).format('ddd MMM DD YYYY,')
+    },
+    displayTime: function () {
+      return moment(this.date).format('h:mm a')
+    }
+  },
+  methods: {
+    ...mapMutations([
+      'completeTask',
+      'deleteTask'
+    ])
   }
+}
 </script>
 
 <style scoped lang="scss">

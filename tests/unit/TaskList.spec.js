@@ -1,38 +1,94 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import Vuex from 'vuex'
+import TaskList from '@/components/TaskList.vue'
+import Task from '@/components/Task.vue'
 
-const localVue = createLocalVue();
-localVue.use(Vuex)
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTrashAlt, faSave, faSort, faBars, faCog, faEllipsisH, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+library.add(faTrashAlt, faSave, faSort, faBars, faCog, faEllipsisH, faPencilAlt)
+
+const localVue = createLocalVue()
 localVue.component('font-awesome-icon', FontAwesomeIcon)
 
-import store from '@/store'
-import TaskList from '@/components/TaskList.vue'
-import moment from "./Task.spec";
+const tasks = [
+  { id: 1, name: 'new task 1' },
+  { id: 2, name: 'new task 2' },
+  { id: 3, name: 'new task 3' }
+]
 
-describe('TaskList.vue', () => {
+const titles = [
+  ['To Do List', 'h1', ['Oldest', 'Newest']],
+  ['Completed Tasks', 'h3', ['Recent', 'Oldest']]
+]
+
+describe('TaskList', () => {
   
-  it('renders props.name when passed', () => {
+  describe.each(titles)('%s', (title, titleTag, expectedSortingOptions) => {
     
-    const tasks = [
-      {id: 1, name: 'new task 1', createdDate: new Date()},
-      {id: 2, name: 'new task 2', createdDate: new Date()},
-      {id: 3, name: 'new task 3', createdDate: new Date()}
-    ]
+    // Expect title to default to 'To Do List'
+    const titleProps = title === 'To Do List' ? {} : { title }
     
     const wrapper = shallowMount(TaskList, {
-      propsData: { tasks: tasks },
-      localVue,
-      store
+      propsData: Object.assign(titleProps, { tasks: tasks }),
+      localVue
+    })
+
+    it(`should have the title "${title}"`, () => {
+      
+      expect(wrapper.props().title).toBe(title)
+      expect(wrapper.find(titleTag).text()).toBe(title)
+      
+    })
+
+    it('should have tasks loaded into props', () => {
+
+      expect(wrapper.props().tasks).toBe(tasks)
+
     })
     
-    const renderedTasks = wrapper.findAll('li')
-    renderedTasks.wrappers.forEach((elem, i) => {
-      expect(elem.text()).toMatch(tasks[i].name)
-      expect(elem.text()).toMatch('Created on')
-      expect(elem.text()).toMatch(moment(tasks[i].createdDate).format('ddd MMM DD YYYY,'))
-      expect(elem.text()).toMatch(moment(tasks[i].createdDate).format('h:mm a'))
+    it('should have the correct soring options', () => {
+
+      const sortingOptions = wrapper.findAll('option')
+      expect(sortingOptions.length).toBe(expectedSortingOptions.length)
+      sortingOptions.wrappers.forEach((sortingOption, i) => {
+        expect(sortingOption.text()).toBe(expectedSortingOptions[i])
+      })
+      
+    })
+    
+    it(`should default sorting to ${expectedSortingOptions[0]}-first order`, () => {
+      
+      const sortOrder = expectedSortingOptions[0]
+      
+      expect(wrapper.vm.sortOrder).toBe(sortOrder)
+      
+      const renderedTasks = wrapper.findAll(Task)
+      expect(renderedTasks.length).toBe(tasks.length)
+      renderedTasks.wrappers.forEach((renderedTask, i) => {
+        const index = sortOrder === 'Oldest' ? i : tasks.length - 1 - i
+        expect(renderedTask.props().task.name).toMatch(tasks[index].name)
+      })
+
+    })
+
+    it(`should sort in ${expectedSortingOptions[1]}-first order`, () => {
+
+      const sortOrder = expectedSortingOptions[1]
+
+      wrapper.setData({
+        sortOrder: sortOrder
+      })
+      expect(wrapper.vm.sortOrder).toBe(sortOrder)
+
+      const renderedTasks = wrapper.findAll(Task)
+      expect(renderedTasks.length).toBe(tasks.length)
+      renderedTasks.wrappers.forEach((renderedTask, i) => {
+        const index = sortOrder === 'Oldest' ? i : tasks.length - 1 - i
+        expect(renderedTask.props().task.name).toMatch(tasks[index].name)
+      })
+
     })
     
   })
+
 })
