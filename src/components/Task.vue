@@ -33,7 +33,7 @@
             class="btn btn-primary"
             @click="editing = false"
           >
-            <font-awesome-icon icon="save" />
+            <font-awesome-icon :icon="icon.faSave" />
           </button>
         </div>
       </div>
@@ -45,7 +45,7 @@
           class="btn btn-light"
           data-toggle="dropdown"
         >
-          <font-awesome-icon icon="ellipsis-h" />
+          <font-awesome-icon :icon="icon.faEllipsisH" />
         </button>
         <div class="dropdown-menu">
           <h6>
@@ -64,14 +64,14 @@
               class="btn btn-warning btn-sm"
               @click="editing = true"
             >
-              <font-awesome-icon icon="pencil-alt" />
+              <font-awesome-icon :icon="icon.faPencilAlt" />
             </button>
             <button
               type="button"
               class="btn btn-danger btn-sm"
               @click="deleteTask(task.id)"
             >
-              <font-awesome-icon icon="trash-alt" />
+              <font-awesome-icon :icon="icon.faTrashAlt" />
             </button>
           </div>
         </div>
@@ -81,11 +81,16 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { mapMutations } from 'vuex'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faEllipsisH, faPencilAlt, faSave, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import moment from 'moment'
 
 export default {
   name: 'Task',
+  components: {
+    FontAwesomeIcon
+  },
   props: {
     task: {
       type: Object,
@@ -115,6 +120,9 @@ export default {
     },
     displayTime: function () {
       return moment(this.date).format('h:mm a')
+    },
+    icon () {
+      return { faEllipsisH, faPencilAlt, faSave, faTrashAlt }
     }
   },
   methods: {

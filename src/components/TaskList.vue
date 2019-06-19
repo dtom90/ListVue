@@ -82,6 +82,8 @@
 <script>
 import { mapMutations } from 'vuex'
 import Task from './Task.vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faSort, faBars } from '@fortawesome/free-solid-svg-icons'
 import $ from 'jquery'
 
 $(document).on('click', '.title-section .dropdown-menu', function (e) {
@@ -91,7 +93,8 @@ $(document).on('click', '.title-section .dropdown-menu', function (e) {
 export default {
   name: 'TaskList',
   components: {
-    Task
+    Task,
+    FontAwesomeIcon
   },
   props: {
     title: {
@@ -117,7 +120,7 @@ export default {
     completedList: function () { return this.title === 'Completed Tasks' },
     titleTag: function () { return this.completedList ? 'h3' : 'h1' },
     btnId: function () { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
-    btnIcon: function () { return this.completedList ? 'bars' : 'sort' },
+    btnIcon: function () { return this.completedList ? faBars : faSort },
     selectId: function () { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
     sortingOptions: function () { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
     sortedTasks: function () { return this.sortOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks }
