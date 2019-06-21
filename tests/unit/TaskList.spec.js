@@ -23,18 +23,18 @@ describe('TaskList', () => {
     const wrapper = shallowMount(TaskList, {
       propsData: Object.assign(titleProps, { tasks: tasks })
     })
-
+    
     it(`should have the title "${title}"`, () => {
       
       expect(wrapper.props().title).toBe(title)
       expect(wrapper.find(titleTag).text()).toBe(title)
       
     })
-
+    
     it('should have tasks loaded into props', () => {
-
+      
       expect(wrapper.props().tasks).toBe(tasks)
-
+      
     })
     
     it('should have the correct soring options', () => {
@@ -42,7 +42,9 @@ describe('TaskList', () => {
       const sortingOptions = wrapper.findAll('option')
       expect(sortingOptions.length).toBe(expectedSortingOptions.length)
       sortingOptions.wrappers.forEach((sortingOption, i) => {
+        
         expect(sortingOption.text()).toBe(expectedSortingOptions[i])
+        
       })
       
     })
@@ -56,10 +58,12 @@ describe('TaskList', () => {
       const renderedTasks = wrapper.findAll(Task)
       expect(renderedTasks.length).toBe(tasks.length)
       renderedTasks.wrappers.forEach((renderedTask, i) => {
+        
         const index = sortOrder === 'Oldest' ? i : tasks.length - 1 - i
         expect(renderedTask.props().task.name).toMatch(tasks[index].name)
+        
       })
-
+      
     })
 
     it(`should sort in ${expectedSortingOptions[1]}-first order`, () => {
@@ -74,10 +78,12 @@ describe('TaskList', () => {
       const renderedTasks = wrapper.findAll(Task)
       expect(renderedTasks.length).toBe(tasks.length)
       renderedTasks.wrappers.forEach((renderedTask, i) => {
+        
         const index = sortOrder === 'Oldest' ? i : tasks.length - 1 - i
         expect(renderedTask.props().task.name).toMatch(tasks[index].name)
+        
       })
-
+      
     })
     
   })

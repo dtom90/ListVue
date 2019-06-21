@@ -58,7 +58,7 @@
     ],
     "rules": {
       "no-trailing-spaces": [
-        2,
+        "error",
         {
           "skipBlankLines": true
         }

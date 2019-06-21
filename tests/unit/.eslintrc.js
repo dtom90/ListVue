@@ -4,6 +4,6 @@ module.exports = {
     jest: true
   },
   rules: {
-    'padded-blocks': 0
+    'padded-blocks': ['error', 'always']
   }
 }
