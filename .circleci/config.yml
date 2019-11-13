@@ -40,18 +40,12 @@ jobs:
                  todo-vue-prod
         background: true
     - run:
-        name: Build TestCafé image
-        command: |
-          docker build \
-                 -f docker/Dockerfile.testcafe \
-                 -t todo-testcafe \
-                 .
-    - run:
         name: Run TestCafé against production container
         command: |
           docker run -i --rm \
-                 --net="host" \
-                 todo-testcafe 'chromium --no-sandbox,firefox' /tests
+                     -v `pwd`/tests/e2e:/tests \
+                     --net="host" \
+                     testcafe/testcafe 'chromium --no-sandbox,firefox' /tests
     - run:
         name: Stop production Docker contianer
         command: docker stop todo-vue-prod
