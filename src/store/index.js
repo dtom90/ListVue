@@ -11,5 +11,9 @@ export default new Vuex.Store({
     tasks: []
   },
   getters,
-  mutations
+  mutations,
+  actions: {
+  },
+  modules: {
+  }
 })
