@@ -1,30 +1,35 @@
 <template>
   <div
     id="app"
-    class="container"
+    class="container d-flex"
   >
-    <TaskList
-      title="To Do List"
-      :tasks="incompleteTasks"
-    />
-    <br>
-    <br>
+    <Lists />
+    <div>
+      <TaskList
+        title="To Do List"
+        :tasks="incompleteTasks"
+      />
+      <br>
+      <br>
 
-    <TaskList
-      v-if="completedTasks.length > 0"
-      title="Completed Tasks"
-      :tasks="completedTasks"
-    />
+      <TaskList
+        v-if="completedTasks.length > 0"
+        title="Completed Tasks"
+        :tasks="completedTasks"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import Lists from './components/Lists.vue'
 import TaskList from './components/TaskList.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
   components: {
+    Lists,
     TaskList
   },
   computed: {

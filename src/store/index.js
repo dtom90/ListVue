@@ -8,7 +8,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    tasks: []
+    lists: [
+      {
+        name: 'Inbox',
+        tasks: []
+      }
+    ],
+    selected: 'Inbox'
   },
   getters,
   mutations,

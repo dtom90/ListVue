@@ -1,13 +1,14 @@
 const mutations = {
   addTask (state, newTaskName) {
+    const list = state.lists.find(list => list.name === state.selected)
     const newTask = {
-      id: state.tasks.length,
+      id: list.tasks.length,
       name: newTaskName,
       completed: false,
       createdDate: new Date(),
       completedDate: null
     }
-    state.tasks.push(newTask)
+    list.tasks.push(newTask)
   },
 
   completeTask (state, id) {
