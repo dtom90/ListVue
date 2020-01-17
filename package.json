@@ -87,6 +87,7 @@
     "mixin-deep": "^1.3.2",
     "set-value": "^2.0.1",
     "serialize-javascript": ">=2.1.1",
-    "**/micromatch/braces": "^2.3.2"
+    "**/micromatch/braces": "^2.3.2",
+    "tree-kill": ">=1.2.2"
   }
 }
