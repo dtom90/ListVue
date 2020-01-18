@@ -11,71 +11,83 @@
       </component>
 
       <!-- TaskList Settings Button -->
-      <div class="dropright">
-        <button
-          :id="btnId"
-          class="btn btn-light"
-          data-toggle="dropdown"
-        >
-          <font-awesome-icon :icon="btnIcon" />
-        </button>
-        <div class="dropdown-menu">
-          <div class="input-group">
-            <select
-              :id="selectId"
-              v-model="sortOrder"
-              class="custom-select"
-            >
-              <option
-                v-for="option in sortingOptions"
-                :key="option"
-                :value="option"
-              >
-                {{ option }}
-              </option>
-            </select>
-            <div class="input-group-append">
-              <label
-                class="input-group-text"
-                :for="selectId"
-              >First</label>
-            </div>
-          </div>
-          <div
-            v-if="completedList"
-            class="dropdown-divider"
-          />
-          <button
-            v-if="completedList"
-            id="clear-btn"
-            class="btn btn-danger"
-            @click="clearTasks"
-          >
-            Clear All
-          </button>
-        </div>
-      </div>
+      <!--      <v-menu offset-y>-->
+      <!--        <template v-slot:activator="{ on }">-->
+      <!--          <v-btn-->
+      <!--            v-on="on"-->
+      <!--          >-->
+      <!--            <font-awesome-icon :icon="btnIcon" />-->
+      <!--          </v-btn>-->
+      <!--        </template>-->
+      <!--        <v-select-->
+      <!--          :items="sortingOptions"-->
+      <!--          label="Sort Order"-->
+      <!--        />-->
+      <!--      </v-menu>-->
+
+      <!--      <div class="dropright">-->
+      <!--        <button-->
+      <!--          :id="btnId"-->
+      <!--          class="btn btn-light"-->
+      <!--          data-toggle="dropdown"-->
+      <!--        >-->
+      <!--          <font-awesome-icon :icon="btnIcon" />-->
+      <!--        </button>-->
+      <!--        <div class="dropdown-menu">-->
+      <!--          <div class="input-group">-->
+      <!--            <select-->
+      <!--              :id="selectId"-->
+      <!--              v-model="sortOrder"-->
+      <!--              class="custom-select"-->
+      <!--            >-->
+      <!--              <option-->
+      <!--                v-for="option in sortingOptions"-->
+      <!--                :key="option"-->
+      <!--                :value="option"-->
+      <!--              >-->
+      <!--                {{ option }}-->
+      <!--              </option>-->
+      <!--            </select>-->
+      <!--            <div class="input-group-append">-->
+      <!--              <label-->
+      <!--                class="input-group-text"-->
+      <!--                :for="selectId"-->
+      <!--              >First</label>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--          <div-->
+      <!--            v-if="completedList"-->
+      <!--            class="dropdown-divider"-->
+      <!--          />-->
+      <!--          <button-->
+      <!--            v-if="completedList"-->
+      <!--            id="clear-btn"-->
+      <!--            class="btn btn-danger"-->
+      <!--            @click="clearTasks"-->
+      <!--          >-->
+      <!--            Clear All-->
+      <!--          </button>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
 
     <!-- New Task Input Field -->
-    <input
+    <v-text-field
       v-if="!completedList"
       id="new-task"
       v-model="newTask"
-      type="text"
-      class="form-control"
-      placeholder="enter new task"
+      label="enter new task"
       @keyup.enter="addNewTask"
-    >
+    />
 
     <!-- TaskList -->
-    <ul class="task-list list-group">
+    <v-list-item-group class="task-list">
       <Task
         v-for="task in sortedTasks"
         :key="task.id"
         :task="task"
       />
-    </ul>
+    </v-list-item-group>
   </div>
 </template>
 
@@ -122,7 +134,9 @@ export default {
     btnId: function () { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
     btnIcon: function () { return this.completedList ? faBars : faSort },
     selectId: function () { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
-    sortingOptions: function () { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
+    sortingOptions: function () {
+      return (this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ]).map(word => word + ' First')
+    },
     sortedTasks: function () { return this.sortOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks }
   },
   mounted: function () {
@@ -157,9 +171,9 @@ export default {
     margin-left: 40px;
   }
 
-  .title-section > .dropright {
-    height: 42px;
-    margin-bottom: 4px;
-  }
+  /*.title-section > .dropright {*/
+  /*  height: 42px;*/
+  /*  margin-bottom: 4px;*/
+  /*}*/
 
 </style>

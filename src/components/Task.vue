@@ -1,95 +1,27 @@
 <template>
-  <li class="task list-group-item form-check">
-    <div class="d-flex">
-      <!--  Main Section (Flex Grow)  -->
-      <div class="flex-grow-1 d-flex align-items-center">
-        <!--  Checkbox Container  -->
-        <div class="checkbox-container">
-          <input
-            v-model="task.completed"
-            class="task-checkbox"
-            type="checkbox"
-            @change="completeTask(task.id)"
-          >
-          <span class="check-custom" />
-        </div>
+  <v-list-item>
+    <template v-slot:default="{ active }">
+      <v-list-item-action>
+        <v-checkbox v-model="active" />
+      </v-list-item-action>
 
-        <!--  Task Name & Field (when editing)  -->
-        <span
-          v-if="!editing"
-          @click="editing = true"
-        >{{ task.name }}</span>
-        <div
-          v-if="editing"
-          class="d-flex align-items-center"
-        >
-          <input
-            v-model="task.name"
-            class="edit-task"
-            @keyup.enter="editing = false"
-          >
-          <button
-            type="button"
-            class="btn btn-primary"
-            @click="editing = false"
-          >
-            <font-awesome-icon :icon="icon.faSave" />
-          </button>
-        </div>
-      </div>
-
-      <!--  Task Settings Button  -->
-      <div class="dropright">
-        <button
-          type="button"
-          class="btn btn-light"
-          data-toggle="dropdown"
-        >
-          <font-awesome-icon :icon="icon.faEllipsisH" />
-        </button>
-        <div class="dropdown-menu">
-          <h6>
-            {{ dateType }} on
-          </h6>
-          <div>
-            {{ displayDate }}
-          </div>
-          <div>
-            {{ displayTime }}
-          </div>
-          <div class="dropdown-divider" />
-          <div class="flex-column">
-            <button
-              type="button"
-              class="btn btn-warning btn-sm"
-              @click="editing = true"
-            >
-              <font-awesome-icon :icon="icon.faPencilAlt" />
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger btn-sm"
-              @click="deleteTask(task.id)"
-            >
-              <font-awesome-icon :icon="icon.faTrashAlt" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </li>
+      <v-list-item-content>
+        <v-list-item-title>{{ task.name }}</v-list-item-title>
+      </v-list-item-content>
+    </template>
+  </v-list-item>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faEllipsisH, faPencilAlt, faSave, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
 
 export default {
   name: 'Task',
   components: {
-    FontAwesomeIcon
+    // FontAwesomeIcon
   },
   props: {
     task: {
