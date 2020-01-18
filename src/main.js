@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 // Boostrap
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 
 // Vuex store
 import store from './store'
