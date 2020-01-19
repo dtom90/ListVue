@@ -14,7 +14,7 @@ export default new Vuex.Store({
         tasks: []
       }
     ],
-    selected: 'Inbox'
+    selected: 0
   },
   getters,
   mutations,

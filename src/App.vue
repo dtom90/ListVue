@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -25,25 +25,23 @@
     </v-app-bar>
 
     <v-content>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <TaskList
-            title="To Do List"
-            :tasks="incompleteTasks"
-          />
-          <br>
-          <br>
-          <TaskList
-            v-if="completedTasks.length > 0"
-            title="Completed Tasks"
-            :tasks="completedTasks"
-          />
+      <v-container>
+        <v-row justify="center">
+          <v-col>
+            <div class="list-container">
+              <TaskList
+                :title="selectedList.name"
+                :tasks="incompleteTasks"
+              />
+              <br>
+              <br>
+              <TaskList
+                v-if="completedTasks.length > 0"
+                title="Completed Tasks"
+                :tasks="completedTasks"
+              />
+            </div>
+          </v-col>
         </v-row>
       </v-container>
     </v-content>
@@ -62,9 +60,17 @@ export default {
   }),
   computed: {
     ...mapGetters([
+      'selectedList',
       'incompleteTasks',
       'completedTasks'
     ])
   }
 }
 </script>
+
+<style>
+  .list-container {
+    max-width: 700px;
+    margin: auto;
+  }
+</style>

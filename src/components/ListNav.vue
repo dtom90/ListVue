@@ -1,12 +1,12 @@
 <template>
   <v-list nav>
     <v-list-item-group
-      v-model="selectedList"
-      link
+      v-model="listIndex"
+      color="primary"
     >
       <v-list-item
         v-for="list in lists"
-        :key="list"
+        :key="list.name"
       >
         <v-list-item-action>
           <v-icon />
@@ -22,16 +22,26 @@
 </template>
 
 <script>
-
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'ListNav',
   computed: {
     ...mapState([
       'lists',
-      'selectedList'
-    ])
+      'selected'
+    ]),
+    ...mapMutations([
+      'selectList'
+    ]),
+    listIndex: {
+      get () {
+        return this.selected
+      },
+      set (listIndex) {
+        this.selectList({ listIndex })
+      }
+    }
   }
 }
 </script>
