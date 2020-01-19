@@ -5,14 +5,12 @@ const getters = {
 
   incompleteTasks (state) {
     const list = state.lists[state.selected]
-    const incompleteTasks = list.tasks.filter(t => !t.completed)
-    return state.incompleteOrder === 'Newest' ? incompleteTasks.reverse() : incompleteTasks
+    return list.tasks.filter(t => !t.completed)
   },
 
   completedTasks (state) {
     const list = state.lists[state.selected]
-    const completedTasks = list.tasks.filter(t => t.completed).sort((a, b) => a.completedDate - b.completedDate)
-    return state.completedOrder === 'Recent' ? completedTasks.reverse() : completedTasks
+    return list.tasks.filter(t => t.completed).reverse()
   }
 }
 

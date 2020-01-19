@@ -3,6 +3,7 @@
     <v-list-item-group
       v-model="listIndex"
       color="primary"
+      mandatory
     >
       <v-list-item
         v-for="list in lists"
@@ -31,9 +32,6 @@ export default {
       'lists',
       'selected'
     ]),
-    ...mapMutations([
-      'selectList'
-    ]),
     listIndex: {
       get () {
         return this.selected
@@ -42,6 +40,11 @@ export default {
         this.selectList({ listIndex })
       }
     }
+  },
+  methods: {
+    ...mapMutations([
+      'selectList'
+    ])
   }
 }
 </script>

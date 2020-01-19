@@ -2,14 +2,15 @@
   <v-app>
     <v-navigation-drawer
       v-model="drawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
+      :mobile-break-point="$vuetify.breakpoint.thresholds.xs"
+      clipped
       app
     >
       <ListNav />
     </v-navigation-drawer>
 
     <v-app-bar
-      :clipped-left="$vuetify.breakpoint.lgAndUp"
+      clipped-left
       app
       color="blue darken-3"
       dark
@@ -19,13 +20,13 @@
         style="width: 300px"
         class="ml-0 pl-4"
       >
-        <span class="hidden-sm-and-down">ListTrack</span>
+        <span>ListTrack</span>
       </v-toolbar-title>
       <v-spacer />
     </v-app-bar>
 
     <v-content>
-      <v-container>
+      <v-container fluid>
         <v-row justify="center">
           <v-col>
             <div class="list-container">

@@ -10,7 +10,7 @@ export default new Vuex.Store({
   state: {
     lists: [
       {
-        name: 'Inbox',
+        name: 'To Do',
         tasks: []
       }
     ],
