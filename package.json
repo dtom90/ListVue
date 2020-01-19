@@ -10,9 +10,9 @@
     "audit:packages": "yarn audit || test $? -eq 0",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
-    "test:e2e:dev": "testcafe -c 2 chrome,firefox tests/e2e --app \"yarn run dev >/dev/null 2>&1\"",
-    "test:e2e:prod": "yarn run build && PORT=8081 testcafe -c 2 chrome,firefox tests/e2e --app \"yarn run serve:prod\"",
-    "test": "yarn run audit:packages && yarn run lint && yarn run test:unit && yarn run test:e2e:prod"
+    "test:e2e:dev": "testcafe -c 2 chrome tests/e2e --app \"yarn run dev >/dev/null 2>&1\"",
+    "test:e2e:prod": "PORT=8081 testcafe -c 2 chrome,firefox tests/e2e --app \"yarn run serve:prod\"",
+    "test": "yarn run audit:packages && yarn run lint && yarn run test:unit && yarn run build && yarn run test:e2e:prod"
   },
   "dependencies": {
     "core-js": "^3.4.4",

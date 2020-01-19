@@ -19,7 +19,7 @@ jobs:
         command: |
           docker run -i --rm \
                  list-vue-test \
-                 sh -c 'yarn run lint && yarn run test:unit'
+                 sh -c 'yarn run audit:packages && yarn run lint && yarn run test:unit'
     - run:
         name: Build production Docker image
         command: |
