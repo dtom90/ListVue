@@ -1,6 +1,6 @@
 <template>
   <div class="section">
-    <!-- TaskList Title Section -->
+    <!-- Title Section -->
     <div class="title-section">
       <component
         :is="titleTag"
@@ -41,7 +41,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'To Do List'
+      default: 'To Do'
     },
     tasks: {
       type: Array,

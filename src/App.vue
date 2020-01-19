@@ -20,7 +20,7 @@
         style="width: 300px"
         class="ml-0 pl-4"
       >
-        <span>ListTrack</span>
+        <span>List Vue</span>
       </v-toolbar-title>
       <v-spacer />
     </v-app-bar>
@@ -31,7 +31,7 @@
           <v-col>
             <div class="list-container">
               <TaskList
-                :title="selectedList.name"
+                :title="selectedList"
                 :tasks="incompleteTasks"
               />
               <br>

@@ -34,9 +34,9 @@
           <v-list>
             <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title>{{ dateType }} at</v-list-item-title>
+                <v-list-item-title>{{ dateType }} on</v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ displayTime }} {{ displayDate }}
+                  {{ displayDate }} {{ displayTime }}
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -100,7 +100,7 @@ export default {
       return this.task.completed ? this.task.completedDate : this.task.createdDate
     },
     displayDate: function () {
-      return moment(this.date).format('ddd MMM DD YYYY')
+      return moment(this.date).format('ddd MMM DD YYYY,')
     },
     displayTime: function () {
       return moment(this.date).format('h:mm a')

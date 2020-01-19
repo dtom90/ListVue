@@ -1,7 +1,7 @@
-# ToDo-Vue
-[![Build Status](https://travis-ci.org/dtom90/ToDo-Vue.svg?branch=master)](https://travis-ci.org/dtom90/ToDo-Vue)
+# List Vue
+[![Build Status](https://travis-ci.org/dtom90/List-Vue.svg?branch=master)](https://travis-ci.org/dtom90/List-Vue)
 
-Simple To-Do application written in [Vue.js](https://vuejs.org/)
+List management application written in [Vue.js](https://vuejs.org/)
 
 ## Setup
 ```

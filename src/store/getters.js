@@ -1,6 +1,6 @@
 const getters = {
   selectedList (state) {
-    return state.lists[state.selected]
+    return state.lists[state.selected].name
   },
 
   incompleteTasks (state) {

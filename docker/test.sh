@@ -8,12 +8,12 @@ echo "Building test container..."
 echo
 docker build \
        -f docker/Dockerfile \
-       -t todo-vue-test \
+       -t list-vue-test \
        . && \
 echo && echo "Running Lint and Unit Tests..." && echo &&\
 docker run -i --rm \
-       --name todo-vue-test \
-       todo-vue-test \
+       --name list-vue-test \
+       list-vue-test \
        sh -c 'yarn run lint && yarn run test:unit'
 test_exit_code=$?
 if [ ${test_exit_code} != 0 ]; then exit ${test_exit_code}; fi
@@ -38,5 +38,5 @@ test_exit_code=$?
 echo
 echo "Stopping production container..."
 echo
-docker stop todo-vue-prod
+docker stop list-vue-prod
 exit ${test_exit_code}

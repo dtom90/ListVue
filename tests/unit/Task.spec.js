@@ -56,7 +56,7 @@ describe('Task', () => {
     })
     
     it('renders the task name', () => {
-
+      
       expect(wrapper.text()).toMatch(task.name)
       
     })
@@ -68,7 +68,7 @@ describe('Task', () => {
       expect(wrapper.text()).toMatch(moment(task.completedDate).format('h:mm a'))
       
     })
-
+    
     it('does not render the created date', () => {
       
       expect(wrapper.text()).not.toMatch('Created on')

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=todo-vue-test
-CONTAINER_NAME=todo-vue-test
+IMAGE_NAME=list-vue-test
+CONTAINER_NAME=list-vue-test
 
 CMD="$@"
 if [[ -z "$CMD" ]]; then CMD="yarn run dev"; fi
