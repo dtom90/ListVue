@@ -81,13 +81,13 @@
     />
 
     <!-- TaskList -->
-    <v-list-item-group class="task-list">
+    <div class="task-list">
       <Task
         v-for="task in sortedTasks"
         :key="task.id"
         :task="task"
       />
-    </v-list-item-group>
+    </div>
   </div>
 </template>
 

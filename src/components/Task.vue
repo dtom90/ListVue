@@ -1,28 +1,80 @@
 <template>
-  <v-list-item>
-    <template v-slot:default="{ active }">
+  <v-card style="margin-bottom: 10px;">
+    <v-list-item>
       <v-list-item-action>
-        <v-checkbox v-model="active" />
+        <v-checkbox
+          v-model="task.completed"
+          @change="completeTask(task.id)"
+        />
       </v-list-item-action>
 
       <v-list-item-content>
-        <v-list-item-title>{{ task.name }}</v-list-item-title>
+        <v-list-item-title v-if="!editing">
+          {{ task.name }}
+        </v-list-item-title>
+        <v-text-field
+          v-if="editing"
+          v-model="task.name"
+          @keyup.enter="editing = false"
+        />
       </v-list-item-content>
-    </template>
-  </v-list-item>
+
+      <v-list-item-action>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              icon
+              v-on="on"
+            >
+              <v-icon color="grey lighten-1">
+                mdi-information
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item two-line>
+              <v-list-item-content>
+                <v-list-item-title>{{ dateType }} at</v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ displayTime }} {{ displayDate }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+          <v-divider />
+          <v-list>
+            <v-btn
+              color="warning"
+              fab
+              small
+              dark
+              class="menu-btn"
+              @click="editing = true"
+            >
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn
+              color="error"
+              fab
+              small
+              dark
+              class="menu-btn"
+            >
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </v-list>
+        </v-menu>
+      </v-list-item-action>
+    </v-list-item>
+  </v-card>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
-// import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faEllipsisH, faPencilAlt, faSave, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
 
 export default {
   name: 'Task',
-  components: {
-    // FontAwesomeIcon
-  },
   props: {
     task: {
       type: Object,
@@ -48,13 +100,10 @@ export default {
       return this.task.completed ? this.task.completedDate : this.task.createdDate
     },
     displayDate: function () {
-      return moment(this.date).format('ddd MMM DD YYYY,')
+      return moment(this.date).format('ddd MMM DD YYYY')
     },
     displayTime: function () {
       return moment(this.date).format('h:mm a')
-    },
-    icon () {
-      return { faEllipsisH, faPencilAlt, faSave, faTrashAlt }
     }
   },
   methods: {
@@ -66,64 +115,8 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-  .task {
-    text-align: left;
-  }
-
-  /* Adapted from https://hackernoon.com/hacking-custom-checkboxes-and-radios-5d48230440d */
-
-  $checkbox-size: 2rem;
-
-  .checkbox-container {
-    margin-right: 20px;
-    position: relative;
-    width: $checkbox-size;
-    height: $checkbox-size;
-  }
-
-  .checkbox-container > * {
-    position: absolute;
-    width: $checkbox-size;
-    height: $checkbox-size;
-  }
-
-  /* Styles for hiding the native checkbox */
-  .task-checkbox {
-    z-index: 2;
-    opacity: 0;
-    cursor: pointer;
-  }
-
-  /* Styles for the basic appearance of the custom checkbox */
-  .check-custom {
-    border: 2px solid #969696;
-    border-radius: 50%;
-  }
-
-  /* Styles for the hover state of the custom checkbox */
-  .task-checkbox:hover ~ .check-custom {
-    border-color: #4a4a4a;
-  }
-
-  /* Styles for the focus state of the custom checkbox */
-  .task-checkbox:focus ~ .check-custom {
-    border-color: #b0d5ff;
-    box-shadow: 0 0 0 2px rgba(23, 133, 255, 0.25);
-  }
-
-  /* Styles for the checked state of the custom checkbox */
-  .task-checkbox:checked ~ .check-custom {
-    border-color: #1785ff;
-    background: #1785ff url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSIyMCA2IDkgMTcgNCAxMiI+PC9wb2x5bGluZT48L3N2Zz4=) center no-repeat;
-    background-size: 75%;
-  }
-
-  .dropdown-menu > :not(.dropdown-divider) {
+<style scoped>
+  .menu-btn {
     margin-left: 8px;
-  }
-
-  .dropdown-menu button {
-    margin-right: 8px;
   }
 </style>
