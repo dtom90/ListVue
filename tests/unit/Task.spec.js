@@ -16,7 +16,7 @@ describe('Task', () => {
     }
     
     const wrapper = shallowMount(Task, {
-      propsData: { task: task }
+      propsData: { task }
     })
     
     it('renders the task name', () => {
@@ -42,7 +42,7 @@ describe('Task', () => {
   })
   
   describe('Complete', () => {
-
+    
     const task = {
       id: 1,
       name: 'new task 1',
