@@ -58,7 +58,7 @@ export default {
     newTask: ''
   }),
   computed: {
-    completedList: function () { return this.title === 'Completed Tasks' },
+    completedList: function () { return this.title === 'Completed' },
     titleTag: function () { return this.completedList ? 'h3' : 'h1' }
   },
   methods: {

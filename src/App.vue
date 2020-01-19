@@ -38,7 +38,7 @@
               <br>
               <TaskList
                 v-if="completedTasks.length > 0"
-                title="Completed Tasks"
+                title="Completed"
                 :tasks="completedTasks"
               />
             </div>

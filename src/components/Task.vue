@@ -1,5 +1,5 @@
 <template>
-  <v-card style="margin-bottom: 10px;">
+  <v-card class="task">
     <v-list-item>
       <v-list-item-action>
         <v-checkbox
@@ -10,11 +10,15 @@
 
       <v-list-item-content>
         <v-list-item-title v-if="!editing">
-          {{ task.name }}
+          <span>{{ task.name }}</span>
         </v-list-item-title>
         <v-text-field
           v-if="editing"
           v-model="task.name"
+          class="edit-task"
+          filled
+          append-icon="mdi-content-save"
+          @click:append="editing = false"
           @keyup.enter="editing = false"
         />
       </v-list-item-content>
@@ -36,7 +40,7 @@
               <v-list-item-content>
                 <v-list-item-title>{{ dateType }} on</v-list-item-title>
                 <v-list-item-subtitle>
-                  {{ displayDate }} {{ displayTime }}
+                  <span>{{ displayDate }} {{ displayTime }}</span>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
@@ -116,6 +120,10 @@ export default {
 </script>
 
 <style scoped>
+  .task {
+    margin-bottom: 10px;
+  }
+
   .menu-btn {
     margin-left: 8px;
   }

@@ -9,7 +9,7 @@ const tasks = [
 
 const titles = [
   ['To Do', 'h1'],
-  ['Completed Tasks', 'h3']
+  ['Completed', 'h3']
 ]
 
 describe('TaskList', () => {
