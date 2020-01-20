@@ -16,7 +16,7 @@ describe('Task', () => {
     }
     
     const wrapper = shallowMount(Task, {
-      propsData: { task: task }
+      propsData: { task }
     })
     
     it('renders the task name', () => {
@@ -42,7 +42,7 @@ describe('Task', () => {
   })
   
   describe('Complete', () => {
-
+    
     const task = {
       id: 1,
       name: 'new task 1',
@@ -56,7 +56,7 @@ describe('Task', () => {
     })
     
     it('renders the task name', () => {
-
+      
       expect(wrapper.text()).toMatch(task.name)
       
     })
@@ -68,7 +68,7 @@ describe('Task', () => {
       expect(wrapper.text()).toMatch(moment(task.completedDate).format('h:mm a'))
       
     })
-
+    
     it('does not render the created date', () => {
       
       expect(wrapper.text()).not.toMatch('Created on')

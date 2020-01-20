@@ -1,105 +1,54 @@
 <template>
   <div class="section">
-    <!-- TaskList Title Section -->
+    <!-- Title Section -->
     <div class="title-section">
-      <!-- TaskList Title -->
       <component
         :is="titleTag"
-        class="title"
       >
         {{ title }}
       </component>
-
-      <!-- TaskList Settings Button -->
-      <div class="dropright">
-        <button
-          :id="btnId"
-          class="btn btn-light"
-          data-toggle="dropdown"
-        >
-          <font-awesome-icon :icon="btnIcon" />
-        </button>
-        <div class="dropdown-menu">
-          <div class="input-group">
-            <select
-              :id="selectId"
-              v-model="sortOrder"
-              class="custom-select"
-            >
-              <option
-                v-for="option in sortingOptions"
-                :key="option"
-                :value="option"
-              >
-                {{ option }}
-              </option>
-            </select>
-            <div class="input-group-append">
-              <label
-                class="input-group-text"
-                :for="selectId"
-              >First</label>
-            </div>
-          </div>
-          <div
-            v-if="completedList"
-            class="dropdown-divider"
-          />
-          <button
-            v-if="completedList"
-            id="clear-btn"
-            class="btn btn-danger"
-            @click="clearTasks"
-          >
-            Clear All
-          </button>
-        </div>
-      </div>
+      <v-btn
+        v-if="completedList"
+        color="error"
+        @click="clearTasks"
+      >
+        <span>Clear All</span>
+      </v-btn>
     </div>
 
     <!-- New Task Input Field -->
-    <input
+    <v-text-field
       v-if="!completedList"
       id="new-task"
       v-model="newTask"
-      type="text"
-      class="form-control"
-      placeholder="enter new task"
+      label="enter new task"
       @keyup.enter="addNewTask"
-    >
+    />
 
     <!-- TaskList -->
-    <ul class="task-list list-group">
+    <div class="task-list">
       <Task
-        v-for="task in sortedTasks"
+        v-for="task in tasks"
         :key="task.id"
         :task="task"
       />
-    </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
 import Task from './Task.vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faSort, faBars } from '@fortawesome/free-solid-svg-icons'
-import $ from 'jquery'
-
-$(document).on('click', '.title-section .dropdown-menu', function (e) {
-  e.stopPropagation()
-})
 
 export default {
   name: 'TaskList',
   components: {
-    Task,
-    FontAwesomeIcon
+    Task
   },
   props: {
     title: {
       type: String,
-      default: 'To Do List'
+      default: 'To Do'
     },
     tasks: {
       type: Array,
@@ -113,20 +62,11 @@ export default {
     }
   },
   data: () => ({
-    newTask: '',
-    sortOrder: 'Oldest'
+    newTask: ''
   }),
   computed: {
-    completedList: function () { return this.title === 'Completed Tasks' },
-    titleTag: function () { return this.completedList ? 'h3' : 'h1' },
-    btnId: function () { return this.completedList ? 'completedSettingsButton' : 'todoSettingsButton' },
-    btnIcon: function () { return this.completedList ? faBars : faSort },
-    selectId: function () { return (this.completed ? 'completed' : 'toDo') + 'OrderGroupSelect' },
-    sortingOptions: function () { return this.completedList ? [ 'Recent', 'Oldest' ] : [ 'Oldest', 'Newest' ] },
-    sortedTasks: function () { return this.sortOrder !== 'Oldest' ? this.tasks.slice().reverse() : this.tasks }
-  },
-  mounted: function () {
-    this.sortOrder = this.sortingOptions[0]
+    completedList: function () { return this.title === 'Completed' },
+    titleTag: function () { return this.completedList ? 'h3' : 'h1' }
   },
   methods: {
     ...mapMutations([
@@ -142,24 +82,13 @@ export default {
 </script>
 
 <style scoped>
+  .title-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
 
   #new-task {
     margin-bottom: 10px;
   }
-
-  .title-section {
-    display: flex;
-    align-items: flex-end;
-  }
-
-  .title {
-    flex: 1;
-    margin-left: 40px;
-  }
-
-  .title-section > .dropright {
-    height: 42px;
-    margin-bottom: 4px;
-  }
-
 </style>

@@ -12,28 +12,28 @@ jobs:
         command: |
           docker build \
                  -f docker/Dockerfile \
-                 -t todo-vue-test \
+                 -t list-vue-test \
                  .
     - run:
-        name: Run lint and unit tests
+        name: Run package audit, lint, and unit tests
         command: |
           docker run -i --rm \
-                 todo-vue-test \
-                 sh -c 'yarn run lint && yarn run test:unit'
+                 list-vue-test \
+                 sh -c 'yarn run audit:packages && yarn run lint && yarn run test:unit'
     - run:
         name: Build production Docker image
         command: |
           docker build \
                  -f docker/Dockerfile.production \
-                 -t todo-vue-prod \
+                 -t list-vue-prod \
                  .
     - run:
         name: Run production Docker container
         command: |
           docker run -i --rm \
                  -p 8080:80 \
-                 --name todo-vue-prod \
-                 todo-vue-prod
+                 --name list-vue-prod \
+                 list-vue-prod
         background: true
     - run:
         name: Build TestCafé image
@@ -50,4 +50,4 @@ jobs:
                  todo-testcafe 'chromium --no-sandbox,firefox' /tests
     - run:
         name: Stop production Docker contianer
-        command: docker stop todo-vue-prod
+        command: docker stop list-vue-prod

@@ -1,8 +1,11 @@
-.DS_Store
+# Dependency files
 node_modules
-/dist
 
-# local env files
+# Build files
+/dist
+dist_gh_pages/
+
+# Local env files
 .env.local
 .env.*.local
 
@@ -13,10 +16,14 @@ yarn-error.log*
 docker/*.log
 
 # Editor directories and files
-.idea
+.idea/workspace.xml
+.idea/tasks.xml
 .vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw*
+
+# System files
+.DS_Store
