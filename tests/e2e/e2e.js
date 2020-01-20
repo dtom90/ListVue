@@ -1,8 +1,5 @@
 import { Selector, ClientFunction } from 'testcafe'
 
-const hostname = 'localhost'
-const port = process.env.PORT || '8080'
-
 // Tasks
 const task1 = 'The first task'
 const task2 = 'The second task'
@@ -67,8 +64,13 @@ const deleteHandler = ClientFunction((type, text) => {
   }
 })
 
+const hostname = 'localhost'
+const port = process.env.PORT || '8080'
+const path = process.env.BASE_URL || ''
+const url = `http://${hostname}:${port}${path}`
+
 fixture('To Do List')
-  .page(`http://${hostname}:${port}`)
+  .page(url)
   .beforeEach(async t => {
     await t
 
