@@ -6,11 +6,10 @@ cache: yarn
 
 addons:
   firefox: latest
+  chrome: stable
   apt:
-    sources:
-    - google-chrome
     packages:
-    - google-chrome-stable fluxbox
+      - fluxbox
 
 before_install:
 - stty cols 80
@@ -20,3 +19,14 @@ services:
 
 before_script:
 - fluxbox >/dev/null 2>&1 &
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then yarn run build:gh-pages; fi
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GH_TOKEN
+    local_dir: dist_gh_pages
+    on:
+      branch: master

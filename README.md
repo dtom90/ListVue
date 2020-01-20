@@ -1,7 +1,18 @@
 # List Vue
 [![Build Status](https://travis-ci.org/dtom90/List-Vue.svg?branch=master)](https://travis-ci.org/dtom90/List-Vue)
+[![CircleCI](https://circleci.com/gh/dtom90/ToDo-Vue.svg?style=svg)](https://circleci.com/gh/dtom90/ToDo-Vue)
 
-List management application written in [Vue.js](https://vuejs.org/)
+List management application
+
+- Front-end Framework: [Vue.js](https://vuejs.org/)
+  - State management: [Vuex](https://vuex.vuejs.org/)
+  - UI Framework: [Vuetify](https://vuetifyjs.com/)
+- Testing:
+  - Unit: [Jest](https://jestjs.io/), [Vue Test Utils](https://vue-test-utils.vuejs.org/)
+  - End-to-end: [Testcafé](https://devexpress.github.io/testcafe/)
+- Continuous Integration:
+  - [CircleCI](https://circleci.com/)
+  - [Travis CI](https://travis-ci.com/)
 
 ## Setup
 ```
