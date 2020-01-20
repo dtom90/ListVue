@@ -15,7 +15,7 @@ jobs:
                  -t list-vue-test \
                  .
     - run:
-        name: Run lint and unit tests
+        name: Run package audit, lint, and unit tests
         command: |
           docker run -i --rm \
                  list-vue-test \

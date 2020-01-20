@@ -11,17 +11,10 @@ addons:
     packages:
       - fluxbox
 
-before_install:
-- stty cols 80
-
 services:
   - xvfb
 
-before_script:
-- fluxbox >/dev/null 2>&1 &
-
-after_success:
-  - if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then yarn run build:gh-pages; fi
+script: yarn run test:gh-pages
 
 deploy:
   - provider: pages

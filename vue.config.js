@@ -1,6 +1,6 @@
 module.exports = {
-  'publicPath': '/',
-  'transpileDependencies': [
+  publicPath: process.env.BASE_URL ? process.env.BASE_URL : '/',
+  transpileDependencies: [
     'vuetify'
   ]
 }

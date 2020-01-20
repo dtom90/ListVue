@@ -11,8 +11,8 @@ List management application
   - Unit: [Jest](https://jestjs.io/), [Vue Test Utils](https://vue-test-utils.vuejs.org/)
   - End-to-end: [Testcafé](https://devexpress.github.io/testcafe/)
 - Continuous Integration:
-  - [CircleCI](https://circleci.com/)
-  - [Travis CI](https://travis-ci.com/)
+  - Test: [CircleCI](https://circleci.com/)
+  - Deploy: [Travis CI](https://travis-ci.com/)
 
 ## Setup
 ```

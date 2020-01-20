@@ -1,8 +1,11 @@
-.DS_Store
+# Dependency files
 node_modules
-/dist
 
-# local env files
+# Build files
+/dist
+dist_gh_pages/
+
+# Local env files
 .env.local
 .env.*.local
 
@@ -21,3 +24,6 @@ docker/*.log
 *.njsproj
 *.sln
 *.sw*
+
+# System files
+.DS_Store
