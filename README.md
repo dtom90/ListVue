@@ -1,16 +1,19 @@
 # List Vue
-[![Build Status](https://travis-ci.org/dtom90/List-Vue.svg?branch=master)](https://travis-ci.org/dtom90/List-Vue)
-[![CircleCI](https://circleci.com/gh/dtom90/ToDo-Vue.svg?style=svg)](https://circleci.com/gh/dtom90/ToDo-Vue)
+[![CircleCI](https://circleci.com/gh/dtom90/List-Vue.svg?style=svg)](https://circleci.com/gh/dtom90/List-Vue)
+[![Build Status](https://travis-ci.org/dtom90/ToDo-Vue.svg?branch=master)](https://travis-ci.org/dtom90/ToDo-Vue)
 
 List management application
 
 - Front-end Framework: [Vue.js](https://vuejs.org/)
-  - State management: [Vuex](https://vuex.vuejs.org/)
+  - State Management: [Vuex](https://vuex.vuejs.org/)
   - UI Framework: [Vuetify](https://vuetifyjs.com/)
 - Testing:
+  - Package Audit: [yarn audit](https://yarnpkg.com/lang/en/docs/cli/audit/)
+  - Lint: [ESLint](https://eslint.org/)
   - Unit: [Jest](https://jestjs.io/), [Vue Test Utils](https://vue-test-utils.vuejs.org/)
   - End-to-end: [Testcafé](https://devexpress.github.io/testcafe/)
 - Continuous Integration:
+  - Container: [Docker](https://www.docker.com/)
   - Test: [CircleCI](https://circleci.com/)
   - Deploy: [Travis CI](https://travis-ci.com/)
 
