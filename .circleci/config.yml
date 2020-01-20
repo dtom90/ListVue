@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     working_directory: /app
     docker:
     - image: docker:stable
@@ -40,14 +40,24 @@ jobs:
         command: |
           docker build \
                  -f docker/Dockerfile.testcafe \
-                 -t todo-testcafe \
+                 -t list-vue-testcafe \
                  .
     - run:
         name: Run TestCafé against production container
         command: |
           docker run -i --rm \
                  --net="host" \
-                 todo-testcafe 'chromium --no-sandbox,firefox' /tests
+                 list-vue-testcafe 'chromium --no-sandbox,firefox' /tests
     - run:
         name: Stop production Docker contianer
         command: docker stop list-vue-prod
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - gh-pages

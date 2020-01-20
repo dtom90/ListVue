@@ -1,5 +1,5 @@
 <template>
-  <v-card class="task">
+  <v-card>
     <v-list-item>
       <v-list-item-action>
         <v-checkbox
@@ -133,10 +133,6 @@ export default {
 </script>
 
 <style scoped>
-  .task {
-    margin-bottom: 10px;
-  }
-
   .menu-btn {
     margin-left: 8px;
   }

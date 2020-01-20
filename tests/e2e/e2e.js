@@ -21,7 +21,7 @@ const clearAllButton = doneSection.find('button').withText('CLEAR ALL')
 
 // Task selectors
 const tasksPresent = ClientFunction((taskList, expectedTasks, checked = false) => {
-  const tasks = taskList().childNodes
+  const tasks = taskList().getElementsByClassName('task')
   return tasks.length === expectedTasks.length &&
     [].every.call(tasks, (task, i) => {
       const input = task.getElementsByTagName('input')[0]

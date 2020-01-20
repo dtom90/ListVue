@@ -1,14 +1,28 @@
+import uuid from 'uuid/v1'
 import getters from './getters'
 
 const mutations = {
   selectList (state, { listIndex }) {
     state.selected = listIndex
   },
-
+  
+  addList (state, { newListName }) {
+    state.lists.push({
+      id: uuid(),
+      name: newListName,
+      tasks: [],
+      completed: []
+    })
+  },
+  
+  updateListName (state, { newListName }) {
+    state.lists[state.selected].name = newListName
+  },
+  
   addTask (state, newTaskName) {
     const list = state.lists[state.selected]
     const newTask = {
-      id: list.tasks.length,
+      id: uuid(),
       name: newTaskName,
       completed: false,
       createdDate: new Date(),
@@ -17,6 +31,10 @@ const mutations = {
     list.tasks.push(newTask)
   },
 
+  updateIncompleteTasks (state, { newTaskOrder }) {
+    state.lists[state.selected].tasks = newTaskOrder
+  },
+  
   completeTask (state, { taskId, completed }) {
     const list = state.lists[state.selected]
     const type = completed ? 'tasks' : 'completed'
@@ -31,7 +49,7 @@ const mutations = {
       list.tasks.push(task)
     }
   },
-
+  
   deleteTask (state, { taskId, completed }) {
     const list = state.lists[state.selected][completed ? 'completed' : 'tasks']
     const index = list.findIndex(t => t.id === taskId)
@@ -40,7 +58,7 @@ const mutations = {
       list.splice(index, 1)
     }
   },
-
+  
   clearTasks (state) {
     const completedTasks = getters.completedTasks(state)
     if (completedTasks.length === 1 || confirm(`Are you sure that you want to delete all ${completedTasks.length} completed tasks?`)) {
