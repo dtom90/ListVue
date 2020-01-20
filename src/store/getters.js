@@ -5,12 +5,12 @@ const getters = {
 
   incompleteTasks (state) {
     const list = state.lists[state.selected]
-    return list.tasks.filter(t => !t.completed)
+    return list.tasks
   },
 
   completedTasks (state) {
     const list = state.lists[state.selected]
-    return list.tasks.filter(t => t.completed).reverse()
+    return list.completed
   }
 }
 

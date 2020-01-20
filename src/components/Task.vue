@@ -4,7 +4,7 @@
       <v-list-item-action>
         <v-checkbox
           v-model="task.completed"
-          @change="completeTask(task.id)"
+          @change="completeThisTask"
         />
       </v-list-item-action>
 
@@ -63,6 +63,7 @@
               small
               dark
               class="menu-btn"
+              @click="deleteThisTask"
             >
               <v-icon>mdi-delete</v-icon>
             </v-btn>
@@ -114,7 +115,19 @@ export default {
     ...mapMutations([
       'completeTask',
       'deleteTask'
-    ])
+    ]),
+    completeThisTask () {
+      this.completeTask({
+        taskId: this.task.id,
+        completed: this.task.completed
+      })
+    },
+    deleteThisTask () {
+      this.deleteTask({
+        taskId: this.task.id,
+        completed: this.task.completed
+      })
+    }
   }
 }
 </script>

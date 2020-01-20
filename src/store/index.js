@@ -11,7 +11,8 @@ export default new Vuex.Store({
     lists: [
       {
         name: 'To Do',
-        tasks: []
+        tasks: [],
+        completed: []
       }
     ],
     selected: 0

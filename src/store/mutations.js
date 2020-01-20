@@ -1,3 +1,5 @@
+import getters from './getters'
+
 const mutations = {
   selectList (state, { listIndex }) {
     state.selected = listIndex
@@ -15,26 +17,34 @@ const mutations = {
     list.tasks.push(newTask)
   },
 
-  completeTask (state, id) {
+  completeTask (state, { taskId, completed }) {
     const list = state.lists[state.selected]
-    const task = list.tasks.find(t => t.id === id)
-    if (task.completed) { task.completedDate = Date.now() } else { task.completedDate = null }
+    const type = completed ? 'tasks' : 'completed'
+    const index = list[type].findIndex(t => t.id === taskId)
+    const task = list[type][index]
+    list[type].splice(index, 1)
+    if (completed) {
+      task.completedDate = Date.now()
+      list.completed.unshift(task)
+    } else {
+      task.completedDate = null
+      list.tasks.push(task)
+    }
   },
 
-  deleteTask (state, id) {
-    const list = state.lists[state.selected]
-    const index = list.tasks.findIndex(t => t.id === id)
-    const task = list.tasks[index]
-    if (task.completed || confirm(`Are you sure you want to delete task ${task.name}? the task is not yet complete!`)) {
-      list.tasks.splice(index, 1)
+  deleteTask (state, { taskId, completed }) {
+    const list = state.lists[state.selected][completed ? 'completed' : 'tasks']
+    const index = list.findIndex(t => t.id === taskId)
+    const task = list[index]
+    if (completed || confirm(`Are you sure you want to delete task ${task.name}? the task is not yet complete!`)) {
+      list.splice(index, 1)
     }
   },
 
   clearTasks (state) {
-    const list = state.lists[state.selected]
-    const completedTasks = list.tasks.filter(t => t.completed)
+    const completedTasks = getters.completedTasks(state)
     if (completedTasks.length === 1 || confirm(`Are you sure that you want to delete all ${completedTasks.length} completed tasks?`)) {
-      list.tasks = list.tasks.filter(t => !t.completed)
+      state.lists[state.selected].completed = []
     }
   }
 }

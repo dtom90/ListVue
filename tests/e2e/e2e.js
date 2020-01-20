@@ -20,8 +20,7 @@ const todoTasks = todoList.find('.task')
 const doneSection = Selector('.section').withText('Completed')
 const doneList = doneSection.find('.task-list')
 const doneTasks = doneList.find('.task')
-const doneMenuButton = doneSection.find('button').child('svg.fa-bars')
-const clearAllButton = Selector('button').withText('Clear All')
+const clearAllButton = doneSection.find('button').withText('CLEAR ALL')
 
 // Task selectors
 const tasksPresent = ClientFunction((taskList, expectedTasks, checked = false) => {
@@ -72,18 +71,18 @@ fixture('To Do List')
   .page(`http://${hostname}:${port}`)
   .beforeEach(async t => {
     await t
-      
+
       // Expect an empty To Do List
       .expect(todoSection.find('h1').withText('To Do').exists).ok()
       .expect(todoTasks.count).eql(0)
       .expect(doneSection.exists).notOk()
       .expect(doneTasks.count).eql(0)
-      
+
       // Add tasks
       .typeText(newTaskInput, task1).pressKey('enter')
       .typeText(newTaskInput, task2).pressKey('enter')
       .typeText(newTaskInput, task3).pressKey('enter')
-      
+
       // Expect all 3 tasks in the To Do List
       .expect(tasksPresent(todoList, [task1, task2, task3])).ok()
   })
@@ -100,14 +99,14 @@ test('Complete tasks, expect most recently-deleted first', async t => {
 
 test('Modify task in the To Do list and then mark it as complete', async t => {
   await t
-    
+
     .click(menuButton(task3))
     .click(editButton)
     .expect(editTaskInput.value).eql(task3)
     .typeText(editTaskInput, ' modified', { caretPos: 3 })
     .pressKey('enter')
     .expect(tasksPresent(todoList, [task1, task2, task3mod])).ok()
-    
+
     .expect(doneSection.exists).notOk()
     .click(checkbox(task3mod))
     .expect(tasksPresent(todoList, [task1, task2])).ok()
@@ -118,7 +117,7 @@ test('Click incomplete task delete button, expect confirmation popup, do not con
   await t
     .setNativeDialogHandler(deleteHandler, { dependencies: { taskName: task2, deleteTask: false } })
     .click(menuButton(task2))
-    .click(deleteButton(task2))
+    .click(deleteButton)
     .expect(tasksPresent(todoList, [task1, task2, task3])).ok()
     .expect(doneSection.exists).notOk()
 })
@@ -127,7 +126,7 @@ test('Click incomplete task delete button, expect confirmation popup, confirm de
   await t
     .setNativeDialogHandler(deleteHandler, { dependencies: { taskName: task1, deleteTask: true } })
     .click(menuButton(task1))
-    .click(deleteButton(task1))
+    .click(deleteButton)
     .expect(tasksPresent(todoList, [task2, task3])).ok()
     .expect(doneSection.exists).notOk()
 })
@@ -138,7 +137,7 @@ test('Click completed task delete button, expect no confirmation popup', async t
     .expect(tasksPresent(todoList, [task1, task2])).ok()
     .expect(tasksPresent(doneList, [task3], true)).ok()
     .click(menuButton(task3))
-    .click(deleteButton(task3))
+    .click(deleteButton)
     .expect(tasksPresent(todoList, [task1, task2])).ok()
     .expect(doneSection.exists).notOk()
 })
@@ -146,9 +145,10 @@ test('Click completed task delete button, expect no confirmation popup', async t
 test('Modify task in the completed list', async t => {
   await t
     .click(checkbox(task2))
-    .click(doneTasks.find('span').withText(task2))
-    .expect(Selector('input.edit-task').value).eql(task2)
-    .typeText(Selector('input.edit-task'), 'completed ', { caretPos: 11 })
+    .click(menuButton(task2))
+    .click(editButton)
+    .expect(editTaskInput.value).eql(task2)
+    .typeText(editTaskInput, 'completed ', { caretPos: 11 })
     .click(saveButton())
     .expect(tasksPresent(todoList, [task1, task3])).ok()
     .expect(tasksPresent(doneList, [task2mod], true)).ok()
@@ -162,7 +162,6 @@ test('Click the Clear button to clear all completed tasks', async t => {
     .expect(tasksPresent(todoList, [])).ok()
     .expect(tasksPresent(doneList, [task1, task2, task3], true)).ok()
     .setNativeDialogHandler(deleteHandler, { dependencies: { numCompletedTasks: 3, deleteTask: true } })
-    .click(doneMenuButton)
     .click(clearAllButton)
     .expect(doneSection.exists).notOk()
 })
@@ -173,7 +172,6 @@ test('Complete task, click the Clear button, expect no popup', async t => {
     .expect(tasksPresent(todoList, [task2, task3])).ok()
     .expect(tasksPresent(doneList, [task1], true)).ok()
     .setNativeDialogHandler(deleteHandler, { dependencies: { numCompletedTasks: 9, deleteTask: false } })
-    .click(doneMenuButton)
     .click(clearAllButton)
     .expect(tasksPresent(todoList, [task2, task3])).ok()
     .expect(doneSection.exists).notOk()

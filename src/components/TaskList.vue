@@ -7,6 +7,13 @@
       >
         {{ title }}
       </component>
+      <v-btn
+        v-if="completedList"
+        color="error"
+        @click="clearTasks"
+      >
+        <span>Clear All</span>
+      </v-btn>
     </div>
 
     <!-- New Task Input Field -->
@@ -76,6 +83,8 @@ export default {
 
 <style scoped>
   .title-section {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 10px;
   }
 
