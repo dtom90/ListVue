@@ -4,17 +4,7 @@ node_js: lts/*
 
 cache: yarn
 
-addons:
-  firefox: latest
-  chrome: stable
-  apt:
-    packages:
-      - fluxbox
-
-services:
-  - xvfb
-
-script: yarn run test:gh-pages
+script: yarn run build:gh-pages
 
 deploy:
   - provider: pages
