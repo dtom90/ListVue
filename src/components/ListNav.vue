@@ -7,7 +7,7 @@
     >
       <v-list-item
         v-for="list in lists"
-        :key="list.name"
+        :key="list.id"
       >
         <v-list-item-action>
           <v-icon />

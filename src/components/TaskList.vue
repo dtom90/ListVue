@@ -43,14 +43,12 @@
       v-bind="dragOptions"
       class="task-list"
     >
-      <transition-group>
-        <Task
-          v-for="task in tasks"
-          :key="task.id"
-          :task="task"
-          :class="'task' + (isCompletedList ? '' : ' draggable-task')"
-        />
-      </transition-group>
+      <Task
+        v-for="task in tasks"
+        :key="task.id"
+        :task="task"
+        :class="'task' + (isCompletedList ? '' : ' draggable-task')"
+      />
     </draggable>
   </div>
 </template>

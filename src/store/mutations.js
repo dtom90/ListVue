@@ -8,6 +8,7 @@ const mutations = {
   
   addList (state, { newListName }) {
     state.lists.push({
+      id: uuid(),
       name: newListName,
       tasks: [],
       completed: []
