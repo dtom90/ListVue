@@ -4,7 +4,19 @@ const mutations = {
   selectList (state, { listIndex }) {
     state.selected = listIndex
   },
-
+  
+  addList (state, { newListName }) {
+    state.lists.push({
+      name: newListName,
+      tasks: [],
+      completed: []
+    })
+  },
+  
+  updateListName (state, { newListName }) {
+    state.lists[state.selected].name = newListName
+  },
+  
   addTask (state, newTaskName) {
     const list = state.lists[state.selected]
     const newTask = {
@@ -16,7 +28,7 @@ const mutations = {
     }
     list.tasks.push(newTask)
   },
-
+  
   completeTask (state, { taskId, completed }) {
     const list = state.lists[state.selected]
     const type = completed ? 'tasks' : 'completed'
@@ -31,7 +43,7 @@ const mutations = {
       list.tasks.push(task)
     }
   },
-
+  
   deleteTask (state, { taskId, completed }) {
     const list = state.lists[state.selected][completed ? 'completed' : 'tasks']
     const index = list.findIndex(t => t.id === taskId)
@@ -40,7 +52,7 @@ const mutations = {
       list.splice(index, 1)
     }
   },
-
+  
   clearTasks (state) {
     const completedTasks = getters.completedTasks(state)
     if (completedTasks.length === 1 || confirm(`Are you sure that you want to delete all ${completedTasks.length} completed tasks?`)) {

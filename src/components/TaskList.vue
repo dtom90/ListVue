@@ -4,9 +4,20 @@
     <div class="title-section">
       <component
         :is="titleTag"
+        v-if="!editName"
+        @click="editName = true"
       >
         {{ title }}
       </component>
+      <v-text-field
+        v-if="editName"
+        v-model="newListName"
+        autofocus
+        append-icon="mdi-content-save"
+        @click:append="updateName"
+        @keyup.enter="updateName"
+        @blur="editName = false"
+      />
       <v-btn
         v-if="completedList"
         color="error"
@@ -62,17 +73,32 @@ export default {
     }
   },
   data: () => ({
+    editName: false,
+    newListName: '',
     newTask: ''
   }),
   computed: {
     completedList: function () { return this.title === 'Completed' },
     titleTag: function () { return this.completedList ? 'h3' : 'h1' }
   },
+  watch: {
+    title () {
+      this.newListName = this.title
+    }
+  },
+  mounted () {
+    this.newListName = this.title
+  },
   methods: {
     ...mapMutations([
+      'updateListName',
       'addTask',
       'clearTasks'
     ]),
+    updateName () {
+      this.editName = false
+      this.updateListName({ newListName: this.newListName })
+    },
     addNewTask () {
       this.addTask(this.newTask)
       this.newTask = ''
