@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=list-vue-test
-CONTAINER_NAME=list-vue-test
+IMAGE_NAME=listvue-test
+CONTAINER_NAME=listvue-test
 
 CMD="$@"
 if [[ -z "$CMD" ]]; then CMD="yarn run dev"; fi
