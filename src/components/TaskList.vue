@@ -40,7 +40,7 @@
     <draggable
       v-model="incompleteTaskList"
       :disabled="isCompletedList"
-      v-bind="dragOptions"
+      animation="200"
       class="task-list"
       @start="startDrag"
       @end="endDrag"
@@ -96,12 +96,6 @@ export default {
       },
       set (newTaskOrder) {
         this.updateIncompleteTasks({ newTaskOrder })
-      }
-    },
-    dragOptions () {
-      return {
-        animation: 200,
-        disabled: false
       }
     }
   },
