@@ -1,3 +1,4 @@
+import uuid from 'uuid/v1'
 import getters from './getters'
 
 const mutations = {
@@ -20,7 +21,7 @@ const mutations = {
   addTask (state, newTaskName) {
     const list = state.lists[state.selected]
     const newTask = {
-      id: list.tasks.length,
+      id: uuid(),
       name: newTaskName,
       completed: false,
       createdDate: new Date(),
