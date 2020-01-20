@@ -12,6 +12,6 @@ docker run -i --rm \
        -p 8080:8080 \
        -v `pwd`:/app \
        -w /app \
-       --name list-vue-dev \
+       --name listvue-dev \
        ${IMAGE_NAME} \
        ${CMD}

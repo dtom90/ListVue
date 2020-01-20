@@ -20,7 +20,7 @@
         style="width: 300px"
         class="ml-0 pl-4"
       >
-        <span>List Vue</span>
+        <span>ListVue</span>
       </v-toolbar-title>
       <v-spacer />
     </v-app-bar>

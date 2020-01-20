@@ -12,45 +12,45 @@ jobs:
         command: |
           docker build \
                  -f docker/Dockerfile \
-                 -t list-vue-test \
+                 -t listvue-test \
                  .
     - run:
         name: Run package audit, lint, and unit tests
         command: |
           docker run -i --rm \
-                 list-vue-test \
+                 listvue-test \
                  sh -c 'yarn run audit:packages && yarn run lint && yarn run test:unit'
     - run:
         name: Build production Docker image
         command: |
           docker build \
                  -f docker/Dockerfile.production \
-                 -t list-vue-prod \
+                 -t listvue-prod \
                  .
     - run:
         name: Run production Docker container
         command: |
           docker run -i --rm \
                  -p 8080:80 \
-                 --name list-vue-prod \
-                 list-vue-prod
+                 --name listvue-prod \
+                 listvue-prod
         background: true
     - run:
         name: Build TestCafé image
         command: |
           docker build \
                  -f docker/Dockerfile.testcafe \
-                 -t list-vue-testcafe \
+                 -t listvue-testcafe \
                  .
     - run:
         name: Run TestCafé against production container
         command: |
           docker run -i --rm \
                  --net="host" \
-                 list-vue-testcafe 'chromium --no-sandbox,firefox' /tests
+                 listvue-testcafe 'chromium --no-sandbox,firefox' /tests
     - run:
         name: Stop production Docker contianer
-        command: docker stop list-vue-prod
+        command: docker stop listvue-prod
 
 workflows:
   version: 2

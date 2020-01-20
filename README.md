@@ -1,5 +1,5 @@
-# List Vue
-[![CircleCI](https://circleci.com/gh/dtom90/List-Vue.svg?style=svg)](https://circleci.com/gh/dtom90/List-Vue)
+# ListVue
+[![CircleCI](https://circleci.com/gh/dtom90/ListVue.svg?style=svg)](https://circleci.com/gh/dtom90/ListVue)
 [![Build Status](https://travis-ci.org/dtom90/ToDo-Vue.svg?branch=master)](https://travis-ci.org/dtom90/ToDo-Vue)
 
 List management application

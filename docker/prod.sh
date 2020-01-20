@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-IMAGE_NAME=list-vue-prod
-CONTAINER_NAME=list-vue-prod
+IMAGE_NAME=listvue-prod
+CONTAINER_NAME=listvue-prod
 
 THIS_DIR=$(dirname "$0")
 cd "${THIS_DIR}/.."
