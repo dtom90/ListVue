@@ -28,6 +28,10 @@ const mutations = {
     }
     list.tasks.push(newTask)
   },
+
+  updateIncompleteTasks (state, { newTaskOrder }) {
+    state.lists[state.selected].tasks = newTaskOrder
+  },
   
   completeTask (state, { taskId, completed }) {
     const list = state.lists[state.selected]

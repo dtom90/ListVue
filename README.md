@@ -4,9 +4,11 @@
 
 List management application
 
+#### Tech
 - Front-end Framework: [Vue.js](https://vuejs.org/)
   - State Management: [Vuex](https://vuex.vuejs.org/)
   - UI Framework: [Vuetify](https://vuetifyjs.com/)
+  - Drag-and-drop: [Vue.Draggable](https://sortablejs.github.io/Vue.Draggable/)
 - Testing:
   - Package Audit: [yarn audit](https://yarnpkg.com/lang/en/docs/cli/audit/)
   - Lint: [ESLint](https://eslint.org/)

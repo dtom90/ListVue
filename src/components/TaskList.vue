@@ -19,7 +19,7 @@
         @blur="editName = false"
       />
       <v-btn
-        v-if="completedList"
+        v-if="isCompletedList"
         color="error"
         @click="clearTasks"
       >
@@ -29,7 +29,7 @@
 
     <!-- New Task Input Field -->
     <v-text-field
-      v-if="!completedList"
+      v-if="!isCompletedList"
       id="new-task"
       v-model="newTask"
       label="enter new task"
@@ -37,24 +37,34 @@
     />
 
     <!-- TaskList -->
-    <div class="task-list">
-      <Task
-        v-for="task in tasks"
-        :key="task.id"
-        :task="task"
-      />
-    </div>
+    <draggable
+      v-model="incompleteTaskList"
+      :disabled="isCompletedList"
+      v-bind="dragOptions"
+      class="task-list"
+    >
+      <transition-group>
+        <Task
+          v-for="task in tasks"
+          :key="task.id"
+          :task="task"
+          :class="'task' + (isCompletedList ? '' : ' draggable-task')"
+        />
+      </transition-group>
+    </draggable>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 import Task from './Task.vue'
+import { mapMutations } from 'vuex'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'TaskList',
   components: {
-    Task
+    Task,
+    draggable
   },
   props: {
     title: {
@@ -78,8 +88,22 @@ export default {
     newTask: ''
   }),
   computed: {
-    completedList: function () { return this.title === 'Completed' },
-    titleTag: function () { return this.completedList ? 'h3' : 'h1' }
+    isCompletedList: function () { return this.title === 'Completed' },
+    titleTag: function () { return this.isCompletedList ? 'h3' : 'h1' },
+    incompleteTaskList: {
+      get () {
+        return this.tasks
+      },
+      set (newTaskOrder) {
+        this.updateIncompleteTasks({ newTaskOrder })
+      }
+    },
+    dragOptions () {
+      return {
+        animation: 200,
+        disabled: false
+      }
+    }
   },
   watch: {
     title () {
@@ -93,6 +117,7 @@ export default {
     ...mapMutations([
       'updateListName',
       'addTask',
+      'updateIncompleteTasks',
       'clearTasks'
     ]),
     updateName () {
@@ -107,6 +132,7 @@ export default {
 }
 </script>
 
+<!--suppress CssUnusedSymbol -->
 <style scoped>
   .title-section {
     display: flex;
@@ -116,5 +142,18 @@ export default {
 
   #new-task {
     margin-bottom: 10px;
+  }
+
+  .task {
+    margin-bottom: 10px;
+  }
+
+  .draggable-task:hover {
+    cursor: pointer;
+  }
+
+  .sortable-chosen {
+    background-color: #E3F2FD;
+    cursor: move;
   }
 </style>
