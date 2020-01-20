@@ -42,6 +42,8 @@
       :disabled="isCompletedList"
       v-bind="dragOptions"
       class="task-list"
+      @start="startDrag"
+      @end="endDrag"
     >
       <Task
         v-for="task in tasks"
@@ -125,6 +127,12 @@ export default {
     addNewTask () {
       this.addTask(this.newTask)
       this.newTask = ''
+    },
+    startDrag () {
+      this.$el.closest('html').classList.add('draggable-cursor')
+    },
+    endDrag () {
+      this.$el.closest('html').classList.remove('draggable-cursor')
     }
   }
 }
@@ -146,12 +154,23 @@ export default {
     margin-bottom: 10px;
   }
 
+  /*noinspection CssInvalidPropertyValue*/
   .draggable-task:hover {
-    cursor: pointer;
+    cursor: move; /* fallback: no `url()` support or images disabled */
+    cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
+    cursor:    -moz-grab; /* Firefox 1.5-26 */
+    cursor:         grab; /* W3C standards syntax, should come least */
   }
 
   .sortable-chosen {
     background-color: #E3F2FD;
-    cursor: move;
+  }
+
+  /*noinspection CssInvalidPropertyValue*/
+  .draggable-cursor * {
+    cursor: move !important; /* fallback: no `url()` support or images disabled */
+    cursor: -webkit-grabbing !important; /* Chrome 1-21, Safari 4+ */
+    cursor:    -moz-grabbing !important; /* Firefox 1.5-26 */
+    cursor:         grabbing !important; /* W3C standards syntax, should come least */
   }
 </style>
