@@ -8,7 +8,6 @@ module.exports = {
     'standard'
   ],
   rules: {
-    'no-console': 2,
     'no-trailing-spaces': [
       2,
       {
