@@ -19,7 +19,7 @@ const mutations = {
     state.lists[state.selected].name = newListName
   },
   
-  addTask (state, newTaskName) {
+  addTask (state, { newTaskName, addToBottom }) {
     const list = state.lists[state.selected]
     const newTask = {
       id: uuid(),
@@ -28,7 +28,11 @@ const mutations = {
       createdDate: new Date(),
       completedDate: null
     }
-    list.tasks.push(newTask)
+    if (addToBottom) {
+      list.tasks.push(newTask)
+    } else {
+      list.tasks.unshift(newTask)
+    }
   },
 
   updateIncompleteTasks (state, { newTaskOrder }) {

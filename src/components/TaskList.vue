@@ -28,13 +28,40 @@
     </div>
 
     <!-- New Task Input Field -->
-    <v-text-field
-      v-if="!isCompletedList"
-      id="new-task"
-      v-model="newTask"
-      label="enter new task"
-      @keyup.enter="addNewTask"
-    />
+    <v-row>
+      <v-col>
+        <v-text-field
+          v-if="!isCompletedList"
+          id="new-task"
+          ref="newTask"
+          v-model="newTask"
+          label="enter new task"
+          @keyup.enter="addNewTask"
+        />
+      </v-col>
+
+      <div id="add-to-container">
+        <v-btn-toggle
+          v-model="addToBottom"
+          class="custom-icons"
+          dense
+        >
+          <v-btn @click="keepFocus">
+            <img
+              src="../assets/add_to_top.svg"
+              alt="Add to Top"
+            >
+          </v-btn>
+
+          <v-btn @click="keepFocus">
+            <img
+              src="../assets/add_to_bottom.svg"
+              alt="Add to Bottom"
+            >
+          </v-btn>
+        </v-btn-toggle>
+      </div>
+    </v-row>
 
     <!-- TaskList -->
     <draggable
@@ -85,7 +112,8 @@ export default {
   data: () => ({
     editName: false,
     newListName: '',
-    newTask: ''
+    newTask: '',
+    addToBottom: 1
   }),
   computed: {
     isCompletedList: function () { return this.title === 'Completed' },
@@ -118,8 +146,11 @@ export default {
       this.editName = false
       this.updateListName({ newListName: this.newListName })
     },
+    keepFocus () {
+      this.$refs.newTask.$el.querySelector('input').focus()
+    },
     addNewTask () {
-      this.addTask(this.newTask)
+      this.addTask({ newTaskName: this.newTask, addToBottom: this.addToBottom })
       this.newTask = ''
     },
     startDrag () {
@@ -133,7 +164,7 @@ export default {
 </script>
 
 <!--suppress CssUnusedSymbol -->
-<style scoped>
+<style scoped lang="scss">
   .title-section {
     display: flex;
     justify-content: space-between;
@@ -144,11 +175,19 @@ export default {
     margin-bottom: 10px;
   }
 
+  #add-to-container {
+    padding: 26px 0 26px 0;
+    img {
+      width: 1.5em;
+      height: 1.5em;
+    }
+  }
+
   .task {
     margin-bottom: 10px;
   }
 
-  /*noinspection CssInvalidPropertyValue*/
+  //noinspection CssInvalidPropertyValue
   .draggable-task:hover {
     cursor: move; /* fallback: no `url()` support or images disabled */
     cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
@@ -160,7 +199,7 @@ export default {
     background-color: #E3F2FD;
   }
 
-  /*noinspection CssInvalidPropertyValue*/
+  //noinspection CssInvalidPropertyValue
   .draggable-cursor * {
     cursor: move !important; /* fallback: no `url()` support or images disabled */
     cursor: -webkit-grabbing !important; /* Chrome 1-21, Safari 4+ */
