@@ -2,6 +2,10 @@ import uuid from 'uuid/v1'
 import getters from './getters'
 
 const mutations = {
+  saveLists (state, { lists }) {
+    state.lists = lists
+  },
+  
   selectList (state, { listIndex }) {
     state.selected = listIndex
   },

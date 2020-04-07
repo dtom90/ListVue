@@ -13,7 +13,8 @@ module.exports = {
       {
         skipBlankLines: true
       }
-    ]
+    ],
+    'no-console': 1
   },
   parserOptions: {
     ecmaVersion: 2019

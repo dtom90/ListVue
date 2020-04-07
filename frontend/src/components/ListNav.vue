@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 
 export default {
@@ -77,10 +77,16 @@ export default {
       }
     }
   },
+  created () {
+    this.loadLists()
+  },
   methods: {
     ...mapMutations([
       'selectList',
       'addList'
+    ]),
+    ...mapActions([
+      'loadLists'
     ]),
     blurAddList () {
       this.enterNewListName = false

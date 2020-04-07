@@ -1,6 +1,6 @@
 const getters = {
   selectedList (state) {
-    return state.lists[state.selected].name
+    return state.selected in state.lists ? state.lists[state.selected].name : null
   },
 
   incompleteTasks (state) {
