@@ -13,11 +13,11 @@ export default new Vuex.Store({
     lists: [
       {
         id: uuid(),
-        name: 'To Do',
-        tasks: [],
-        completed: []
+        name: 'To Do'
       }
     ],
+    tasks: [],
+    completed: [],
     selected: 0
   },
   getters,

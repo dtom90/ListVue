@@ -4,13 +4,11 @@ const getters = {
   },
 
   incompleteTasks (state) {
-    const list = state.lists[state.selected]
-    return list.tasks
+    return state.tasks
   },
 
   completedTasks (state) {
-    const list = state.lists[state.selected]
-    return list.completed
+    return state.completed
   }
 }
 

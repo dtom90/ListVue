@@ -30,17 +30,19 @@
         <v-row justify="center">
           <v-col>
             <div class="list-container">
-              <TaskList
-                :title="selectedList"
-                :tasks="incompleteTasks"
-              />
-              <br>
-              <br>
-              <TaskList
-                v-if="completedTasks.length > 0"
-                title="Completed"
-                :tasks="completedTasks"
-              />
+              <div v-if="selectedList">
+                <TaskList
+                  :title="selectedList"
+                  :tasks="incompleteTasks"
+                />
+                <br>
+                <br>
+                <TaskList
+                  v-if="completedTasks.length > 0"
+                  title="Completed"
+                  :tasks="completedTasks"
+                />
+              </div>
             </div>
           </v-col>
         </v-row>

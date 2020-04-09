@@ -24,7 +24,6 @@ const mutations = {
   },
   
   addTask (state, { newTaskName, addToBottom }) {
-    const list = state.lists[state.selected]
     const newTask = {
       id: uuid(),
       name: newTaskName,
@@ -33,33 +32,32 @@ const mutations = {
       completedDate: null
     }
     if (addToBottom) {
-      list.tasks.push(newTask)
+      state.tasks.push(newTask)
     } else {
-      list.tasks.unshift(newTask)
+      state.tasks.unshift(newTask)
     }
   },
 
   updateIncompleteTasks (state, { newTaskOrder }) {
-    state.lists[state.selected].tasks = newTaskOrder
+    state.tasks = newTaskOrder
   },
   
   completeTask (state, { taskId, completed }) {
-    const list = state.lists[state.selected]
     const type = completed ? 'tasks' : 'completed'
-    const index = list[type].findIndex(t => t.id === taskId)
-    const task = list[type][index]
-    list[type].splice(index, 1)
+    const index = state[type].findIndex(t => t.id === taskId)
+    const task = state[type][index]
+    state[type].splice(index, 1)
     if (completed) {
       task.completedDate = Date.now()
-      list.completed.unshift(task)
+      state.completed.unshift(task)
     } else {
       task.completedDate = null
-      list.tasks.push(task)
+      state.tasks.push(task)
     }
   },
   
   deleteTask (state, { taskId, completed }) {
-    const list = state.lists[state.selected][completed ? 'completed' : 'tasks']
+    const list = state[completed ? 'completed' : 'tasks']
     const index = list.findIndex(t => t.id === taskId)
     const task = list[index]
     if (completed || confirm(`Are you sure you want to delete task ${task.name}? the task is not yet complete!`)) {
