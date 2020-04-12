@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import uuid from 'uuid/v1'
 import getters from './getters'
 
@@ -10,17 +11,13 @@ const mutations = {
     state.selected = listIndex
   },
   
-  addList (state, { newListName }) {
-    state.lists.push({
-      id: uuid(),
-      name: newListName,
-      tasks: [],
-      completed: []
-    })
+  addList (state, newList) {
+    state.lists.push(newList)
+    state.selected = state.lists.length - 1
   },
   
-  updateListName (state, { newListName }) {
-    state.lists[state.selected].name = newListName
+  updateList (state, newList) {
+    Vue.set(state.lists, state.selected, newList)
   },
   
   addTask (state, { newTaskName, addToBottom }) {

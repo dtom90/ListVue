@@ -84,7 +84,7 @@
 
 <script>
 import Task from './Task.vue'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 
 export default {
@@ -137,14 +137,16 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'updateListName',
       'addTask',
       'updateIncompleteTasks',
       'clearTasks'
     ]),
+    ...mapActions([
+      'updateList'
+    ]),
     updateName () {
       this.editName = false
-      this.updateListName({ newListName: this.newListName })
+      this.updateList({ newListName: this.newListName })
     },
     keepFocus () {
       this.$refs.newTask.$el.querySelector('input').focus()

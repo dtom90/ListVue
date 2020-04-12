@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 
 export default {
@@ -78,18 +78,19 @@ export default {
     }
   },
   methods: {
-    ...mapMutations([
-      'selectList',
-      'addList'
+    ...mapActions([
+      'createList'
     ]),
+    ...mapMutations([
+      'selectList'
+    ]),
+    enterNewList () {
+      this.createList({ newListName: this.newListName })
+      this.blurAddList()
+    },
     blurAddList () {
       this.enterNewListName = false
       this.newListName = ''
-    },
-    enterNewList () {
-      this.addList({ newListName: this.newListName })
-      this.blurAddList()
-      this.selectList({ listIndex: this.lists.length - 1 })
     },
     startDrag () {
       this.$el.closest('html').classList.add('draggable-cursor')
