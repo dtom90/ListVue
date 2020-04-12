@@ -1,4 +1,4 @@
-import { get, post, patch } from './request'
+import { get, post, patch, _delete } from './request'
 
 const actions = {
   async loadLists ({ dispatch, commit }) {
@@ -21,6 +21,16 @@ const actions = {
     const list = state.lists[state.selected]
     const newList = await patch('/lists/' + list.id, { list: { name: newListName } })
     commit('updateList', newList)
+  },
+  
+  async deleteList ({ state, commit }) {
+    const list = state.lists[state.selected]
+    try {
+      await _delete('/lists/' + list.id)
+      commit('deleteList')
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 }
 

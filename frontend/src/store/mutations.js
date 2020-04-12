@@ -20,6 +20,10 @@ const mutations = {
     Vue.set(state.lists, state.selected, newList)
   },
   
+  deleteList (state) {
+    Vue.delete(state.lists, state.selected)
+  },
+  
   addTask (state, { newTaskName, addToBottom }) {
     const newTask = {
       id: uuid(),

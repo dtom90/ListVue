@@ -6,7 +6,7 @@
         v-on="on"
       >
         <v-icon color="grey lighten-1">
-          mdi-information
+          mdi-dots-vertical
         </v-icon>
       </v-btn>
     </template>

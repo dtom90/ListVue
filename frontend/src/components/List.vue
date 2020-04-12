@@ -18,6 +18,12 @@
         @keyup.enter="updateName"
         @blur="editName = false"
       />
+      <SettingsMenu
+        v-if="!isCompletedList"
+        :date="createdDate"
+        :edit-this="editThisListName"
+        :delete-this="deleteThisList"
+      />
       <v-btn
         v-if="isCompletedList"
         color="error"
@@ -84,6 +90,7 @@
 
 <script>
 import Task from './Task.vue'
+import SettingsMenu from './SettingsMenu.vue'
 import { mapMutations, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 
@@ -91,12 +98,17 @@ export default {
   name: 'List',
   components: {
     Task,
+    SettingsMenu,
     draggable
   },
   props: {
     title: {
       type: String,
       default: 'To Do'
+    },
+    createdDate: {
+      type: Date,
+      default: () => new Date(0)
     },
     tasks: {
       type: Array,
@@ -142,8 +154,12 @@ export default {
       'clearTasks'
     ]),
     ...mapActions([
-      'updateList'
+      'updateList',
+      'deleteList'
     ]),
+    editThisListName () {
+      this.editName = true
+    },
     updateName () {
       this.editName = false
       this.updateList({ newListName: this.newListName })
@@ -160,6 +176,9 @@ export default {
     },
     endDrag () {
       this.$el.closest('html').classList.remove('draggable-cursor')
+    },
+    deleteThisList () {
+      this.deleteList()
     }
   }
 }

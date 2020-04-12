@@ -25,4 +25,18 @@ const post = (path, data) => send('POST', path, data)
 
 const patch = (path, data) => send('PATCH', path, data)
 
-export { get, post, patch }
+const _delete = (path) => new Promise((resolve, reject) =>
+  fetch(path, { method: 'DELETE' })
+    .then(response => {
+      if (response.ok) {
+        resolve()
+      } else {
+        reject(response.statusText)
+      }
+    })
+    .catch(error => {
+      throw new Error(`API ${error}`)
+    })
+)
+
+export { get, post, patch, _delete }

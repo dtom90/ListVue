@@ -32,8 +32,9 @@
             <div class="list-container">
               <div v-if="selectedList">
                 <List
-                  :title="selectedList"
+                  :title="selectedList.name"
                   :tasks="incompleteTasks"
+                  :created-date="new Date(selectedList.created_at)"
                 />
                 <br>
                 <br>
