@@ -3,23 +3,27 @@ import { createLocalVue, shallowMount } from '@vue/test-utils'
 import Vuex from 'vuex'
 
 import App from '@/App.vue'
-import TaskList from '@/components/TaskList.vue'
+import ListNav from '@/components/ListNav.vue'
+import List from '@/components/List.vue'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('App', () => {
   
-  let wrapper, getters, store
+  let wrapper, getters, actions, store
   
   beforeEach(() => {
     
     getters = {
-      selectedList: jest.fn(),
+      selectedList: jest.fn(() => 'To Do'),
       incompleteTasks: jest.fn(),
       completedTasks: () => []
     }
-    store = new Vuex.Store({ getters })
+    actions = {
+      loadLists: jest.fn()
+    }
+    store = new Vuex.Store({ getters, actions })
     
     wrapper = shallowMount(App, {
       store,
@@ -29,9 +33,16 @@ describe('App', () => {
     
   })
   
+  it('renders the List Navigation', () => {
+    
+    expect(wrapper.find(ListNav).isVisible()).toBe(true)
+    
+  })
+  
   it('renders the To Do list', () => {
     
-    expect(wrapper.find(TaskList).isVisible()).toBe(true)
+    expect(wrapper.find(List).isVisible()).toBe(true)
+    expect(wrapper.find(List).props().title).toBe('To Do')
     
   })
   

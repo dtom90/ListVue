@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import TaskList from '@/components/TaskList.vue'
+import List from '@/components/List.vue'
 
 const tasks = [
   { id: 1, name: 'new task 1' },
@@ -12,14 +12,14 @@ const titles = [
   ['Completed', 'h3']
 ]
 
-describe('TaskList', () => {
+describe('List', () => {
   
   describe.each(titles)('%s', (title, titleTag) => {
     
     // Expect title to default to 'To Do List'
     const titleProps = title === 'To Do List' ? {} : { title }
     
-    const wrapper = shallowMount(TaskList, {
+    const wrapper = shallowMount(List, {
       propsData: Object.assign(titleProps, { tasks: tasks })
     })
     

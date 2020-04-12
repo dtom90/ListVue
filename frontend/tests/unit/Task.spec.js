@@ -2,6 +2,7 @@ import { shallowMount } from '@vue/test-utils'
 import moment from 'moment'
 
 import Task from '@/components/Task.vue'
+import SettingsMenu from '@/components/SettingsMenu.vue'
 
 describe('Task', () => {
   
@@ -25,17 +26,10 @@ describe('Task', () => {
       
     })
     
-    it('renders the created date', () => {
+    it('renders the SettingsMenu for incomplete task', () => {
       
-      expect(wrapper.text()).toMatch('Created on')
-      expect(wrapper.text()).toMatch(moment(task.createdDate).format('ddd MMM DD YYYY,'))
-      expect(wrapper.text()).toMatch(moment(task.createdDate).format('h:mm a'))
-      
-    })
-    
-    it('does not render "Created On"', () => {
-      
-      expect(wrapper.text()).not.toMatch('Completed on')
+      expect(wrapper.find(SettingsMenu).props().dateType).toBe('Created')
+      expect(wrapper.find(SettingsMenu).props().date).toBe(task.createdDate)
       
     })
     
@@ -61,18 +55,10 @@ describe('Task', () => {
       
     })
     
-    it('renders the completed date', () => {
+    it('renders the SettingsMenu for incomplete task', () => {
       
-      expect(wrapper.text()).toMatch('Completed on')
-      expect(wrapper.text()).toMatch(moment(task.completedDate).format('ddd MMM DD YYYY,'))
-      expect(wrapper.text()).toMatch(moment(task.completedDate).format('h:mm a'))
-      
-    })
-    
-    it('does not render the created date', () => {
-      
-      expect(wrapper.text()).not.toMatch('Created on')
-      expect(wrapper.text()).not.toMatch(moment(task.createdDate).format('h:mm a'))
+      expect(wrapper.find(SettingsMenu).props().dateType).toBe('Completed')
+      expect(wrapper.find(SettingsMenu).props().date).toBe(task.completedDate)
       
     })
     
