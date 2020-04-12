@@ -54,7 +54,7 @@
 <script>
 import ListNav from './components/ListNav'
 import TaskList from './components/TaskList'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   components: { ListNav, TaskList },
@@ -66,6 +66,14 @@ export default {
       'selectedList',
       'incompleteTasks',
       'completedTasks'
+    ])
+  },
+  created () {
+    this.loadLists()
+  },
+  methods: {
+    ...mapActions([
+      'loadLists'
     ])
   }
 }
