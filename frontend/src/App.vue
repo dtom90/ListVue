@@ -31,13 +31,13 @@
           <v-col>
             <div class="list-container">
               <div v-if="selectedList">
-                <TaskList
+                <List
                   :title="selectedList"
                   :tasks="incompleteTasks"
                 />
                 <br>
                 <br>
-                <TaskList
+                <List
                   v-if="completedTasks.length > 0"
                   title="Completed"
                   :tasks="completedTasks"
@@ -53,11 +53,11 @@
 
 <script>
 import ListNav from './components/ListNav'
-import TaskList from './components/TaskList'
+import List from './components/List'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  components: { ListNav, TaskList },
+  components: { ListNav, List },
   data: () => ({
     drawer: null
   }),

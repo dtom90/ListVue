@@ -63,7 +63,7 @@
       </div>
     </v-row>
 
-    <!-- TaskList -->
+    <!-- Task List -->
     <draggable
       v-model="incompleteTaskList"
       :disabled="isCompletedList"
@@ -88,7 +88,7 @@ import { mapMutations, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 
 export default {
-  name: 'TaskList',
+  name: 'List',
   components: {
     Task,
     draggable
