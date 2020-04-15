@@ -1,3 +1,4 @@
+import getters from './getters'
 import { get, post, patch, _delete } from './request'
 
 const actions = {
@@ -8,8 +9,8 @@ const actions = {
   },
   
   async loadList ({ commit }, { id }) {
-    await get('/lists/' + id)
-    commit('selectList', { listIndex: 0 })
+    const list = await get('/lists/' + id)
+    commit('selectList', { listIndex: 0, tasks: list.tasks })
   },
   
   async createList ({ commit }, { newListName }) {
@@ -31,6 +32,11 @@ const actions = {
     } catch (e) {
       throw new Error(e)
     }
+  },
+  
+  async createTask ({ state, commit }, { name }) { //, addToBottom
+    const newTask = await post('/tasks', { task: { name, list_id: getters.selectedList(state).id } })
+    commit('addTask', newTask)
   }
 }
 

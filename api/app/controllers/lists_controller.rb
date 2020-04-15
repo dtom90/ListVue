@@ -12,7 +12,7 @@ class ListsController < ApplicationController
 
   # GET /lists/1
   def show
-    render json: @list
+    render json: @list.to_json(include: :tasks)
   end
 
   # POST /lists

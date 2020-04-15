@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import uuid from 'uuid/v1'
 import getters from './getters'
 
 const mutations = {
@@ -7,8 +6,9 @@ const mutations = {
     state.lists = lists
   },
   
-  selectList (state, { listIndex }) {
+  selectList (state, { listIndex, tasks }) {
     state.selected = listIndex
+    state.tasks = tasks
   },
   
   addList (state, newList) {
@@ -24,19 +24,8 @@ const mutations = {
     Vue.delete(state.lists, state.selected)
   },
   
-  addTask (state, { newTaskName, addToBottom }) {
-    const newTask = {
-      id: uuid(),
-      name: newTaskName,
-      completed: false,
-      createdDate: new Date(),
-      completedDate: null
-    }
-    if (addToBottom) {
-      state.tasks.push(newTask)
-    } else {
-      state.tasks.unshift(newTask)
-    }
+  addTask (state, newTask) {
+    state.tasks.push(newTask)
   },
 
   updateIncompleteTasks (state, { newTaskOrder }) {

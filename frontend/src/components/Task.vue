@@ -49,8 +49,8 @@ export default {
       default: function () {
         return {
           id: 1,
-          name: 'new task 1',
-          createdDate: new Date(),
+          name: 'default task',
+          created_at: (new Date()).toISOString(),
           completedDate: null,
           completed: false
         }
@@ -65,7 +65,7 @@ export default {
       return this.task.completed ? 'Completed' : 'Created'
     },
     date: function () {
-      return this.task.completed ? this.task.completedDate : this.task.createdDate
+      return this.task.completed ? this.task.updated_at : this.task.created_at
     }
   },
   methods: {

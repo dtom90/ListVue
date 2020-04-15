@@ -34,7 +34,7 @@
                 <List
                   :title="selectedList.name"
                   :tasks="incompleteTasks"
-                  :created-date="new Date(selectedList.created_at)"
+                  :created-date="selectedList.created_at"
                 />
                 <br>
                 <br>

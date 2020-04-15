@@ -1,20 +1,19 @@
 import { shallowMount } from '@vue/test-utils'
-import moment from 'moment'
 
 import Task from '@/components/Task.vue'
 import SettingsMenu from '@/components/SettingsMenu.vue'
 
 describe('Task', () => {
+
+  const task = {
+    id: 1,
+    name: 'new task 1',
+    created_at: (new Date()).toISOString(),
+    updated_at: null,
+    completed: false
+  }
   
   describe('Incomplete', () => {
-    
-    const task = {
-      id: 1,
-      name: 'new task 1',
-      createdDate: new Date(),
-      completedDate: null,
-      completed: false
-    }
     
     const wrapper = shallowMount(Task, {
       propsData: { task }
@@ -26,10 +25,10 @@ describe('Task', () => {
       
     })
     
-    it('renders the SettingsMenu for incomplete task', () => {
+    it('renders the SettingsMenu', () => {
       
       expect(wrapper.find(SettingsMenu).props().dateType).toBe('Created')
-      expect(wrapper.find(SettingsMenu).props().date).toBe(task.createdDate)
+      expect(wrapper.find(SettingsMenu).props().date).toBe(task.created_at)
       
     })
     
@@ -37,13 +36,11 @@ describe('Task', () => {
   
   describe('Complete', () => {
     
-    const task = {
-      id: 1,
-      name: 'new task 1',
-      createdDate: new Date(),
-      completedDate: moment(new Date()).add(30, 'm').toDate(),
-      completed: true
-    }
+    const completedDate = new Date()
+    completedDate.setDate(completedDate.getDate() + 1)
+    
+    task.updated_at = completedDate.toISOString()
+    task.completed = true
     
     const wrapper = shallowMount(Task, {
       propsData: { task: task }
@@ -55,10 +52,10 @@ describe('Task', () => {
       
     })
     
-    it('renders the SettingsMenu for incomplete task', () => {
+    it('renders the SettingsMenu', () => {
       
       expect(wrapper.find(SettingsMenu).props().dateType).toBe('Completed')
-      expect(wrapper.find(SettingsMenu).props().date).toBe(task.completedDate)
+      expect(wrapper.find(SettingsMenu).props().date).toBe(task.updated_at)
       
     })
     

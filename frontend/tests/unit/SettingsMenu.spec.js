@@ -10,7 +10,7 @@ describe('SettingsMenu', () => {
     const createdDate = new Date()
     const menu = {
       dateType: 'Created',
-      date: createdDate
+      date: createdDate.toISOString()
     }
     
     const wrapper = shallowMount(SettingsMenu, {
@@ -38,7 +38,7 @@ describe('SettingsMenu', () => {
     const completedDate = new Date()
     const menu = {
       dateType: 'Completed',
-      date: completedDate
+      date: completedDate.toISOString()
     }
     
     const wrapper = shallowMount(SettingsMenu, {

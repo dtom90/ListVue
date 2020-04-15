@@ -107,8 +107,8 @@ export default {
       default: 'To Do'
     },
     createdDate: {
-      type: Date,
-      default: () => new Date(0)
+      type: String,
+      default: ''
     },
     tasks: {
       type: Array,
@@ -149,12 +149,12 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'addTask',
       'updateIncompleteTasks',
       'clearTasks'
     ]),
     ...mapActions([
       'updateList',
+      'createTask',
       'deleteList'
     ]),
     editThisListName () {
@@ -168,7 +168,7 @@ export default {
       this.$refs.newTask.$el.querySelector('input').focus()
     },
     addNewTask () {
-      this.addTask({ newTaskName: this.newTask, addToBottom: this.addToBottom })
+      this.createTask({ name: this.newTask, addToBottom: this.addToBottom })
       this.newTask = ''
     },
     startDrag () {

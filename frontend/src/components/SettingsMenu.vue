@@ -57,8 +57,8 @@ export default {
       default: 'Created'
     },
     date: {
-      type: Date,
-      default: new Date(0)
+      type: String,
+      default: ''
     },
     editThis: {
       type: Function,
