@@ -15,12 +15,12 @@
         <v-text-field
           v-if="editing"
           ref="taskNameInput"
-          v-model="task.name"
+          v-model="name"
           class="edit-task"
           filled
           append-icon="mdi-content-save"
-          @click:append="editing = false"
-          @keyup.enter="editing = false"
+          @click:append="saveName"
+          @keyup.enter="saveName"
         />
       </v-list-item-content>
 
@@ -57,7 +57,8 @@ export default {
     }
   },
   data: () => ({
-    editing: false
+    editing: false,
+    name: null
   }),
   computed: {
     completed: function () {
@@ -69,6 +70,14 @@ export default {
     date: function () {
       return this.task.completed ? this.task.updated_at : this.task.created_at
     }
+  },
+  watch: {
+    task () {
+      this.name = this.task.name
+    }
+  },
+  mounted () {
+    this.name = this.task.name
   },
   methods: {
     ...mapActions([
@@ -83,6 +92,10 @@ export default {
       this.$nextTick(function () {
         this.$refs.taskNameInput.$el.querySelector('input').focus()
       })
+    },
+    saveName () {
+      this.editing = false
+      this.updateTask({ id: this.task.id, name: this.name })
     },
     completeThisTask () {
       const completed_at = this.completed ? null : (new Date()).toISOString() // eslint-disable-line camelcase

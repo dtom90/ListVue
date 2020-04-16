@@ -33,9 +33,9 @@ const mutations = {
   },
   
   /* eslint-disable camelcase */
-  updateTask (state, { id, completed_at }) {
-    const task = state.tasks.find(t => t.id === id)
-    task.completed_at = completed_at
+  updateTask (state, updatedTask) {
+    const index = state.tasks.findIndex(t => t.id === updatedTask.id)
+    Vue.set(state.tasks, index, updatedTask)
   },
   /* eslint-enable camelcase */
   
