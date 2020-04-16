@@ -4,11 +4,11 @@ const getters = {
   },
 
   incompleteTasks (state) {
-    return state.tasks
+    return state.tasks.filter(task => task.completed_at === null)
   },
 
   completedTasks (state) {
-    return state.completed
+    return state.tasks.filter(task => task.completed_at !== null)
   }
 }
 

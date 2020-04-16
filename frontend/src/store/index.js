@@ -11,7 +11,6 @@ export default new Vuex.Store({
   state: {
     lists: [],
     tasks: [],
-    completed: [],
     selected: -1
   },
   getters,

@@ -112,13 +112,7 @@ export default {
     },
     tasks: {
       type: Array,
-      default: function () {
-        return [
-          { id: 1, name: 'new task 1' },
-          { id: 2, name: 'new task 2' },
-          { id: 3, name: 'new task 3' }
-        ]
-      }
+      default: () => []
     }
   },
   data: () => ({

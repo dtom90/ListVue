@@ -32,19 +32,12 @@ const mutations = {
     state.tasks = newTaskOrder
   },
   
-  completeTask (state, { taskId, completed }) {
-    const type = completed ? 'tasks' : 'completed'
-    const index = state[type].findIndex(t => t.id === taskId)
-    const task = state[type][index]
-    state[type].splice(index, 1)
-    if (completed) {
-      task.completedDate = Date.now()
-      state.completed.unshift(task)
-    } else {
-      task.completedDate = null
-      state.tasks.push(task)
-    }
+  /* eslint-disable camelcase */
+  updateTask (state, { id, completed_at }) {
+    const task = state.tasks.find(t => t.id === id)
+    task.completed_at = completed_at
   },
+  /* eslint-enable camelcase */
   
   deleteTask (state, { taskId, completed }) {
     const list = state[completed ? 'completed' : 'tasks']

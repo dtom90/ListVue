@@ -12,7 +12,9 @@ class ListsController < ApplicationController
 
   # GET /lists/1
   def show
-    render json: @list.to_json(include: :tasks)
+    render json: @list.to_json(include: {
+      tasks: { except: %i[description updated_at] }
+    })
   end
 
   # POST /lists

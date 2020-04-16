@@ -37,6 +37,12 @@ const actions = {
   async createTask ({ state, commit }, { name }) { //, addToBottom
     const newTask = await post('/tasks', { task: { name, list_id: getters.selectedList(state).id } })
     commit('addTask', newTask)
+  },
+  
+  async updateTask ({ commit }, params) {
+    const { id, ...patchParams } = params
+    const newTask = await patch('/tasks/' + id, { task: patchParams })
+    commit('updateTask', newTask)
   }
 }
 

@@ -3,7 +3,7 @@
     <v-list-item>
       <v-list-item-action>
         <v-checkbox
-          v-model="task.completed"
+          :input-value="completed"
           @change="completeThisTask"
         />
       </v-list-item-action>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import SettingsMenu from './SettingsMenu'
 
 export default {
@@ -51,8 +51,7 @@ export default {
           id: 1,
           name: 'default task',
           created_at: (new Date()).toISOString(),
-          completedDate: null,
-          completed: false
+          completed_at: null
         }
       }
     }
@@ -61,6 +60,9 @@ export default {
     editing: false
   }),
   computed: {
+    completed: function () {
+      return this.task.completed_at !== null
+    },
     dateType: function () {
       return this.task.completed ? 'Completed' : 'Created'
     },
@@ -69,8 +71,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'updateTask'
+    ]),
     ...mapMutations([
-      'completeTask',
       'deleteTask'
     ]),
     editThisTask () {
@@ -81,10 +85,8 @@ export default {
       })
     },
     completeThisTask () {
-      this.completeTask({
-        taskId: this.task.id,
-        completed: this.task.completed
-      })
+      const completed_at = this.completed ? null : (new Date()).toISOString() // eslint-disable-line camelcase
+      this.updateTask({ id: this.task.id, completed_at })
     },
     deleteThisTask () {
       this.deleteTask({

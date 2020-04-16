@@ -73,7 +73,8 @@ export default {
         return this.selected
       },
       set (listIndex) {
-        this.selectList({ listIndex })
+        // TODO: should be an action
+        // this.selectList({ listIndex })
       }
     }
   },
