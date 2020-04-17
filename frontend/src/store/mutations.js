@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import getters from './getters'
 
 const mutations = {
   saveLists (state, { lists }) {
@@ -42,13 +41,6 @@ const mutations = {
   deleteTask (state, { id }) {
     const index = state.tasks.findIndex(t => t.id === id)
     Vue.delete(state.tasks, index)
-  },
-  
-  clearTasks (state) {
-    const completedTasks = getters.completedTasks(state)
-    if (completedTasks.length === 1 || confirm(`Are you sure that you want to delete all ${completedTasks.length} completed tasks?`)) {
-      state.lists[state.selected].completed = []
-    }
   }
 }
 

@@ -143,12 +143,12 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'updateIncompleteTasks',
-      'clearTasks'
+      'updateIncompleteTasks'
     ]),
     ...mapActions([
       'updateList',
       'createTask',
+      'clearTasks',
       'deleteList'
     ]),
     editThisListName () {

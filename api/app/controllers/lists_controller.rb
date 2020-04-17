@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[show update destroy]
+  before_action :set_list, only: %i[show update destroy_completed_tasks destroy]
 
   # GET /lists
   def index
@@ -35,6 +35,11 @@ class ListsController < ApplicationController
     else
       render json: @list.errors, status: :unprocessable_entity
     end
+  end
+
+  # DELETE /lists/1/tasks
+  def destroy_completed_tasks
+    @list.tasks.where.not(completed_at: nil).delete_all
   end
 
   # DELETE /lists/1
