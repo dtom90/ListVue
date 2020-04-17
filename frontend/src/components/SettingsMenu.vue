@@ -21,13 +21,12 @@
       </v-list-item>
     </v-list>
     <v-divider />
-    <v-list>
+    <v-list class="menu-btns">
       <v-btn
         color="warning"
         fab
         small
         dark
-        class="menu-btn"
         @click="editThis"
       >
         <v-icon>mdi-pencil</v-icon>
@@ -37,10 +36,16 @@
         fab
         small
         dark
-        class="menu-btn"
         @click="deleteThis"
       >
         <v-icon>mdi-delete</v-icon>
+      </v-btn>
+      <v-btn
+        v-if="clearAllBtn"
+        color="error"
+        @click="clearAll"
+      >
+        <span>{{ clearAllBtn }}</span>
       </v-btn>
     </v-list>
   </v-menu>
@@ -67,6 +72,14 @@ export default {
     deleteThis: {
       type: Function,
       default: function () {}
+    },
+    clearAllBtn: {
+      type: String,
+      default: null
+    },
+    clearAll: {
+      type: Function,
+      default: function () {}
     }
   },
   computed: {
@@ -81,7 +94,7 @@ export default {
 </script>
 
 <style scoped>
-  .menu-btn {
+  .menu-btns > button {
     margin-left: 8px;
   }
 </style>

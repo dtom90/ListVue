@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[show update destroy_completed_tasks destroy]
+  before_action :set_list, only: %i[show update destroy_completed_tasks destroy_tasks destroy]
 
   # GET /lists
   def index
@@ -38,6 +38,11 @@ class ListsController < ApplicationController
   # DELETE /lists/1/tasks/completed
   def destroy_completed_tasks
     @list.tasks.where.not(completed_at: nil).delete_all
+  end
+
+  # DELETE /lists/1/tasks
+  def destroy_tasks
+    @list.tasks.delete_all
   end
 
   # DELETE /lists/1

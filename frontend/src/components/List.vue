@@ -23,6 +23,8 @@
         :date="createdDate"
         :edit-this="editThisListName"
         :delete-this="deleteThisList"
+        clear-all-btn="Clear Tasks"
+        :clear-all="clearAllTasks"
       />
       <v-btn
         v-if="isCompletedList"
@@ -34,10 +36,9 @@
     </div>
 
     <!-- New Task Input Field -->
-    <v-row>
+    <v-row v-if="!isCompletedList">
       <v-col>
         <v-text-field
-          v-if="!isCompletedList"
           id="new-task"
           ref="newTask"
           v-model="newTask"
@@ -149,6 +150,7 @@ export default {
       'updateList',
       'createTask',
       'clearTasks',
+      'clearAllTasks',
       'deleteList'
     ]),
     editThisListName () {
