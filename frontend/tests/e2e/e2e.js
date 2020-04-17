@@ -9,6 +9,7 @@ const task3mod = 'The modified third task'
 
 // To Do List selectors
 const todoSection = Selector('.section').withText('To Do')
+const listMenuButton = Selector('.title-section').withText('To Do').find('button i.mdi-dots-vertical')
 const newTaskInput = todoSection.find('label').withText('enter new task').sibling('input')
 const todoList = todoSection.find('.task-list')
 const todoTasks = todoList.find('.task')
@@ -39,23 +40,27 @@ const saveButton = editTaskWrapper.find('i.mdi-content-save')
 
 // Menu selectors
 function menuButton (taskName) {
-  return Selector('.task').withText(taskName).find('button i.mdi-information')
+  return Selector('.task').withText(taskName).find('button i.mdi-dots-vertical')
 }
 const menuContent = Selector('div.v-menu__content')
 const editButton = menuContent.find('button i.mdi-pencil')
 const deleteButton = menuContent.find('button i.mdi-delete')
+const clearTasksButton = menuContent.find('button').withText('CLEAR TASKS')
 const deleteHandler = ClientFunction((type, text) => {
   switch (type) { /* eslint-disable no-throw-literal */
     case 'confirm':
-      switch (text) { /* eslint-disable no-undef */
-        case (typeof taskName !== 'undefined') &&
-        `Are you sure you want to delete task ${taskName}? the task is not yet complete!`:
+      switch (true) { /* eslint-disable no-undef */
+        case (typeof taskName !== 'undefined') && text ===
+        `Are you sure that you want to delete "${taskName}"? The task is not yet complete!`:
           return deleteTask
-        case (typeof numCompletedTasks !== 'undefined') &&
+        case (typeof numCompletedTasks !== 'undefined') && text ===
         `Are you sure that you want to delete all ${numCompletedTasks} completed tasks?`:
           return deleteTask
+        case (typeof numTasks !== 'undefined') &&
+          /Are you sure that you want to delete all [23] tasks from this list\?/.test(text):
+          return deleteAll
         default:
-          throw 'Unexpected confirm dialog!'
+          throw `Unexpected confirm dialog: \n"${text}"`
       }
     case 'prompt':
       throw 'A prompt was invoked!'
@@ -87,6 +92,12 @@ fixture('To Do List')
 
       // Expect all 3 tasks in the To Do List
       .expect(tasksPresent(todoList, [task1, task2, task3])).ok()
+  })
+  .afterEach(async t => {
+    await t
+      .click(listMenuButton)
+      .setNativeDialogHandler(deleteHandler, { dependencies: { numTasks: 3, deleteAll: true } })
+      .click(clearTasksButton)
   })
 
 test('Complete tasks, expect most recently-deleted first', async t => {
