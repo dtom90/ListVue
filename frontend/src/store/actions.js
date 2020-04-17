@@ -43,6 +43,14 @@ const actions = {
     const { id, ...patchParams } = params
     const newTask = await patch('/tasks/' + id, { task: patchParams })
     commit('updateTask', newTask)
+  },
+  
+  async deleteTask ({ state, commit }, { id }) {
+    const task = state.tasks.find(t => t.id === id)
+    if (task.completed_at !== null || confirm(`Are you sure you want to delete task ${task.name}? the task is not yet complete!`)) {
+      await _delete('/tasks/' + id)
+      commit('deleteTask', { id })
+    }
   }
 }
 

@@ -39,13 +39,9 @@ const mutations = {
   },
   /* eslint-enable camelcase */
   
-  deleteTask (state, { taskId, completed }) {
-    const list = state[completed ? 'completed' : 'tasks']
-    const index = list.findIndex(t => t.id === taskId)
-    const task = list[index]
-    if (completed || confirm(`Are you sure you want to delete task ${task.name}? the task is not yet complete!`)) {
-      list.splice(index, 1)
-    }
+  deleteTask (state, { id }) {
+    const index = state.tasks.findIndex(t => t.id === id)
+    Vue.delete(state.tasks, index)
   },
   
   clearTasks (state) {

@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 import SettingsMenu from './SettingsMenu'
 
 export default {
@@ -81,9 +81,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'updateTask'
-    ]),
-    ...mapMutations([
+      'updateTask',
       'deleteTask'
     ]),
     editThisTask () {
@@ -102,10 +100,7 @@ export default {
       this.updateTask({ id: this.task.id, completed_at })
     },
     deleteThisTask () {
-      this.deleteTask({
-        taskId: this.task.id,
-        completed: this.task.completed
-      })
+      this.deleteTask({ id: this.task.id })
     }
   }
 }
