@@ -10,7 +10,7 @@ describe('Task', () => {
     name: 'new task 1',
     created_at: (new Date()).toISOString(),
     updated_at: null,
-    completed: false
+    completed_at: null
   }
   
   describe('Incomplete', () => {
@@ -39,8 +39,7 @@ describe('Task', () => {
     const completedDate = new Date()
     completedDate.setDate(completedDate.getDate() + 1)
     
-    task.updated_at = completedDate.toISOString()
-    task.completed = true
+    task.completed_at = completedDate.toISOString()
     
     const wrapper = shallowMount(Task, {
       propsData: { task: task }
@@ -55,7 +54,7 @@ describe('Task', () => {
     it('renders the SettingsMenu', () => {
       
       expect(wrapper.find(SettingsMenu).props().dateType).toBe('Completed')
-      expect(wrapper.find(SettingsMenu).props().date).toBe(task.updated_at)
+      expect(wrapper.find(SettingsMenu).props().date).toBe(completedDate.toISOString())
       
     })
     
