@@ -12,9 +12,7 @@ class ListsController < ApplicationController
 
   # GET /lists/1
   def show
-    render json: @list.to_json(include: {
-      tasks: { except: %i[description updated_at] }
-    })
+    render json: @list.to_json(include: :tasks)
   end
 
   # POST /lists
@@ -37,7 +35,7 @@ class ListsController < ApplicationController
     end
   end
 
-  # DELETE /lists/1/tasks
+  # DELETE /lists/1/tasks/completed
   def destroy_completed_tasks
     @list.tasks.where.not(completed_at: nil).delete_all
   end

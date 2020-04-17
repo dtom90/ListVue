@@ -65,10 +65,10 @@ export default {
       return this.task.completed_at !== null
     },
     dateType: function () {
-      return this.task.completed ? 'Completed' : 'Created'
+      return this.completed ? 'Completed' : 'Created'
     },
     date: function () {
-      return this.task.completed ? this.task.updated_at : this.task.created_at
+      return this.completed ? this.task.completed_at : this.task.created_at
     }
   },
   watch: {
