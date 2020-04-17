@@ -5,12 +5,13 @@ const actions = {
   async loadLists ({ dispatch, commit }) {
     const lists = await get('/lists')
     commit('saveLists', { lists })
-    dispatch('loadList', { id: lists[0].id })
+    dispatch('selectList', { index: 0 })
   },
   
-  async loadList ({ commit }, { id }) {
+  async selectList ({ state, commit }, { index }) {
+    const id = state.lists[index].id
     const list = await get('/lists/' + id)
-    commit('selectList', { listIndex: 0, tasks: list.tasks })
+    commit('selectList', { index, tasks: list.tasks })
   },
   
   async createList ({ commit }, { newListName }) {

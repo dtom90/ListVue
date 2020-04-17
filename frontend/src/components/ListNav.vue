@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import draggable from 'vuedraggable'
 
 export default {
@@ -72,17 +72,14 @@ export default {
       get () {
         return this.selected
       },
-      set (listIndex) {
-        // TODO: should be an action
-        // this.selectList({ listIndex })
+      set (index) {
+        this.selectList({ index })
       }
     }
   },
   methods: {
     ...mapActions([
-      'createList'
-    ]),
-    ...mapMutations([
+      'createList',
       'selectList'
     ]),
     enterNewList () {

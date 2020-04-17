@@ -6,8 +6,8 @@ const mutations = {
     state.lists = lists
   },
   
-  selectList (state, { listIndex, tasks }) {
-    state.selected = listIndex
+  selectList (state, { index, tasks }) {
+    state.selected = index
     state.tasks = tasks
   },
   
