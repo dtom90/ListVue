@@ -8,7 +8,9 @@ const getters = {
   },
 
   completedTasks (state) {
-    return state.tasks.filter(task => task.completed_at !== null)
+    const completed = state.tasks.filter(task => task.completed_at !== null)
+    completed.sort((a, b) => Date.parse(b.completed_at) - Date.parse(a.completed_at))
+    return completed
   }
 }
 
