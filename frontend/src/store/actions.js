@@ -9,14 +9,17 @@ const actions = {
   },
   
   async selectList ({ state, commit }, { index }) {
-    const id = state.lists[index].id
-    const list = await get('/lists/' + id)
-    commit('selectList', { index, tasks: list.tasks })
+    if (index < state.lists.length) {
+      const id = state.lists[index].id
+      const list = await get('/lists/' + id)
+      commit('selectList', { index, tasks: list.tasks })
+    }
   },
   
-  async createList ({ commit }, { newListName }) {
+  async createList ({ commit, dispatch, state }, { newListName }) {
     const newList = await post('/lists', { list: { name: newListName } })
     commit('addList', newList)
+    dispatch('selectList', { index: state.lists.length - 1 })
   },
   
   async updateList ({ state, commit }, { newListName }) {

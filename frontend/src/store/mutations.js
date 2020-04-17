@@ -12,7 +12,6 @@ const mutations = {
   
   addList (state, newList) {
     state.lists.push(newList)
-    state.selected = state.lists.length - 1
   },
   
   updateList (state, newList) {

@@ -73,7 +73,9 @@ export default {
         return this.selected
       },
       set (index) {
-        this.selectList({ index })
+        if (index != null) {
+          this.selectList({ index })
+        }
       }
     }
   },
