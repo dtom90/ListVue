@@ -1,6 +1,8 @@
 
+const BASE_PATH = '/api'
+
 const get = path => new Promise(resolve =>
-  fetch(path)
+  fetch(BASE_PATH + path)
     .then(stream => stream.json())
     .then(data => resolve(data))
     .catch(error => {
@@ -9,7 +11,7 @@ const get = path => new Promise(resolve =>
 )
 
 const send = (method, path, requestData) => new Promise(resolve =>
-  fetch(path, {
+  fetch(BASE_PATH + path, {
     method,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(requestData)
@@ -26,7 +28,7 @@ const post = (path, data) => send('POST', path, data)
 const patch = (path, data) => send('PATCH', path, data)
 
 const _delete = (path) => new Promise((resolve, reject) =>
-  fetch(path, { method: 'DELETE' })
+  fetch(BASE_PATH + path, { method: 'DELETE' })
     .then(response => {
       if (response.ok) {
         resolve()
