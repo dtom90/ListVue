@@ -1,0 +1,12 @@
+version: '3'
+services:
+  front:
+    build:
+      context: ./frontend
+      dockerfile: docker/Dockerfile.production
+    ports:
+      - "80:80"
+  api:
+    build: ./api
+    ports:
+      - "3000:3000"
