@@ -7,10 +7,12 @@ jobs:
     steps:
     - checkout
     - setup_remote_docker
-    - run: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
     - run:
-        name: Run package audit, lint, and unit tests
-        command: ./frontend/docker/test.sh
+        name: Enable Docker
+        command: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
+    - run:
+        name: Run frontend package audit, lint, and unit tests
+        command: ./frontend/tests/test.sh
     - run:
         name: Deloy production application in Docker containers
         command: |
@@ -19,7 +21,7 @@ jobs:
           docker run --rm --network="listvue_default" appropriate/curl -4 --retry 10 --retry-delay 1 --retry-connrefused http://front
     - run:
         name: Run E2E tests
-        command: ./frontend/docker/e2e.sh
+        command: ./frontend/tests/e2e.sh
     - run:
         name: Stop production Docker deployment
         command: docker-compose down

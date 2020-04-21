@@ -3,7 +3,7 @@ services:
   front:
     build:
       context: ./frontend
-      dockerfile: docker/Dockerfile.production
+      dockerfile: production/Dockerfile
     ports:
       - "80:80"
   api:
