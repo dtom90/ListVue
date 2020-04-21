@@ -69,7 +69,7 @@ const deleteHandler = ClientFunction((type, text) => {
   }
 })
 
-const hostname = 'localhost'
+const hostname = process.env.HOSTNAME || 'localhost'
 const port = process.env.PORT || '8080'
 const path = process.env.BASE_URL || ''
 const url = `http://${hostname}:${port}${path}`

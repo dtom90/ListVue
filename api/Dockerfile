@@ -12,4 +12,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD export SECRET_KEY_BASE=$(rake secret) && rake db:reset && rails server -b 0.0.0.0
+CMD export SECRET_KEY_BASE=$(rake secret) && DISABLE_DATABASE_ENVIRONMENT_CHECK=1 rake db:reset && rails server -b 0.0.0.0
