@@ -1,63 +1,27 @@
 version: 2
 jobs:
-  test:
-    working_directory: /app
+  build:
+    working_directory: ~/ListVue
     docker:
-    - image: docker:stable
+    - image: cimg/base:stable
     steps:
     - checkout
     - setup_remote_docker
     - run:
-        name: Build test Docker image
-        command: |
-          docker build \
-                 -f docker/Dockerfile \
-                 -t listvue-test \
-                 .
+        name: Enable Docker
+        command: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
     - run:
-        name: Run package audit, lint, and unit tests
-        command: |
-          docker run -i --rm \
-                 listvue-test \
-                 sh -c 'yarn run audit:packages && yarn run lint && yarn run test:unit'
+        name: Run frontend package audit, lint, and unit tests
+        command: ./frontend/tests/test.sh
     - run:
-        name: Build production Docker image
+        name: Deloy production application in Docker containers
         command: |
-          docker build \
-                 -f docker/Dockerfile.production \
-                 -t listvue-prod \
-                 .
+          set -x
+          docker-compose up -d
+          docker run --rm --network="listvue_default" appropriate/curl -4 --retry 10 --retry-delay 1 --retry-connrefused http://front
     - run:
-        name: Run production Docker container
-        command: |
-          docker run -i --rm \
-                 -p 8080:80 \
-                 --name listvue-prod \
-                 listvue-prod
-        background: true
+        name: Run E2E tests
+        command: ./frontend/tests/e2e.sh
     - run:
-        name: Build TestCafé image
-        command: |
-          docker build \
-                 -f docker/Dockerfile.testcafe \
-                 -t listvue-testcafe \
-                 .
-    - run:
-        name: Run TestCafé against production container
-        command: |
-          docker run -i --rm \
-                 --net="host" \
-                 listvue-testcafe 'chromium --no-sandbox,firefox' /tests
-    - run:
-        name: Stop production Docker contianer
-        command: docker stop listvue-prod
-
-workflows:
-  version: 2
-  test:
-    jobs:
-      - test:
-          filters:
-            branches:
-              ignore:
-                - gh-pages
+        name: Stop production Docker deployment
+        command: docker-compose down
