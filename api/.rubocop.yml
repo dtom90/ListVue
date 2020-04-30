@@ -1,2 +1,6 @@
 Layout/FirstHashElementIndentation:
   EnforcedStyle: consistent
+Layout/TrailingWhitespace:
+  Enabled: false
+Layout/HashAlignment:
+  Enabled: false
