@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  include ActionController::HttpAuthentication::Token::ControllerMethods
   include ActionController::RequestForgeryProtection
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -10,6 +11,7 @@ class ApplicationController < ActionController::API
   
   before_action :underscore_params!
   before_action :authenticate_user
+  before_action :authenticate_user!
   
   private
   
