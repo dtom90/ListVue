@@ -23,6 +23,7 @@
         <span>ListVue</span>
       </v-toolbar-title>
       <v-spacer />
+      <LoginModal />
     </v-app-bar>
 
     <v-content>
@@ -56,9 +57,10 @@
 import ListNav from './components/ListNav'
 import List from './components/List'
 import { mapActions, mapGetters } from 'vuex'
+import LoginModal from './components/LoginModal'
 
 export default {
-  components: { ListNav, List },
+  components: { LoginModal, ListNav, List },
   data: () => ({
     drawer: null
   }),
@@ -70,7 +72,7 @@ export default {
     ])
   },
   created () {
-    this.loadLists()
+    // this.loadLists()
   },
   methods: {
     ...mapActions([

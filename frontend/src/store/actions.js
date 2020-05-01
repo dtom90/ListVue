@@ -2,6 +2,14 @@ import getters from './getters'
 import { get, post, patch, _delete } from './request'
 
 const actions = {
+  async login ({ dispatch }, { email, password }) {
+    const resp = await post('/users/login', {
+      user: { email, password }
+    })
+    console.log(resp)
+    window.sessionStorage.token = resp.user.token
+  },
+  
   async loadLists ({ dispatch, commit }) {
     const lists = await get('/lists')
     commit('saveLists', { lists })
