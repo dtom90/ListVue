@@ -2,12 +2,10 @@
 
 Rails.application.routes.draw do
   scope 'api' do
-    
-    devise_for :users,
-               controllers: { sessions: :sessions },
-               path_names:  { sign_in: :login }
-
-    resource :user, only: [:show, :update]
+    as :user do
+      post '/user/login' => 'sessions#create', :as => :user_session
+    end
+    resource :user, only: %i[show update]
     
     resources :lists
     delete '/lists/:id/tasks/completed', to: 'lists#destroy_completed_tasks'

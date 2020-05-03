@@ -19,7 +19,7 @@ class ApplicationController < ActionController::API
     params.transform_keys!(&:underscore)
   end
   
-  def authenticate_user!(options = {})
+  def authenticate_user!
     head :unauthorized unless signed_in?
   end
   

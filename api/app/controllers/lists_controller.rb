@@ -5,7 +5,7 @@ class ListsController < ApplicationController
   
   # GET /lists
   def index
-    @lists = List.all
+    @lists = current_user.lists
     
     render json: @lists
   end
@@ -17,7 +17,7 @@ class ListsController < ApplicationController
   
   # POST /lists
   def create
-    @list = List.new(list_params)
+    @list = current_user.lists.new(list_params)
     
     if @list.save
       render json: @list, status: :created, location: @list
@@ -54,7 +54,7 @@ class ListsController < ApplicationController
   
   # Use callbacks to share common setup or constraints between actions.
   def set_list
-    @list = List.find(params[:id])
+    @list = current_user.lists.find(params[:id])
   end
   
   # Only allow a trusted parameter "white list" through.
