@@ -11,6 +11,7 @@ class ApplicationController < ActionController::API
   
   before_action :underscore_params!
   before_action :authenticate_user
+  before_action :authenticate_user!
   
   private
   

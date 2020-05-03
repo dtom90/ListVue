@@ -2,12 +2,26 @@ import getters from './getters'
 import { get, post, patch, _delete } from './request'
 
 const actions = {
-  async login ({ dispatch }, { email, password }) {
+  async checkSignIn ({ commit, dispatch }) {
+    if (window.localStorage.token) {
+      const resp = await get('/user')
+      commit('setEmail', { email: resp.user.email })
+      dispatch('loadLists')
+    }
+  },
+  
+  async login ({ commit, dispatch }, { email, password }) {
     const resp = await post('/users/login', {
       user: { email, password }
     })
-    console.log(resp)
-    window.sessionStorage.token = resp.user.token
+    window.localStorage.token = resp.user.token
+    commit('setEmail', { email: resp.user.email })
+    dispatch('loadLists')
+  },
+  
+  async logOut ({ commit }) {
+    window.localStorage.removeItem('token')
+    commit('resetState')
   },
   
   async loadLists ({ dispatch, commit }) {

@@ -8,7 +8,7 @@
     >
       <ListNav />
     </v-navigation-drawer>
-
+    
     <v-app-bar
       clipped-left
       app
@@ -23,9 +23,20 @@
         <span>ListVue</span>
       </v-toolbar-title>
       <v-spacer />
-      <LoginModal />
+      <div v-if="!email">
+        <LoginDialog />
+      </div>
+      <div v-if="email">
+        <span>Logged in as {{ email }} </span>
+        <v-btn
+          color="blue"
+          @click="logOut"
+        >
+          Log Out
+        </v-btn>
+      </div>
     </v-app-bar>
-
+    
     <v-content>
       <v-container fluid>
         <v-row justify="center">
@@ -54,17 +65,20 @@
 </template>
 
 <script>
+import LoginDialog from './components/LoginDialog'
 import ListNav from './components/ListNav'
 import List from './components/List'
-import { mapActions, mapGetters } from 'vuex'
-import LoginModal from './components/LoginModal'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
-  components: { LoginModal, ListNav, List },
+  components: { LoginDialog, ListNav, List },
   data: () => ({
     drawer: null
   }),
   computed: {
+    ...mapState([
+      'email'
+    ]),
     ...mapGetters([
       'selectedList',
       'incompleteTasks',
@@ -72,19 +86,20 @@ export default {
     ])
   },
   created () {
-    // this.loadLists()
+    this.checkSignIn()
   },
   methods: {
     ...mapActions([
-      'loadLists'
+      'checkSignIn',
+      'logOut'
     ])
   }
 }
 </script>
 
 <style>
-  .list-container {
-    max-width: 700px;
-    margin: auto;
-  }
+.list-container {
+  max-width: 700px;
+  margin: auto;
+}
 </style>

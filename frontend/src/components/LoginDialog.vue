@@ -26,6 +26,7 @@
                   v-model="email"
                   label="Email*"
                   required
+                  @keyup.enter="clickLogin"
                 />
               </v-col>
               <v-col cols="12">
@@ -34,6 +35,7 @@
                   label="Password*"
                   type="password"
                   required
+                  @keyup.enter="clickLogin"
                 />
               </v-col>
             </v-row>
@@ -66,7 +68,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'LoginModal',
+  name: 'LoginDialog',
   data: () => ({
     dialog: false,
     email: '',
