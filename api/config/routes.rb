@@ -2,10 +2,16 @@
 
 Rails.application.routes.draw do
   scope 'api' do
-    as :user do
-      post '/user/login' => 'sessions#create', :as => :user_session
+    
+    devise_scope :user do
+      post '/users' => 'users#create'
+      patch '/users' => 'users#update'
+      put '/users' => 'users#update'
+      get '/user' => 'users#show'
     end
-    resource :user, only: %i[show update]
+    as :user do
+      post '/users/login' => 'sessions#create', :as => :user_session
+    end
     
     resources :lists
     delete '/lists/:id/tasks/completed', to: 'lists#destroy_completed_tasks'

@@ -1,4 +1,10 @@
-class UsersController < ApplicationController
+class UsersController < Devise::RegistrationsController
+  skip_before_action :authenticate_user!, only: :create
+
+  def create
+    super
+    resource.lists.create(name: 'To Do')
+  end
   
   def show; end
   
