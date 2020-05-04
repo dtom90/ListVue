@@ -66,6 +66,7 @@
     "set-value": "^2.0.1",
     "serialize-javascript": ">=2.1.1",
     "**/micromatch/braces": "^2.3.2",
-    "tree-kill": ">=1.2.2"
+    "tree-kill": ">=1.2.2",
+    "yargs-parser": ">=13.1.2 <14.0.0 || >=15.0.1 <16.0.0 || >=18.1.2"
   }
 }

@@ -2,10 +2,14 @@
   <v-app>
     <AppBar @toggleDrawer="drawer = !drawer" />
     
-    <NavigationDrawer
-      :nav-drawer="drawer"
-      @setDrawer="drawer = $event"
-    />
+    <v-navigation-drawer
+      v-model="drawer"
+      :mobile-break-point="$vuetify.breakpoint.thresholds.xs"
+      clipped
+      app
+    >
+      <ListNav />
+    </v-navigation-drawer>
     
     <AppContent />
   </v-app>
@@ -13,12 +17,12 @@
 
 <script>
 import AppBar from './components/AppBar'
-import NavigationDrawer from './components/NavigationDrawer'
+import ListNav from './components/ListNav'
 import AppContent from './components/AppContent'
 import { mapActions } from 'vuex'
 
 export default {
-  components: { AppBar, NavigationDrawer, AppContent },
+  components: { AppBar, ListNav, AppContent },
   data: () => ({
     drawer: null
   }),
