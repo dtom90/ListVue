@@ -3,25 +3,25 @@ jobs:
   build:
     working_directory: ~/ListVue
     docker:
-    - image: cimg/base:stable
+      - image: cimg/base:stable
     steps:
-    - checkout
-    - setup_remote_docker
-    - run:
-        name: Enable Docker
-        command: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
-    - run:
-        name: Run frontend package audit, lint, and unit tests
-        command: ./frontend/tests/test.sh
-    - run:
-        name: Deloy production application in Docker containers
-        command: |
-          set -x
-          docker-compose up -d
-          docker run --rm --network="listvue_default" appropriate/curl -4 --retry 10 --retry-delay 1 --retry-connrefused http://front
-    - run:
-        name: Run E2E tests
-        command: ./frontend/tests/e2e.sh
-    - run:
-        name: Stop production Docker deployment
-        command: docker-compose down
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Enable Docker
+          command: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
+      - run:
+          name: Run frontend package audit, lint, and unit tests
+          command: ./frontend/tests/test.sh
+      - run:
+          name: Deloy production application in Docker containers
+          command: |
+            set -x
+            docker-compose --project-name listvue up -d
+            docker run --rm --network="listvue_default" appropriate/curl -4 --retry 10 --retry-delay 1 --retry-connrefused http://front
+      - run:
+          name: Run E2E tests
+          command: ./frontend/tests/e2e.sh
+      - run:
+          name: Stop production Docker deployment
+          command: docker-compose --project-name listvue down
