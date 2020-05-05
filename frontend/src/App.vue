@@ -1,5 +1,7 @@
 <template>
   <v-app>
+    <AppBar @toggleDrawer="drawer = !drawer" />
+    
     <v-navigation-drawer
       v-model="drawer"
       :mobile-break-point="$vuetify.breakpoint.thresholds.xs"
@@ -8,81 +10,32 @@
     >
       <ListNav />
     </v-navigation-drawer>
-
-    <v-app-bar
-      clipped-left
-      app
-      color="blue darken-3"
-      dark
-    >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title
-        style="width: 300px"
-        class="ml-0 pl-4"
-      >
-        <span>ListVue</span>
-      </v-toolbar-title>
-      <v-spacer />
-    </v-app-bar>
-
-    <v-content>
-      <v-container fluid>
-        <v-row justify="center">
-          <v-col>
-            <div class="list-container">
-              <div v-if="selectedList">
-                <List
-                  :title="selectedList.name"
-                  :tasks="incompleteTasks"
-                  :created-date="selectedList.created_at"
-                />
-                <br>
-                <br>
-                <List
-                  v-if="completedTasks.length > 0"
-                  title="Completed"
-                  :tasks="completedTasks"
-                />
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
+    
+    <AppContent />
   </v-app>
 </template>
 
 <script>
+import AppBar from './components/AppBar'
 import ListNav from './components/ListNav'
-import List from './components/List'
-import { mapActions, mapGetters } from 'vuex'
+import AppContent from './components/AppContent'
+import { mapActions } from 'vuex'
 
 export default {
-  components: { ListNav, List },
+  components: { AppBar, ListNav, AppContent },
   data: () => ({
     drawer: null
   }),
-  computed: {
-    ...mapGetters([
-      'selectedList',
-      'incompleteTasks',
-      'completedTasks'
-    ])
-  },
   created () {
-    this.loadLists()
+    this.checkSignIn()
   },
   methods: {
     ...mapActions([
-      'loadLists'
-    ])
+      'checkSignIn'
+    ]),
+    toggleDrawer () {
+      this.drawer = !this.drawer
+    }
   }
 }
 </script>
-
-<style>
-  .list-container {
-    max-width: 700px;
-    margin: auto;
-  }
-</style>

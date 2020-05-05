@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/List-Vue-frontend.iml" filepath="$PROJECT_DIR$/.idea/List-Vue-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ListVue/.idea/ListVue.iml" filepath="$PROJECT_DIR$/../ListVue/.idea/ListVue.iml" />
     </modules>
   </component>
 </project>

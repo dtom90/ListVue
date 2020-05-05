@@ -31,9 +31,11 @@ const tasksPresent = ClientFunction((taskList, expectedTasks, checked = false) =
         input.checked === checked
     })
 })
+
 function checkbox (taskName) {
   return todoTasks.withText(taskName).find('input').withAttribute('type', 'checkbox')
 }
+
 const editTaskWrapper = Selector('div.edit-task')
 const editTaskInput = editTaskWrapper.find('input')
 const saveButton = editTaskWrapper.find('i.mdi-content-save')
@@ -42,6 +44,7 @@ const saveButton = editTaskWrapper.find('i.mdi-content-save')
 function menuButton (taskName) {
   return Selector('.task').withText(taskName).find('button i.mdi-dots-vertical')
 }
+
 const menuContent = Selector('div.v-menu__content')
 const editButton = menuContent.find('button i.mdi-pencil')
 const deleteButton = menuContent.find('button i.mdi-delete')
@@ -57,7 +60,7 @@ const deleteHandler = ClientFunction((type, text) => {
         `Are you sure that you want to delete all ${numCompletedTasks} completed tasks?`:
           return deleteTask
         case (typeof numTasks !== 'undefined') &&
-          /Are you sure that you want to delete all [23] tasks from this list\?/.test(text):
+        /Are you sure that you want to delete all [23] tasks from this list\?/.test(text):
           return deleteAll
         default:
           throw `Unexpected confirm dialog: \n"${text}"`
@@ -77,19 +80,33 @@ const url = `http://${hostname}:${port}${path}`
 fixture('To Do List')
   .page(url)
   .beforeEach(async t => {
+    const appBar = Selector('header').withText('ListVue')
+    const loginDialog = Selector('div.v-dialog').withText('Log In')
+    const emailInput = loginDialog.find('label').withText('Email*').sibling('input')
+    const passwordInput = loginDialog.find('label').withText('Password*').sibling('input')
+    
     await t
-
+      
+      // Log in
+      .expect(appBar.visible).ok()
+      .click(appBar.find('button').withText('LOG IN'))
+      .expect(loginDialog.visible).ok()
+      .typeText(emailInput, 'test@example.com')
+      .typeText(passwordInput, 'testpassword')
+      .pressKey('enter')
+      .expect(Selector('span').withText('Logged in as test@example.com').visible).ok()
+      
       // Expect an empty To Do List
       .expect(todoSection.find('h1').withText('To Do').exists).ok()
       .expect(todoTasks.count).eql(0)
       .expect(doneSection.exists).notOk()
       .expect(doneTasks.count).eql(0)
-
+      
       // Add tasks
       .typeText(newTaskInput, task1).pressKey('enter')
       .typeText(newTaskInput, task2).pressKey('enter')
       .typeText(newTaskInput, task3).pressKey('enter')
-
+      
       // Expect all 3 tasks in the To Do List
       .expect(tasksPresent(todoList, [task1, task2, task3])).ok()
   })
@@ -98,6 +115,8 @@ fixture('To Do List')
       .click(listMenuButton)
       .setNativeDialogHandler(deleteHandler, { dependencies: { numTasks: 3, deleteAll: true } })
       .click(clearTasksButton)
+      .expect(todoTasks.count).eql(0)
+      .expect(doneSection.exists).notOk()
   })
 
 test('Complete tasks, expect most recently-deleted first', async t => {
@@ -112,14 +131,14 @@ test('Complete tasks, expect most recently-deleted first', async t => {
 
 test('Modify task in the To Do list and then mark it as complete', async t => {
   await t
-
+    
     .click(menuButton(task3))
     .click(editButton)
     .expect(editTaskInput.value).eql(task3)
     .typeText(editTaskInput, ' modified', { caretPos: 3 })
     .pressKey('enter')
     .expect(tasksPresent(todoList, [task1, task2, task3mod])).ok()
-
+    
     .expect(doneSection.exists).notOk()
     .click(checkbox(task3mod))
     .expect(tasksPresent(todoList, [task1, task2])).ok()

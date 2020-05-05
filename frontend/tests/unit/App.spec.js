@@ -4,26 +4,20 @@ import Vuex from 'vuex'
 
 import App from '@/App.vue'
 import ListNav from '@/components/ListNav.vue'
-import List from '@/components/List.vue'
 
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 describe('App', () => {
   
-  let wrapper, getters, actions, store
+  let wrapper, actions, store
   
   beforeEach(() => {
     
-    getters = {
-      selectedList: jest.fn(() => 'To Do'),
-      incompleteTasks: jest.fn(),
-      completedTasks: () => []
-    }
     actions = {
-      loadLists: jest.fn()
+      checkSignIn: jest.fn()
     }
-    store = new Vuex.Store({ getters, actions })
+    store = new Vuex.Store({ actions })
     
     wrapper = shallowMount(App, {
       store,
@@ -39,10 +33,9 @@ describe('App', () => {
     
   })
   
-  it('renders the To Do list', () => {
+  it('calls checkSignIn when created', () => {
     
-    expect(wrapper.find(List).isVisible()).toBe(true)
-    expect(wrapper.find(List).props().title).toBe('To Do')
+    expect(actions.checkSignIn.toHaveBeenCalled)
     
   })
   

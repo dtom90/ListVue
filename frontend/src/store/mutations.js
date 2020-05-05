@@ -1,6 +1,11 @@
 import Vue from 'vue'
+import initialState from './initialState'
 
 const mutations = {
+  setEmail (state, { email }) {
+    state.email = email
+  },
+  
   saveLists (state, { lists }) {
     state.lists = lists
   },
@@ -25,7 +30,7 @@ const mutations = {
   addTask (state, newTask) {
     state.tasks.push(newTask)
   },
-
+  
   updateIncompleteTasks (state, { newTaskOrder }) {
     state.tasks = newTaskOrder
   },
@@ -40,6 +45,12 @@ const mutations = {
   deleteTask (state, { id }) {
     const index = state.tasks.findIndex(t => t.id === id)
     Vue.delete(state.tasks, index)
+  },
+  
+  resetState (state) {
+    Object.entries(initialState).forEach(([key, value]) => {
+      Vue.set(state, key, value)
+    })
   }
 }
 

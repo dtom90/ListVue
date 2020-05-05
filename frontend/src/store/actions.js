@@ -2,6 +2,32 @@ import getters from './getters'
 import { get, post, patch, _delete } from './request'
 
 const actions = {
+  async checkSignIn ({ commit, dispatch }) {
+    if ('token' in window.localStorage) {
+      const resp = await get('/user')
+      commit('setEmail', { email: resp.user.email })
+      dispatch('loadLists')
+    }
+  },
+  
+  async login ({ commit, dispatch }, { email, password }) {
+    const resp = await post('/users/login', {
+      user: { email, password }
+    })
+    if ('user' in resp && 'token' in resp.user) {
+      window.localStorage.token = resp.user.token
+      commit('setEmail', { email: resp.user.email })
+      dispatch('loadLists')
+    } else {
+      alert('Login Failed')
+    }
+  },
+  
+  async logOut ({ commit }) {
+    window.localStorage.removeItem('token')
+    commit('resetState')
+  },
+  
   async loadLists ({ dispatch, commit }) {
     const lists = await get('/lists')
     commit('saveLists', { lists })
