@@ -6,7 +6,7 @@ cd "${THIS_DIR}/.." || exit
 echo
 echo "Creating test user..."
 docker run --rm --network="listvue_default" appropriate/curl \
-     --location --request POST 'front/api/users' \
+     --location --request POST 'http://front/api/users' \
      --header 'Content-Type: application/json' \
      --data-raw '{"user":{"email":"test@example.com", "password":"testpassword"}}'
 test_exit_code=$?
