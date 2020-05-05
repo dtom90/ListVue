@@ -3,7 +3,7 @@ import { get, post, patch, _delete } from './request'
 
 const actions = {
   async checkSignIn ({ commit, dispatch }) {
-    if (window.localStorage.token) {
+    if ('token' in window.localStorage) {
       const resp = await get('/user')
       commit('setEmail', { email: resp.user.email })
       dispatch('loadLists')
@@ -14,9 +14,13 @@ const actions = {
     const resp = await post('/users/login', {
       user: { email, password }
     })
-    window.localStorage.token = resp.user.token
-    commit('setEmail', { email: resp.user.email })
-    dispatch('loadLists')
+    if ('user' in resp && 'token' in resp.user) {
+      window.localStorage.token = resp.user.token
+      commit('setEmail', { email: resp.user.email })
+      dispatch('loadLists')
+    } else {
+      alert('Login Failed')
+    }
   },
   
   async logOut ({ commit }) {

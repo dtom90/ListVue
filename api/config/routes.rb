@@ -3,14 +3,12 @@
 Rails.application.routes.draw do
   scope 'api' do
     
-    devise_scope :user do
-      post '/users' => 'users#create'
-      patch '/users' => 'users#update'
-      put '/users' => 'users#update'
-      get '/user' => 'users#show'
-    end
+    devise_for :users, skip: [:passwords, :registrations, :confirmations],
+               controllers:  { sessions: :sessions },
+               path_names:   { sign_in: :login }
     as :user do
-      post '/users/login' => 'sessions#create', :as => :user_session
+      post '/users', to: 'users#create'
+      resource :user, only: [:show, :update]
     end
     
     resources :lists

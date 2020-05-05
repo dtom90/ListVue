@@ -1,14 +1,5 @@
 const BASE_PATH = '/api'
 
-// const get = path => new Promise(resolve =>
-//   fetch(BASE_PATH + path)
-//     .then(stream => stream.json())
-//     .then(data => resolve(data))
-//     .catch(error => {
-//       throw new Error(`API ${error}`)
-//     })
-// )
-
 const send = (method, path, requestData = null) => new Promise(resolve =>
   fetch(BASE_PATH + path, {
     method,
@@ -30,7 +21,10 @@ const post = (path, data) => send('POST', path, data)
 const patch = (path, data) => send('PATCH', path, data)
 
 const _delete = (path) => new Promise((resolve, reject) =>
-  fetch(BASE_PATH + path, { method: 'DELETE' })
+  fetch(BASE_PATH + path, {
+    method: 'DELETE',
+    headers: 'token' in window.localStorage ? { 'Authorization': 'Token ' + window.localStorage.token } : {}
+  })
     .then(response => {
       if (response.ok) {
         resolve()

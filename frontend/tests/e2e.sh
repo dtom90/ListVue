@@ -4,6 +4,11 @@ THIS_DIR=$(dirname "$0")
 cd "${THIS_DIR}/.." || exit
 
 echo
+echo "Creating test user..."
+curl --location --request POST 'localhost:3000/api/users' \
+     --header 'Content-Type: application/json' \
+     --data-raw '{"user":{"email":"test@example.com", "password":"testpassword"}}'
+echo
 echo "Running end-to-end tests in TestCafé..."
 echo
 docker run -it -d --rm \
