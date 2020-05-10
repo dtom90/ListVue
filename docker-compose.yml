@@ -7,6 +7,20 @@ services:
     ports:
       - "80:80"
   api:
-    build: ./api
+    build:
+      context: ./api
+      args:
+        RAILS_ENV: production
     ports:
       - "3000:3000"
+    environment:
+      - SECRET_KEY_BASE
+      - POSTGRES_PASSWORD
+    depends_on:
+      - db
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD
+    volumes:
+      - ./db:/var/lib/postgresql/data

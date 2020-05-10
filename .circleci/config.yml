@@ -18,7 +18,8 @@ jobs:
           command: |
             set -x
             docker-compose --project-name listvue up -d
-            docker run --rm --network="listvue_default" appropriate/curl -4 --retry 10 --retry-delay 1 --retry-connrefused http://front
+            sleep 20
+            docker-compose run api rake db:setup
       - run:
           name: Run E2E tests
           command: ./frontend/tests/e2e.sh
