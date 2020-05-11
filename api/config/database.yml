@@ -7,9 +7,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: db
+  host: <%= ENV.fetch('POSTGRES_HOST') { 'db' } %>
   username: <%= ENV.fetch('POSTGRES_USERNAME') { 'postgres' } %>
-  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD') { '' } %>
   pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
   timeout: 5000
 

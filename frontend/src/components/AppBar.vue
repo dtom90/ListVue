@@ -6,24 +6,47 @@
     dark
   >
     <v-app-bar-nav-icon @click.stop="$emit('toggleDrawer')" />
+    
     <v-toolbar-title
       style="width: 300px"
       class="ml-0 pl-4"
     >
       <span>ListVue</span>
     </v-toolbar-title>
+    
     <v-spacer />
+    
     <div v-if="!email">
       <LoginDialog />
     </div>
     <div v-if="email">
-      <span>Logged in as {{ email }} </span>
-      <v-btn
-        color="blue"
-        @click="logOut"
+      <v-menu
+        left
+        bottom
       >
-        Log Out
-      </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            icon
+            v-on="on"
+          >
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+        </template>
+        
+        <v-list>
+          <v-subheader>Logged in as:</v-subheader>
+          <v-list-item>{{ email }}</v-list-item>
+          <v-list-item>
+            <v-btn
+              color="blue"
+              block
+              @click="logOut"
+            >
+              Log Out
+            </v-btn>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
   </v-app-bar>
 </template>
