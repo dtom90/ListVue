@@ -2,7 +2,7 @@
 set -e
 
 THIS_DIR=$(dirname "$0")
-cd "${THIS_DIR}/.." || exit
+cd "${THIS_DIR}/../.." || exit
 
 echo
 echo "Building test container..."

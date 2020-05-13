@@ -34,7 +34,7 @@
         <span>Clear All</span>
       </v-btn>
     </div>
-
+    
     <!-- New Task Input Field -->
     <v-row v-if="!isCompletedList">
       <v-col>
@@ -46,7 +46,7 @@
           @keyup.enter="addNewTask"
         />
       </v-col>
-
+      
       <div id="add-to-container">
         <v-btn-toggle
           v-model="addToBottom"
@@ -59,7 +59,7 @@
               alt="Add to Top"
             >
           </v-btn>
-
+          
           <v-btn @click="keepFocus">
             <img
               src="../assets/add_to_bottom.svg"
@@ -69,12 +69,15 @@
         </v-btn-toggle>
       </div>
     </v-row>
-
+    
     <!-- Task List -->
     <draggable
       v-model="incompleteTaskList"
       :disabled="isCompletedList"
       animation="200"
+      delay="500"
+      delay-on-touch-only="true"
+      touch-start-threshold="4"
       class="task-list"
       @start="startDrag"
       @end="endDrag"
@@ -123,8 +126,12 @@ export default {
     addToBottom: 1
   }),
   computed: {
-    isCompletedList: function () { return this.title === 'Completed' },
-    titleTag: function () { return this.isCompletedList ? 'h3' : 'h1' },
+    isCompletedList: function () {
+      return this.title === 'Completed'
+    },
+    titleTag: function () {
+      return this.isCompletedList ? 'h3' : 'h1'
+    },
     incompleteTaskList: {
       get () {
         return this.tasks
@@ -182,45 +189,46 @@ export default {
 
 <!--suppress CssUnusedSymbol -->
 <style scoped lang="scss">
-  .title-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
+.title-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
 
-  #new-task {
-    margin-bottom: 10px;
-  }
+#new-task {
+  margin-bottom: 10px;
+}
 
-  #add-to-container {
-    padding: 26px 0 26px 0;
-    img {
-      width: 1.5em;
-      height: 1.5em;
-    }
+#add-to-container {
+  padding: 26px 0 26px 0;
+  
+  img {
+    width: 1.5em;
+    height: 1.5em;
   }
+}
 
-  .task {
-    margin-bottom: 10px;
-  }
+.task {
+  margin-bottom: 10px;
+}
 
-  //noinspection CssInvalidPropertyValue
-  .draggable-task:hover {
-    cursor: move; /* fallback: no `url()` support or images disabled */
-    cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
-    cursor:    -moz-grab; /* Firefox 1.5-26 */
-    cursor:         grab; /* W3C standards syntax, should come least */
-  }
+//noinspection CssInvalidPropertyValue
+.draggable-task:hover {
+  cursor: move; /* fallback: no `url()` support or images disabled */
+  cursor: -webkit-grab; /* Chrome 1-21, Safari 4+ */
+  cursor: -moz-grab; /* Firefox 1.5-26 */
+  cursor: grab; /* W3C standards syntax, should come least */
+}
 
-  .sortable-chosen {
-    background-color: #E3F2FD;
-  }
+.sortable-chosen {
+  background-color: #E3F2FD;
+}
 
-  //noinspection CssInvalidPropertyValue
-  .draggable-cursor * {
-    cursor: move !important; /* fallback: no `url()` support or images disabled */
-    cursor: -webkit-grabbing !important; /* Chrome 1-21, Safari 4+ */
-    cursor:    -moz-grabbing !important; /* Firefox 1.5-26 */
-    cursor:         grabbing !important; /* W3C standards syntax, should come least */
-  }
+//noinspection CssInvalidPropertyValue
+.draggable-cursor * {
+  cursor: move !important; /* fallback: no `url()` support or images disabled */
+  cursor: -webkit-grabbing !important; /* Chrome 1-21, Safari 4+ */
+  cursor: -moz-grabbing !important; /* Firefox 1.5-26 */
+  cursor: grabbing !important; /* W3C standards syntax, should come least */
+}
 </style>

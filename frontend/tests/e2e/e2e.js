@@ -1,11 +1,11 @@
 import { Selector, ClientFunction } from 'testcafe'
 
-// Tasks
-const task1 = 'The first task'
-const task2 = 'The second task'
-const task2mod = 'The second completed task'
-const task3 = 'The third task'
-const task3mod = 'The modified third task'
+// App Bar selectors
+const appBar = Selector('header').withText('ListVue')
+const loginDialog = Selector('div.v-dialog').withText('Log In')
+const emailInput = loginDialog.find('label').withText('Email*').sibling('input')
+const passwordInput = loginDialog.find('label').withText('Password*').sibling('input')
+const profileButton = appBar.find('button i.mdi-account')
 
 // To Do List selectors
 const todoSection = Selector('.section').withText('To Do')
@@ -72,6 +72,13 @@ const deleteHandler = ClientFunction((type, text) => {
   }
 })
 
+// Tasks
+const task1 = 'The first task'
+const task2 = 'The second task'
+const task2mod = 'The second completed task'
+const task3 = 'The third task'
+const task3mod = 'The modified third task'
+
 const hostname = process.env.HOSTNAME || 'localhost'
 const port = process.env.PORT || '8080'
 const path = process.env.BASE_URL || ''
@@ -80,11 +87,6 @@ const url = `http://${hostname}:${port}${path}`
 fixture('To Do List')
   .page(url)
   .beforeEach(async t => {
-    const appBar = Selector('header').withText('ListVue')
-    const loginDialog = Selector('div.v-dialog').withText('Log In')
-    const emailInput = loginDialog.find('label').withText('Email*').sibling('input')
-    const passwordInput = loginDialog.find('label').withText('Password*').sibling('input')
-    
     await t
       
       // Log in
@@ -94,7 +96,7 @@ fixture('To Do List')
       .typeText(emailInput, 'test@example.com')
       .typeText(passwordInput, 'testpassword')
       .pressKey('enter')
-      .expect(Selector('span').withText('Logged in as test@example.com').visible).ok()
+      .expect(profileButton.visible).ok()
       
       // Expect an empty To Do List
       .expect(todoSection.find('h1').withText('To Do').exists).ok()
