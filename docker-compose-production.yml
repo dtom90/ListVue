@@ -7,14 +7,13 @@ services:
     volumes:
       - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
+      - "80:80"
       - "443:443"
   api:
     build:
       context: ./api
       args:
         RAILS_ENV: production
-    ports:
-      - "3000:3000"
     environment:
       - SECRET_KEY_BASE
       - POSTGRES_PASSWORD

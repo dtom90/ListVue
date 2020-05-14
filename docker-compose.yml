@@ -11,6 +11,8 @@ services:
       context: ./api
       args:
         RAILS_ENV: production
+    ports:
+      - "3000:3000"
     environment:
       - SECRET_KEY_BASE=mysecretkey
       - POSTGRES_PASSWORD
