@@ -1,6 +1,5 @@
 # ListVue
 [![CircleCI](https://circleci.com/gh/dtom90/ListVue.svg?style=svg)](https://circleci.com/gh/dtom90/ListVue)
-[![Build Status](https://travis-ci.org/dtom90/ToDo-Vue.svg?branch=master)](https://travis-ci.org/dtom90/ToDo-Vue)
 
 List management application
 
@@ -9,6 +8,8 @@ List management application
   - State Management: [Vuex](https://vuex.vuejs.org/)
   - UI Framework: [Vuetify](https://vuetifyjs.com/)
   - Drag-and-drop: [Vue.Draggable](https://sortablejs.github.io/Vue.Draggable/)
+- Back-end Framework: [Ruby on Rails](https://rubyonrails.org/)
+  - Database: [Postgres](https://www.postgresql.org/)
 - Testing:
   - Package Audit: [yarn audit](https://yarnpkg.com/lang/en/docs/cli/audit/)
   - Lint: [ESLint](https://eslint.org/)
@@ -17,60 +18,33 @@ List management application
 - Continuous Integration:
   - Container: [Docker](https://www.docker.com/)
   - Test: [CircleCI](https://circleci.com/)
-  - Deploy: [Travis CI](https://travis-ci.com/)
-
-## Setup
-```
-yarn install
-```
-#### Install in Docker for development:
-```
-./docker/install.sh
-```
 
 ## Development
-#### Compile and hot-reload for development:
-```
-yarn run dev
-```
-#### Deploy container for development:
-```
-./docker/dev.sh
+#### Run frontend, api, and db in development
+```bash
+docker-compose up --build
 ```
 
 ## Test
-#### Lint and fix source files
+
+#### Run basic frontend tests
+```bash
+./frontend/tests/run.sh
 ```
-yarn run lint
+
+#### Build deployment for end-to-end testing
+```bash
+docker-compose -f docker-compose-test.yml up --build
 ```
-#### Run unit tests with jest
-```
-yarn run test:unit
-```
-#### Run end-to-end tests with [TestCafé](https://testcafe.devexpress.com/) (with dev or prod server)
-```
-yarn run test:e2e:dev
-yarn run test:e2e:prod
-```
-#### Run all tests (lint, unit tests, end-to-end tests)
-```
-yarn run test
-```
-#### Run all tests in Docker containers
-```
-./docker/test.sh
+
+#### Run end-to-end tests with [TestCafé](https://testcafe.devexpress.com/)
+```bash
+./frontend/tests/e2e/run.sh
 ```
 
 ## Production
-#### Compile and minify for production
-```
-yarn run build
-```
-#### Serve production files
-```
-yarn run serve:prod
-```
-#### Build Docker image and deploy container for production:
-```
-./docker/prod.sh
+
+#### Deploy for production
+```bash
+docker-compose -f docker-compose-production.yml up --build
 ```

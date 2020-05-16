@@ -1,24 +1,18 @@
-# README
+# ListVue API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Backend API for the ListVue app
 
-Things you may want to cover:
+* [Ruby version](.ruby-version)
 
-* Ruby version
-
-* System dependencies
+* [Dependencies](Gemfile)
 
 * Configuration
+  - set `SECRET_KEY_BASE` to something, eg.g. `SECRET_KEY_BASE=$(rake secret)`
+  - set `POSTGRES_PASSWORD` to the password of your postgres database
+  - see [`config/database.yml`](config/database.yml) for additional database settings
 
-* Database creation
+* Database creation: `rails db:create`
 
-* Database initialization
+* Database initialization: `rails db:migrate`
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* How to run the test suite: `rails test`

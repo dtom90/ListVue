@@ -12,7 +12,7 @@ jobs:
           command: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
       - run:
           name: Run frontend package audit, lint, and unit tests
-          command: ./frontend/tests/docker/test.sh
+          command: ./frontend/tests/run.sh
       - run:
           name: Deloy production application in Docker containers
           command: |
@@ -21,7 +21,7 @@ jobs:
             docker build -t wait wait  && docker run -it --rm --network="listvue_default" wait api:3000
       - run:
           name: Run E2E tests
-          command: ./frontend/tests/docker/e2e.sh
+          command: ./frontend/tests/e2e/run.sh
       - run:
           name: Stop production Docker deployment
           command: docker-compose --project-name listvue down
