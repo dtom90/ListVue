@@ -3,7 +3,7 @@ FROM ruby:2.6.6
 ARG RAILS_ENV=development
 ENV RAILS_ENV $RAILS_ENV
 
-WORKDIR /ListVue
+WORKDIR /app
 
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
