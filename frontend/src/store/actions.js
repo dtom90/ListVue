@@ -66,8 +66,14 @@ const actions = {
     }
   },
   
-  async createTask ({ state, commit }, { name }) { //, addToBottom
-    const newTask = await post('/tasks', { task: { name, list_id: getters.selectedList(state).id } })
+  async createTask ({ state, commit }, { name, addToBottom }) { //, addToBottom
+    const newTask = await post('/tasks', {
+      task: {
+        name,
+        list_id: getters.selectedList(state).id,
+        add_to_bottom: addToBottom === 1
+      }
+    })
     commit('addTask', newTask)
   },
   
