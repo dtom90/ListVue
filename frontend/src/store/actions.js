@@ -34,7 +34,10 @@ const actions = {
     dispatch('selectList', { index: 0 })
   },
   
-  async selectList ({ state, commit }, { index }) {
+  async selectList ({ state, commit }, { index = null }) {
+    if (index === null) {
+      index = state.selected
+    }
     if (index < state.lists.length) {
       const id = state.lists[index].id
       const list = await get('/lists/' + id)
@@ -66,15 +69,15 @@ const actions = {
     }
   },
   
-  async createTask ({ state, commit }, { name, addToBottom }) { //, addToBottom
-    const newTask = await post('/tasks', {
+  async createTask ({ state, dispatch }, { name, addToBottom }) {
+    await post('/tasks', {
       task: {
         name,
         list_id: getters.selectedList(state).id,
         add_to_bottom: addToBottom === 1
       }
     })
-    commit('addTask', newTask)
+    dispatch('selectList', {})
   },
   
   async updateTask ({ commit }, params) {
