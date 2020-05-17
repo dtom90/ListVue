@@ -31,16 +31,14 @@ const mutations = {
     state.tasks.push(newTask)
   },
   
-  updateIncompleteTasks (state, { newTaskOrder }) {
-    state.tasks = newTaskOrder
+  updateTasks (state, { tasks }) {
+    state.tasks.forEach(task => Object.assign(task, tasks[task.id]))
   },
   
-  /* eslint-disable camelcase */
   updateTask (state, updatedTask) {
     const index = state.tasks.findIndex(t => t.id === updatedTask.id)
     Vue.set(state.tasks, index, updatedTask)
   },
-  /* eslint-enable camelcase */
   
   deleteTask (state, { id }) {
     const index = state.tasks.findIndex(t => t.id === id)

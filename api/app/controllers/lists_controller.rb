@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[show update destroy_completed_tasks destroy_tasks destroy]
+  before_action :set_list, only: %i[show update rearrange_tasks destroy_completed_tasks destroy_tasks destroy]
   
   # GET /lists
   def index
@@ -35,6 +35,16 @@ class ListsController < ApplicationController
     end
   end
   
+  # PATCH/PUT /lists/1/tasks
+  def rearrange_tasks
+    tasks = list_params[:tasks]
+    if @list.tasks.update(tasks.keys, tasks.values)
+      render json: @list.tasks
+    else
+      render json: @list.errors, status: :unprocessable_entity
+    end
+  end
+  
   # DELETE /lists/1/tasks/completed
   def destroy_completed_tasks
     @list.tasks.where.not(completed_at: nil).delete_all
@@ -59,6 +69,6 @@ class ListsController < ApplicationController
   
   # Only allow a trusted parameter "white list" through.
   def list_params
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, tasks: [:order])
   end
 end

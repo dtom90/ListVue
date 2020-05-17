@@ -7,7 +7,7 @@ class Task < ApplicationRecord
   
   def set_order
     if add_to_bottom == true
-      self.order = self.list.tasks.size
+      self.order = self.list.tasks.maximum('order') + 1
     else
       self.order = 0
       list.tasks.update_all(' "order" = "order" + 1')

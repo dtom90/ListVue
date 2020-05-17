@@ -86,6 +86,13 @@ const actions = {
     commit('updateTask', newTask)
   },
   
+  async rearrangeTasks ({ state, commit }, { idToOrder }) {
+    const index = state.selected
+    const id = state.lists[index].id
+    const tasks = await patch(`/lists/${id}/tasks`, { list: { tasks: idToOrder } })
+    commit('updateTasks', { tasks })
+  },
+  
   async deleteTask ({ state, commit }, { id }) {
     const task = state.tasks.find(t => t.id === id)
     if (task.completed_at !== null || confirm(`Are you sure that you want to delete "${task.name}"? The task is not yet complete!`)) {
