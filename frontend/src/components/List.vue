@@ -137,7 +137,10 @@ export default {
         return this.tasks
       },
       set (newTaskOrder) {
-        this.updateIncompleteTasks({ newTaskOrder })
+        const idToOrder = {}
+        newTaskOrder.forEach((task, i) => { idToOrder[task.id] = { order: i } })
+        this.updateTasks({ tasks: idToOrder })
+        this.rearrangeTasks({ idToOrder })
       }
     }
   },
@@ -151,11 +154,12 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'updateIncompleteTasks'
+      'updateTasks'
     ]),
     ...mapActions([
       'updateList',
       'createTask',
+      'rearrangeTasks',
       'clearTasks',
       'clearAllTasks',
       'deleteList'

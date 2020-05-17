@@ -4,9 +4,10 @@ module.exports = {
     'vuetify'
   ],
   devServer: {
+    disableHostCheck: true,
     proxy: {
       '^/api': {
-        target: 'http://localhost:3000'
+        target: `http://${process.env.API_HOST || 'localhost'}:3000`
       }
     }
   }

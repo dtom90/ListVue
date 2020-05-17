@@ -3,19 +3,16 @@ services:
   front:
     build:
       context: ./frontend
-      dockerfile: production/Dockerfile
-    volumes:
-      - /etc/letsencrypt/:/etc/letsencrypt/
+      dockerfile: tests/docker/Dockerfile
     ports:
       - "80:80"
-      - "443:443"
   api:
     build:
       context: ./api
       args:
         RAILS_ENV: production
     environment:
-      - SECRET_KEY_BASE
+      - SECRET_KEY_BASE=mysecretkey
       - POSTGRES_PASSWORD
     depends_on:
       - db
@@ -23,5 +20,3 @@ services:
     image: postgres
     environment:
       - POSTGRES_PASSWORD
-    volumes:
-      - ./db:/var/lib/postgresql/data

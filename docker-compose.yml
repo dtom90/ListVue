@@ -1,16 +1,19 @@
 version: '3'
 services:
   front:
-    build:
-      context: ./frontend
-      dockerfile: tests/docker/Dockerfile
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+    environment:
+      API_HOST: api
     ports:
-      - "80:80"
+      - "8080:8080"
   api:
-    build:
-      context: ./api
-      args:
-        RAILS_ENV: production
+    build: ./api
+    volumes:
+      - ./api:/app
+    ports:
+      - "3000:3000"
     environment:
       - SECRET_KEY_BASE=mysecretkey
       - POSTGRES_PASSWORD
@@ -20,3 +23,5 @@ services:
     image: postgres
     environment:
       - POSTGRES_PASSWORD
+    ports:
+      - "5432:5432"
