@@ -79,10 +79,12 @@ const task2mod = 'The second completed task'
 const task3 = 'The third task'
 const task3mod = 'The modified third task'
 
-const hostname = process.env.HOSTNAME || 'localhost'
+const hostname = process.env.HOST || 'localhost'
 const port = process.env.PORT || '8080'
 const path = process.env.BASE_URL || ''
 const url = `http://${hostname}:${port}${path}`
+
+console.log(`Testing agaginst ${url}`) // eslint-disable-line no-console
 
 fixture('To Do List')
   .page(url)
