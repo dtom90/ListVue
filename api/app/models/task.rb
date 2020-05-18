@@ -10,6 +10,8 @@ class Task < ApplicationRecord
       max_order = self.list.tasks.maximum('order')
       if max_order
         self.order = max_order + 1
+      else
+        self.order = 0
       end
     else
       self.order = 0
