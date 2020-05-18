@@ -138,7 +138,9 @@ export default {
       },
       set (newTaskOrder) {
         const idToOrder = {}
-        newTaskOrder.forEach((task, i) => { idToOrder[task.id] = { order: i } })
+        newTaskOrder.forEach((task, i) => {
+          idToOrder[task.id] = { order: i }
+        })
         this.updateTasks({ tasks: idToOrder })
         this.rearrangeTasks({ idToOrder })
       }

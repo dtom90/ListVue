@@ -89,8 +89,7 @@ const actions = {
   async rearrangeTasks ({ state, commit }, { idToOrder }) {
     const index = state.selected
     const id = state.lists[index].id
-    const tasks = await patch(`/lists/${id}/tasks`, { list: { tasks: idToOrder } })
-    commit('updateTasks', { tasks })
+    await patch(`/lists/${id}/tasks`, { list: { tasks: idToOrder } })
   },
   
   async deleteTask ({ state, commit }, { id }) {
