@@ -13,7 +13,12 @@ const send = (method, path, requestData = null) => new Promise((resolve, reject)
       }
       throw response
     })
-    .then(stream => stream.json())
+    .then(response => {
+      const contentType = response.headers.get('content-type')
+      if (contentType && contentType.indexOf('application/json') !== -1) {
+        return response.json()
+      }
+    })
     .then(json => resolve(json))
     .catch(error => {
       // eslint-disable-next-line no-console
@@ -28,6 +33,6 @@ const post = (path, data) => send('POST', path, data)
 
 const patch = (path, data) => send('PATCH', path, data)
 
-const _delete = (path) => send('DELTE', path)
+const _delete = (path) => send('DELETE', path)
 
 export { get, post, patch, _delete }
