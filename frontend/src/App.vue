@@ -2,14 +2,10 @@
   <v-app>
     <AppBar @toggleDrawer="drawer = !drawer" />
     
-    <v-navigation-drawer
-      v-model="drawer"
-      :mobile-break-point="$vuetify.breakpoint.thresholds.xs"
-      clipped
-      app
-    >
-      <ListNav />
-    </v-navigation-drawer>
+    <ListNav
+      :app-drawer="drawer"
+      :set-drawer="setDrawer"
+    />
     
     <AppContent />
   </v-app>
@@ -23,18 +19,24 @@ import { mapActions } from 'vuex'
 
 export default {
   components: { AppBar, ListNav, AppContent },
+  
   data: () => ({
     drawer: null
   }),
+  
   created () {
     this.checkSignIn()
   },
+  
   methods: {
     ...mapActions([
       'checkSignIn'
     ]),
     toggleDrawer () {
       this.drawer = !this.drawer
+    },
+    setDrawer (newValue) {
+      this.drawer = newValue
     }
   }
 }
