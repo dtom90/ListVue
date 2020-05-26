@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     end
     
     resources :lists
+    patch '/lists', to: 'lists#rearrange_lists'
     patch '/lists/:id/tasks', to: 'lists#rearrange_tasks'
     delete '/lists/:id/tasks/completed', to: 'lists#destroy_completed_tasks'
     delete '/lists/:id/tasks', to: 'lists#destroy_tasks'

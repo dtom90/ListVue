@@ -36,71 +36,81 @@ const actions = {
     commit('resetState')
   },
   
-  async loadLists ({ dispatch, commit }) {
+  async loadLists ({ state, dispatch, commit }) {
     try {
       const lists = await get('/lists')
       commit('saveLists', { lists })
-      dispatch('selectList', { index: 0 })
+      if (state.lists.length > 0) {
+        dispatch('loadList', { id: state.lists[0].id })
+      }
     } catch (e) { handleError(e) }
   },
   
-  async selectList ({ state, commit }, { index = null }) {
-    if (index === null) {
-      index = state.selected
+  async loadList ({ state, commit }, { id = null }) {
+    if (id === null) {
+      id = state.selected
+    } else {
+      commit('selectList', { id })
     }
-    if (index < state.lists.length) {
-      const id = state.lists[index].id
-      try {
-        const list = await get('/lists/' + id)
-        commit('selectList', { index, tasks: list.tasks })
-      } catch (e) { handleError(e) }
-    }
+    try {
+      const list = await get('/lists/' + id)
+      commit('saveTasks', { tasks: list.tasks })
+    } catch (e) { handleError(e) }
   },
   
   async createList ({ commit, dispatch, state }, { newListName }) {
     try {
       const newList = await post('/lists', { list: { name: newListName } })
-      commit('addList', newList)
-      dispatch('selectList', { index: state.lists.length - 1 })
+      commit('addList', { newList })
+      commit('selectList', { id: newList.id })
     } catch (e) { handleError(e) }
   },
   
   async updateList ({ state, commit }, { newListName }) {
-    const list = state.lists[state.selected]
     try {
-      const newList = await patch('/lists/' + list.id, { list: { name: newListName } })
-      commit('updateList', newList)
+      const newList = await patch('/lists/' + state.selected, { list: { name: newListName } })
+      commit('updateList', { newList })
+    } catch (e) { handleError(e) }
+  },
+  
+  async rearrangeLists ({ state, commit }, { idToOrder }) {
+    try {
+      await patch('/lists', { lists: { list_fields: idToOrder } })
     } catch (e) { handleError(e) }
   },
   
   async deleteList ({ state, commit }) {
-    const list = state.lists[state.selected]
+    const list = getters.selectedList(state)
     if (confirm(`Are you sure that you want to delete the list "${list.name}"?`)) {
       try {
-        await _delete('/lists/' + list.id)
+        await _delete('/lists/' + state.selected)
         commit('deleteList')
       } catch (e) { handleError(e) }
     }
   },
   
-  async createTask ({ state, dispatch }, { name, addToBottom }) {
+  async createTask ({ state, commit }, { name, addToBottom }) {
+    // eslint-disable-next-line no-console
+    console.log('createTask')
     try {
-      await post('/tasks', {
+      const newTask = await post('/tasks', {
         task: {
           name,
-          list_id: getters.selectedList(state).id,
+          list_id: state.selected,
           add_to_bottom: addToBottom === 1
         }
       })
-      dispatch('selectList', {})
+      // eslint-disable-next-line no-console
+      console.log(newTask)
+      commit('addTask', { newTask })
     } catch (e) { handleError(e) }
   },
   
   async updateTask ({ commit }, params) {
     const { id, ...patchParams } = params
     try {
-      const newTask = await patch('/tasks/' + id, { task: patchParams })
-      commit('updateTask', newTask)
+      const updatedTask = await patch('/tasks/' + id, { task: patchParams })
+      commit('updateTask', { updatedTask })
     } catch (e) { handleError(e) }
   },
   
@@ -125,11 +135,9 @@ const actions = {
   async clearTasks ({ state, dispatch }) {
     const completedTasks = state.tasks.filter(task => task.completed_at !== null)
     if (completedTasks.length === 1 || confirm(`Are you sure that you want to delete all ${completedTasks.length} completed tasks?`)) {
-      const index = state.selected
-      const id = state.lists[index].id
       try {
-        await _delete(`/lists/${id}/tasks/completed`)
-        dispatch('selectList', { index })
+        await _delete(`/lists/${state.selected}/tasks/completed`)
+        dispatch('loadList', {})
       } catch (e) { handleError(e) }
     }
   },
@@ -139,11 +147,9 @@ const actions = {
       const question = state.tasks.length === 1 ? `Are you sure you want to delete task "${state.tasks[0].name}"?`
         : `Are you sure that you want to delete all ${state.tasks.length} tasks from this list?`
       if (confirm(question)) {
-        const index = state.selected
-        const id = state.lists[index].id
         try {
-          await _delete(`/lists/${id}/tasks`)
-          dispatch('selectList', { index })
+          await _delete(`/lists/${state.selected}/tasks`)
+          dispatch('loadList', {})
         } catch (e) { handleError(e) }
       }
     }
