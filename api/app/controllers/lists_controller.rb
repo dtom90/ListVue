@@ -26,6 +26,18 @@ class ListsController < ApplicationController
     end
   end
   
+  # PATCH /lists
+  def rearrange_lists
+    @lists = current_user.lists
+    lists  = list_order_params[:list_fields]
+    puts list_order_params[:list_fields]
+    if @lists.update(lists.keys, lists.values)
+      render json: @lists
+    else
+      render json: @lists.errors, status: :unprocessable_entity
+    end
+  end
+  
   # PATCH/PUT /lists/1
   def update
     if @list.update(list_params)
@@ -70,5 +82,9 @@ class ListsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def list_params
     params.require(:list).permit(:name, tasks: [:order])
+  end
+  
+  def list_order_params
+    params.require(:lists).permit(list_fields: [:order])
   end
 end

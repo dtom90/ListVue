@@ -73,6 +73,12 @@ const actions = {
     } catch (e) { handleError(e) }
   },
   
+  async rearrangeLists ({ state, commit }, { idToOrder }) {
+    try {
+      await patch('/lists', { lists: { list_fields: idToOrder } })
+    } catch (e) { handleError(e) }
+  },
+  
   async deleteList ({ state, commit }) {
     const list = state.lists[state.selected]
     if (confirm(`Are you sure that you want to delete the list "${list.name}"?`)) {

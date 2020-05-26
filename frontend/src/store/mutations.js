@@ -8,6 +8,7 @@ const mutations = {
   
   saveLists (state, { lists }) {
     state.lists = lists
+    state.lists.sort((a, b) => a.order - b.order)
   },
   
   selectList (state, { index, tasks }) {
@@ -21,6 +22,11 @@ const mutations = {
   
   updateList (state, newList) {
     Vue.set(state.lists, state.selected, newList)
+  },
+  
+  updateLists (state, { lists }) {
+    state.lists.forEach(list => Object.assign(list, lists[list.id]))
+    state.lists.sort((a, b) => a.order - b.order)
   },
   
   deleteList (state) {

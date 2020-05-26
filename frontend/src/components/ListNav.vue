@@ -13,13 +13,14 @@
         mandatory
       >
         <draggable
+          v-model="draggableLists"
           animation="200"
           handle=".handle"
           @start="startDrag"
           @end="endDrag"
         >
           <v-list-item
-            v-for="list in lists"
+            v-for="list in draggableLists"
             :key="list.id"
             @click="clickList"
           >
@@ -60,7 +61,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import draggable from 'vuedraggable'
 
 export default {
@@ -109,13 +110,32 @@ export default {
           this.selectList({ index })
         }
       }
+    },
+    draggableLists: {
+      get () {
+        return this.lists
+      },
+      set (newListOrder) {
+        const idToOrder = {}
+        newListOrder.forEach((list, i) => {
+          idToOrder[list.id] = { order: i }
+        })
+        const index = this.lists[this.selected].id
+        this.updateLists({ lists: idToOrder })
+        this.selectList({ index: this.lists.findIndex(list => list.id === index) })
+        this.rearrangeLists({ idToOrder })
+      }
     }
   },
   
   methods: {
     ...mapActions([
       'createList',
-      'selectList'
+      'selectList',
+      'rearrangeLists'
+    ]),
+    ...mapMutations([
+      'updateLists'
     ]),
     clickList () {
       if (this.$refs.navigationDrawer.isMobile) {
