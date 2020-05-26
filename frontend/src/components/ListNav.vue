@@ -7,36 +7,33 @@
     app
   >
     <v-list nav>
-      <v-list-item-group
-        v-model="listIndex"
-        color="primary"
-        mandatory
+      <draggable
+        ref="draggableListsContainer"
+        v-model="draggableLists"
+        animation="200"
+        handle=".handle"
+        @start="startDrag"
+        @end="endDrag"
       >
-        <draggable
-          v-model="draggableLists"
-          animation="200"
-          handle=".handle"
-          @start="startDrag"
-          @end="endDrag"
+        <v-list-item
+          v-for="list in draggableLists"
+          :key="list.id"
+          :ref="`list-${list.id}`"
+          color="primary"
+          @click="clickList(list.id)"
         >
-          <v-list-item
-            v-for="list in draggableLists"
-            :key="list.id"
-            @click="clickList"
-          >
-            <v-list-item-action>
-              <v-icon class="handle">
-                mdi-menu
-              </v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ list.name }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </draggable>
-      </v-list-item-group>
+          <v-list-item-action>
+            <v-icon class="handle">
+              mdi-menu
+            </v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              {{ list.name }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </draggable>
       
       <v-list-item @click="enterNewListName = true">
         <v-list-item-icon>
@@ -79,7 +76,8 @@ export default {
     },
     setDrawer: {
       type: Function,
-      default: () => {}
+      default: () => {
+      }
     }
   },
   
@@ -101,16 +99,6 @@ export default {
         this.setDrawer(newValue)
       }
     },
-    listIndex: {
-      get () {
-        return this.selected
-      },
-      set (index) {
-        if (index != null) {
-          this.selectList({ index })
-        }
-      }
-    },
     draggableLists: {
       get () {
         return this.lists
@@ -120,24 +108,38 @@ export default {
         newListOrder.forEach((list, i) => {
           idToOrder[list.id] = { order: i }
         })
-        const index = this.lists[this.selected].id
         this.updateLists({ lists: idToOrder })
-        this.selectList({ index: this.lists.findIndex(list => list.id === index) })
         this.rearrangeLists({ idToOrder })
       }
+    }
+  },
+  
+  watch: {
+    selected (newSelected) {
+      this.$nextTick(() => {
+        for (let list of this.$refs.draggableListsContainer.$children) {
+          list.isActive = false
+        }
+        
+        const listQuery = this.$refs[`list-${newSelected}`]
+        if (listQuery) {
+          listQuery[0].isActive = true
+        }
+      })
     }
   },
   
   methods: {
     ...mapActions([
       'createList',
-      'selectList',
+      'loadList',
       'rearrangeLists'
     ]),
     ...mapMutations([
       'updateLists'
     ]),
-    clickList () {
+    clickList (id) {
+      this.loadList({ id })
       if (this.$refs.navigationDrawer.isMobile) {
         this.setDrawer(false)
       }

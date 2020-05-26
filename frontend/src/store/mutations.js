@@ -11,16 +11,15 @@ const mutations = {
     state.lists.sort((a, b) => a.order - b.order)
   },
   
-  selectList (state, { index, tasks }) {
-    state.selected = index
-    state.tasks = tasks
+  selectList (state, { id }) {
+    state.selected = id
   },
   
-  addList (state, newList) {
+  addList (state, { newList }) {
     state.lists.push(newList)
   },
   
-  updateList (state, newList) {
+  updateList (state, { newList }) {
     Vue.set(state.lists, state.selected, newList)
   },
   
@@ -33,7 +32,11 @@ const mutations = {
     Vue.delete(state.lists, state.selected)
   },
   
-  addTask (state, newTask) {
+  saveTasks (state, { tasks }) {
+    state.tasks = tasks
+  },
+  
+  addTask (state, { newTask }) {
     state.tasks.push(newTask)
   },
   
@@ -41,7 +44,7 @@ const mutations = {
     state.tasks.forEach(task => Object.assign(task, tasks[task.id]))
   },
   
-  updateTask (state, updatedTask) {
+  updateTask (state, { updatedTask }) {
     const index = state.tasks.findIndex(t => t.id === updatedTask.id)
     Vue.set(state.tasks, index, updatedTask)
   },

@@ -38,7 +38,7 @@ function checkbox (taskName) {
 
 const editTaskWrapper = Selector('div.edit-task')
 const editTaskInput = editTaskWrapper.find('input')
-const saveButton = editTaskWrapper.find('i.mdi-content-save')
+const saveButton = editTaskWrapper.find('button.mdi-content-save')
 
 // Menu selectors
 function menuButton (taskName) {
