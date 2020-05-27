@@ -27,3 +27,8 @@ docker/*.log
 
 # System files
 .DS_Store
+
+# Cordova
+/cordova/platforms
+/cordova/plugins
+/public/cordova.js

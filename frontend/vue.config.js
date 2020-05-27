@@ -1,8 +1,10 @@
 module.exports = {
-  publicPath: process.env.BASE_URL ? process.env.BASE_URL : '/',
+  publicPath: '',
+
   transpileDependencies: [
     'vuetify'
   ],
+
   devServer: {
     disableHostCheck: true,
     proxy: {
@@ -10,5 +12,9 @@ module.exports = {
         target: `http://${process.env.API_HOST || 'localhost'}:3000`
       }
     }
+  },
+
+  pluginOptions: {
+    cordovaPath: 'cordova'
   }
 }
