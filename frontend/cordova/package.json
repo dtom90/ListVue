@@ -18,6 +18,7 @@
     "cordova-electron": "^1.1.1",
     "cordova-ios": "^5.1.1",
     "cordova-osx": "^5.0.0",
+    "cordova-plugin-splashscreen": "^5.0.4",
     "cordova-plugin-statusbar": "^2.4.3"
   },
   "devDependencies": {
@@ -26,7 +27,8 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
-      "cordova-plugin-statusbar": {}
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "android",
