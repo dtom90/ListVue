@@ -1,10 +1,10 @@
 module.exports = {
   publicPath: '',
-
+  
   transpileDependencies: [
     'vuetify'
   ],
-
+  
   devServer: {
     disableHostCheck: true,
     proxy: {
@@ -13,7 +13,7 @@ module.exports = {
       }
     }
   },
-
+  
   pluginOptions: {
     cordovaPath: 'cordova'
   }
