@@ -1,4 +1,9 @@
-const BASE_PATH = '/api'
+let BASE_PATH = '/api'
+
+const app = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1
+if (app) {
+  BASE_PATH = 'https://listvue.app/api'
+}
 
 const send = (method, path, requestData = null) => new Promise((resolve, reject) =>
   fetch(BASE_PATH + path, {
