@@ -89,20 +89,16 @@ const actions = {
     }
   },
   
-  async createTask ({ state, commit }, { name, addToBottom }) {
-    // eslint-disable-next-line no-console
-    console.log('createTask')
+  async createTask ({ state, dispatch }, { name, addToBottom }) {
     try {
-      const newTask = await post('/tasks', {
+      await post('/tasks', {
         task: {
           name,
           list_id: state.selected,
           add_to_bottom: addToBottom === 1
         }
       })
-      // eslint-disable-next-line no-console
-      console.log(newTask)
-      commit('addTask', { newTask })
+      dispatch('loadList', {})
     } catch (e) { handleError(e) }
   },
   
