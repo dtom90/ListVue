@@ -3,7 +3,7 @@
 
 List management application
 
-#### Tech
+### Tech Stack
 - Front-end Framework: [Vue.js](https://vuejs.org/)
   - State Management: [Vuex](https://vuex.vuejs.org/)
   - UI Framework: [Vuetify](https://vuetifyjs.com/)

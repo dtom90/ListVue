@@ -19,7 +19,7 @@ jobs:
           command: |
             set -x
             docker-compose -f docker-compose-test.yml --project-name listvue up --build -d
-            docker build -t wait wait  && docker run -it --rm --network="listvue_default" wait api:3000
+            docker build -t wait wait && docker run -it --rm --network="listvue_default" wait api:3000
             ./api/setup_db.sh
       - run:
           name: Run E2E tests
