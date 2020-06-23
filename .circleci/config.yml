@@ -2,12 +2,10 @@ version: 2
 jobs:
   build:
     working_directory: ~/ListVue
-    docker:
-      - image: cimg/base:stable
+    machine:
+      docker_layer_caching: true
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
       - run:
           name: Enable Docker
           command: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
