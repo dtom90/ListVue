@@ -7,7 +7,7 @@
           @change="completeThisTask"
         />
       </v-list-item-action>
-
+      
       <v-list-item-content>
         <v-list-item-title v-if="!editing">
           <span>{{ task.name }}</span>
@@ -23,12 +23,14 @@
           @keyup.enter="saveName"
         />
       </v-list-item-content>
-
+      
       <v-list-item-action>
         <SettingsMenu
           :date-type="dateType"
           :date="date"
+          :list-id="task.list_id"
           :edit-this="editThisTask"
+          :move-this="moveThisTask"
           :delete-this="deleteThisTask"
         />
       </v-list-item-action>
@@ -81,6 +83,7 @@ export default {
   },
   methods: {
     ...mapActions([
+      'loadList',
       'updateTask',
       'deleteTask'
     ]),
@@ -94,6 +97,12 @@ export default {
     saveName () {
       this.editing = false
       this.updateTask({ id: this.task.id, name: this.name })
+    },
+    moveThisTask (newListId) {
+      this.updateTask({ id: this.task.id, list_id: newListId })
+      this.$nextTick(() => {
+        this.loadList({})
+      })
     },
     completeThisTask () {
       const completed_at = this.completed ? null : (new Date()).toISOString() // eslint-disable-line camelcase

@@ -1,12 +1,18 @@
-import { shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import moment from 'moment'
+import Vuex from 'vuex'
 
 import SettingsMenu from '@/components/SettingsMenu.vue'
+
+const localVue = createLocalVue()
+localVue.use(Vuex)
+
+const store = new Vuex.Store({ state: { lists: [] } })
 
 describe('SettingsMenu', () => {
   
   describe('Incomplete', () => {
-
+    
     const createdDate = new Date()
     const menu = {
       dateType: 'Created',
@@ -14,7 +20,9 @@ describe('SettingsMenu', () => {
     }
     
     const wrapper = shallowMount(SettingsMenu, {
-      propsData: menu
+      propsData: menu,
+      store,
+      localVue
     })
     
     it('renders the created date', () => {
@@ -34,7 +42,7 @@ describe('SettingsMenu', () => {
   })
   
   describe('Complete', () => {
-
+    
     const completedDate = new Date()
     const menu = {
       dateType: 'Completed',
@@ -42,7 +50,9 @@ describe('SettingsMenu', () => {
     }
     
     const wrapper = shallowMount(SettingsMenu, {
-      propsData: menu
+      propsData: menu,
+      store,
+      localVue
     })
     
     it('renders the completed date', () => {

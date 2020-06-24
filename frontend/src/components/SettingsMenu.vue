@@ -1,5 +1,9 @@
 <template>
-  <v-menu offset-y>
+  <v-menu
+    v-model="menuShown"
+    offset-y
+    :close-on-content-click="false"
+  >
     <template v-slot:activator="{ on }">
       <v-btn
         icon
@@ -19,27 +23,50 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
+      <v-list-item>
+        <v-select
+          v-model="selectedList"
+          :items="lists"
+          item-text="name"
+          item-value="id"
+          single-line
+        />
+      </v-list-item>
     </v-list>
     <v-divider />
     <v-list class="menu-btns">
-      <v-btn
-        color="warning"
-        fab
-        small
-        dark
-        @click="editThis"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-      <v-btn
-        color="error"
-        fab
-        small
-        dark
-        @click="deleteThis"
-      >
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="warning"
+            fab
+            small
+            dark
+            v-bind="attrs"
+            v-on="on"
+            @click="editThis"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </template>
+        <span>Edit name</span>
+      </v-tooltip>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="error"
+            fab
+            small
+            dark
+            v-bind="attrs"
+            v-on="on"
+            @click="deleteThis"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </template>
+        <span>Delete</span>
+      </v-tooltip>
       <v-btn
         v-if="clearAllBtn"
         color="error"
@@ -53,6 +80,7 @@
 
 <script>
 import moment from 'moment'
+import { mapState } from 'vuex'
 
 export default {
   name: 'SettingsMenu',
@@ -69,6 +97,14 @@ export default {
       type: Function,
       default: function () {}
     },
+    listId: {
+      type: Number,
+      default: null
+    },
+    moveThis: {
+      type: Function,
+      default: null
+    },
     deleteThis: {
       type: Function,
       default: function () {}
@@ -82,7 +118,22 @@ export default {
       default: function () {}
     }
   },
+  data: () => ({
+    menuShown: false
+  }),
   computed: {
+    ...mapState([
+      'lists'
+    ]),
+    selectedList: {
+      get () {
+        return this.lists.find(list => list.id === this.listId)
+      },
+      set (newList) {
+        this.moveThis(newList)
+        this.menuShown = false
+      }
+    },
     displayDate: function () {
       return moment(this.date).format('ddd MMM DD YYYY,')
     },
@@ -94,7 +145,7 @@ export default {
 </script>
 
 <style scoped>
-  .menu-btns > button {
-    margin-left: 8px;
-  }
+.menu-btns > button {
+  margin-left: 8px;
+}
 </style>

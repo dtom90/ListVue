@@ -10,5 +10,6 @@ RUN yarn run build
 
 # production stage
 FROM nginx:stable-alpine as production-stage
+COPY tests/e2e/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]

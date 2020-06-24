@@ -2,10 +2,12 @@ version: 2
 jobs:
   build:
     working_directory: ~/ListVue
-    machine:
-      docker_layer_caching: true
+    docker:
+      - image: cimg/base:stable
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Enable Docker
           command: if [ -e /var/run/docker.sock ]; then sudo chown circleci:circleci /var/run/docker.sock; fi
@@ -17,7 +19,7 @@ jobs:
           command: |
             set -x
             docker-compose -f docker-compose-test.yml --project-name listvue up --build -d
-            docker build -t wait wait  && docker run -it --rm --network="listvue_default" wait api:3000
+            docker build -t wait wait && docker run -it --rm --network="listvue_default" wait api:3000
             ./api/setup_db.sh
       - run:
           name: Run E2E tests
