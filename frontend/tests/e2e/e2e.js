@@ -38,7 +38,7 @@ function checkbox (taskName) {
 
 const editTaskWrapper = Selector('div.edit-task')
 const editTaskInput = editTaskWrapper.find('input')
-const saveButton = editTaskWrapper.find('button.mdi-content-save')
+// const saveButton = editTaskWrapper.find('button.mdi-content-save')
 
 // Menu selectors
 function menuButton (taskName) {
@@ -185,7 +185,7 @@ test('Modify task in the completed list', async t => {
     .click(editButton)
     .expect(editTaskInput.value).eql(task2)
     .typeText(editTaskInput, 'completed ', { caretPos: 11 })
-    .click(saveButton())
+    .pressKey('enter')
     .expect(tasksPresent(todoList, [task1, task3])).ok()
     .expect(tasksPresent(doneList, [task2mod], true)).ok()
 })

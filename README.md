@@ -37,6 +37,11 @@ docker-compose up --build
 docker-compose -f docker-compose-test.yml up --build
 ```
 
+#### Set up database
+```bash
+./api/setup_db.sh
+```
+
 #### Run end-to-end tests with [TestCafé](https://testcafe.devexpress.com/)
 ```bash
 ./frontend/tests/e2e/run.sh
@@ -47,4 +52,9 @@ docker-compose -f docker-compose-test.yml up --build
 #### Deploy for production
 ```bash
 docker-compose -f docker-compose-production.yml up --build
+```
+
+#### Set up database
+```bash
+docker-compose exec api rake db:setup
 ```
