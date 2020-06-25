@@ -21,8 +21,7 @@
     </div>
     <div v-if="email">
       <v-menu
-        left
-        bottom
+        offset-y
       >
         <template v-slot:activator="{ on }">
           <v-btn

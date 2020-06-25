@@ -23,7 +23,7 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-if="!isNaN(listId)">
         <v-select
           v-model="selectedList"
           :items="lists"
@@ -99,7 +99,7 @@ export default {
     },
     listId: {
       type: Number,
-      default: null
+      default: NaN
     },
     moveThis: {
       type: Function,
