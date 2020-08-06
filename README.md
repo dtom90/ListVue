@@ -51,7 +51,7 @@ docker-compose -f docker-compose-test.yml up --build
 
 #### Deploy for production
 ```bash
-docker-compose -f docker-compose-production.yml up --build
+docker-compose -f docker-compose-production.yml up --build -d
 ```
 
 #### Set up database
