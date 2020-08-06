@@ -20,7 +20,8 @@ const mutations = {
   },
   
   updateList (state, { newList }) {
-    Vue.set(state.lists, state.selected, newList)
+    const index = state.lists.findIndex(list => list.id === state.selected)
+    Vue.set(state.lists, index, newList)
   },
   
   updateLists (state, { lists }) {
