@@ -15,7 +15,6 @@
   "dependencies": {
     "cordova-android": "^9.0.0",
     "cordova-browser": "^6.0.0",
-    "cordova-electron": "^1.1.1",
     "cordova-ios": "^5.1.1",
     "cordova-osx": "^5.0.0",
     "cordova-plugin-splashscreen": "^5.0.4",
@@ -34,8 +33,7 @@
       "android",
       "ios",
       "browser",
-      "osx",
-      "electron"
+      "osx"
     ]
   }
 }
