@@ -20,5 +20,6 @@ module.exports = {
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
   testURL: 'http://localhost/',
-  setupFiles: ['<rootDir>/tests/unit/setup.js']
+  setupFiles: ['<rootDir>/tests/unit/setup.js'],
+  setupFilesAfterEnv: ['<rootDir>/tests/unit/setupAfterEnv.js']
 }

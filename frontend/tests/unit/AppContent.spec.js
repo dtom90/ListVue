@@ -31,8 +31,8 @@ describe('App', () => {
   
   it('renders the To Do list', () => {
     
-    expect(wrapper.find(List).isVisible()).toBe(true)
-    expect(wrapper.find(List).props().title).toBe('To Do')
+    expect(wrapper.findComponent(List).element).toBeVisible()
+    expect(wrapper.findComponent(List).props().title).toBe('To Do')
     
   })
   
