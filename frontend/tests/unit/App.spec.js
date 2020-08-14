@@ -29,7 +29,7 @@ describe('App', () => {
   
   it('renders the List Navigation', () => {
     
-    expect(wrapper.find(ListNav).isVisible()).toBe(true)
+    expect(wrapper.findComponent(ListNav).element).toBeVisible()
     
   })
   

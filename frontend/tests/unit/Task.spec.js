@@ -27,8 +27,8 @@ describe('Task', () => {
     
     it('renders the SettingsMenu', () => {
       
-      expect(wrapper.find(SettingsMenu).props().dateType).toBe('Created')
-      expect(wrapper.find(SettingsMenu).props().date).toBe(task.created_at)
+      expect(wrapper.findComponent(SettingsMenu).props().dateType).toBe('Created')
+      expect(wrapper.findComponent(SettingsMenu).props().date).toBe(task.created_at)
       
     })
     
@@ -53,8 +53,8 @@ describe('Task', () => {
     
     it('renders the SettingsMenu', () => {
       
-      expect(wrapper.find(SettingsMenu).props().dateType).toBe('Completed')
-      expect(wrapper.find(SettingsMenu).props().date).toBe(completedDate.toISOString())
+      expect(wrapper.findComponent(SettingsMenu).props().dateType).toBe('Completed')
+      expect(wrapper.findComponent(SettingsMenu).props().date).toBe(completedDate.toISOString())
       
     })
     
