@@ -7,7 +7,7 @@ cd "${THIS_DIR}/.." || exit
 echo
 echo "Initializing Database..."
 echo
-docker-compose exec api rake db:setup
+docker-compose --project-name listvue exec api rake db:setup
 echo
 echo "Creating test user..."
 docker run -it --rm \
