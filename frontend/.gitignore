@@ -32,3 +32,6 @@ docker/*.log
 /cordova/platforms
 /cordova/plugins
 /public/cordova.js
+
+# Letsencrypt / Certbot
+production/certbot

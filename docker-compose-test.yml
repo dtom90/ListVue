@@ -4,6 +4,8 @@ services:
     build:
       context: ./frontend
       dockerfile: production/Dockerfile
+    volumes:
+      - ./frontend/tests/e2e/nginx:/etc/nginx/conf.d
     ports:
       - "80:80"
   api:
