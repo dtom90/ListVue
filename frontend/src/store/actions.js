@@ -12,7 +12,13 @@ const actions = {
         const resp = await get('/user')
         commit('setEmail', { email: resp.user.email })
         dispatch('loadLists')
-      } catch (e) { handleError(e) }
+      } catch (e) {
+        if (e.status === 401) {
+          dispatch('logOut')
+        } else {
+          handleError(e)
+        }
+      }
     }
   },
   
